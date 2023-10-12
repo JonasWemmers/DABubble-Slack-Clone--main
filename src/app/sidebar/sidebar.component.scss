@@ -1,7 +1,8 @@
 .sidebar-section {
     background-color: white;
     height: 940px;
-    width: 366px; // Für Test Hardgecodet. Entfernen sobald alle Elemente da sind.
+    max-width: 20vw;
+    min-width: 10vw;
     padding: 32px 30px;
     gap: 25px;
     display: flex;

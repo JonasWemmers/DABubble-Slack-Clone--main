@@ -1,19 +1,37 @@
 .thread-container {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    align-items: flex-start;
+    max-width: 30vw;
+    min-width: 20vw;
     font-family: 'Nunito';
+    background-color: white;
+    height: 940px;
+    padding: 32px 30px;
+    border-radius: 30px;
 }
 
 .thread-header {
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 .thread-header-left {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 400;
+
+    h3 {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0;
+    }
 }
 
 textarea {
