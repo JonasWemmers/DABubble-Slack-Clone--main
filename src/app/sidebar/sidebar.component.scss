@@ -1,0 +1,179 @@
+.sidebar-section {
+    background-color: white;
+    height: 940px;
+    width: 366px; // Für Test Hardgecodet. Entfernen sobald alle Elemente da sind.
+    padding: 32px 30px;
+    gap: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 30px;
+}
+
+.sidebar-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .logo-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        width: 250px;
+        padding-right: 0px;
+
+        p {
+            color: var(--Black, #000);
+            font-family: Nunito;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+        }
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-image: url('/assets/img/bg-logo.png');
+        width: 60px;
+        height: 60px;
+        object-fit: fill;
+        border-radius: 100%;
+
+        .icon-logo {
+            width: 34.56px;
+            height: auto;
+        }
+    }
+
+
+    .edit-header {}
+}
+
+.sidebar-channel-section {
+    width: 100%;
+
+    .channel-header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .channel-arrow {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+
+            &:hover {
+                .svg_channel {
+                    fill: #535AF1;
+                }
+            }
+        }
+    }
+}
+
+.add_channel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.title-channels {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--Black, #000);
+    font-family: Nunito;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    &:hover {
+        color: #535AF1;
+
+        .svg_channel {
+            fill: #535AF1;
+        }
+    }
+}
+
+.channel-overview {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p {
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        border-radius: 20px;
+        padding: 4px 20px;
+        color: #535AF1;
+        background-color: #ECEEFE;
+        cursor: pointer;
+    }
+}
+
+.sidebar-directchat-section {
+    width: 100%;
+
+    .directchat_header {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+
+        &:hover {
+            color: #535AF1;
+
+            .svg_directchat {
+                fill: #535AF1;
+            }
+        }
+    }
+
+    .directchat-header-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: Nunito;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+
+        .svg_directchat {
+            fill: black;
+        }
+    }
+
+    .directchat-user {
+        padding-top: 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        gap: 13px;
+        padding-left: 35px;
+        transition: all 125ms ease-in-out;
+
+        .user-element {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    }
+}
