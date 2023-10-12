@@ -15,6 +15,7 @@ import { SelectAvatarComponent } from './select-avatar/select-avatar.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { NewPasswordComponent } from './new-password/new-password.component';
 import { StartScreenComponent } from './start-screen/start-screen.component';
+import { ChannelChatComponent } from './channel-chat/channel-chat.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { StartScreenComponent } from './start-screen/start-screen.component';
     SelectAvatarComponent,
     PasswordResetComponent,
     NewPasswordComponent,
-    StartScreenComponent
+    StartScreenComponent,
+    ChannelChatComponent
   ],
   imports: [
     BrowserModule,
