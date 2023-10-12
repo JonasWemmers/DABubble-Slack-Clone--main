@@ -14,6 +14,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { SelectAvatarComponent } from './select-avatar/select-avatar.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { NewPasswordComponent } from './new-password/new-password.component';
+import { StartScreenComponent } from './start-screen/start-screen.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { NewPasswordComponent } from './new-password/new-password.component';
     RegistrationComponent,
     SelectAvatarComponent,
     PasswordResetComponent,
-    NewPasswordComponent
+    NewPasswordComponent,
+    StartScreenComponent
   ],
   imports: [
     BrowserModule,
