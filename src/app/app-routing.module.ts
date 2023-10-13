@@ -9,11 +9,20 @@ import { ChatAreaComponent } from './chat-area/chat-area.component';
 import { DirectChatAreaComponent } from './direct-chat-area/direct-chat-area.component';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { SelectAvatarComponent } from './select-avatar/select-avatar.component';
+import { NewPasswordComponent } from './new-password/new-password.component';
 
 const routes: Routes = [
   
   {path: '', component: StartScreenComponent, children: [
     {path: 'login', component: LoginComponent},
+    {path: 'pw-reset', component: PasswordResetComponent},
+    {path: 'registration', component: RegistrationComponent},
+    {path: 'select-avatar', component: SelectAvatarComponent},
+    {path: 'new-password', component: NewPasswordComponent},
+
     
   ]},
   {path: 'thread', component: ThreadComponent},
