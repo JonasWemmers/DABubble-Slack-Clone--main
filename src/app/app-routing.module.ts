@@ -17,11 +17,12 @@ import { NewPasswordComponent } from './new-password/new-password.component';
 const routes: Routes = [
   
   {path: '', component: StartScreenComponent, children: [
-    {path: 'login', component: LoginComponent},
-    {path: 'pw-reset', component: PasswordResetComponent},
-    {path: 'registration', component: RegistrationComponent},
-    {path: 'select-avatar', component: SelectAvatarComponent},
-    {path: 'new-password', component: NewPasswordComponent},
+    { path: '', redirectTo: 'login', pathMatch: 'full' }, // Standardroute zeigt LoginComponent
+    { path: 'login', component: LoginComponent },
+    { path: 'pw-reset', component: PasswordResetComponent },
+    { path: 'registration', component: RegistrationComponent},
+    { path: 'select-avatar', component: SelectAvatarComponent},
+    { path: 'new-password', component: NewPasswordComponent},
 
     
   ]},

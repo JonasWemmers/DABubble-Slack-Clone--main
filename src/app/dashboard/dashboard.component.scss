@@ -5,11 +5,14 @@
     height: 80vh;
     margin: 0;
     padding: 0;
+    background-color: #ECEEFE;
 }
 
 .dashboard-main {
     display: flex;
     gap: 24px;
     height: 100%;
+    margin-left: 24px;
+    margin-right: 24px;
     width: 100%;
 }

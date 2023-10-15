@@ -1,6 +1,6 @@
 .header-section {
   height: 70px;
-  margin: 0;
+  margin-top: 20px;
   padding: 0 30px;
   padding-bottom: 20px;
   display: flex;
@@ -24,13 +24,13 @@
 
 .search-field {
   display: flex;
-  width: 990px;
-  padding: 17.5px 45px;
+  width: 550px;
+  padding: 17.5px 35px;
   justify-content: space-between;
   align-items: center;
   color: var(--Text-gray, #686868);
   font-family: Nunito;
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -46,8 +46,8 @@
 .img_searchfield {
   cursor: pointer;
   position: absolute;
-  right: 45px;
-  top: 16px;
+  right: 40px;
+  top: 14px;
 }
 
 .user-header {
@@ -55,10 +55,15 @@
   align-items: center;
   gap: 20px;
 
+  img{
+    height: 60px;
+    width: 60px;
+  }
+
   p {
     color: var(--Black, #000);
     font-family: Nunito;
-    font-size: 32px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
