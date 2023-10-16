@@ -16,6 +16,10 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
 import { NewPasswordComponent } from './new-password/new-password.component';
 import { StartScreenComponent } from './start-screen/start-screen.component';
 import { ChannelChatComponent } from './channel-chat/channel-chat.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatMenuModule} from '@angular/material/menu';
+import { DialogUserinfoEditComponent } from './dialog-userinfo-edit/dialog-userinfo-edit.component';
 
 @NgModule({
   declarations: [
@@ -32,11 +36,15 @@ import { ChannelChatComponent } from './channel-chat/channel-chat.component';
     PasswordResetComponent,
     NewPasswordComponent,
     StartScreenComponent,
-    ChannelChatComponent
+    ChannelChatComponent,
+    DialogUserinfoEditComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

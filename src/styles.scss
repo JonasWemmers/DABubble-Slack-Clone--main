@@ -6,3 +6,9 @@ body {
   background-color: #565659; //#eceefe
   //padding: 25px 20px;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.hover_pointer{
+  cursor: pointer;
+}
