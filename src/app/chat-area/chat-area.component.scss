@@ -1,0 +1,111 @@
+.chat-area-component {
+    font-family: 'Nunito';
+    padding: 0px 30px;
+}
+
+.message-container {
+    display: flex;
+    margin-bottom: 20px; /* Abstand zwischen den Nachrichten */
+    margin-top: 20px;
+    gap: 24px;
+
+    position: relative;
+    &:hover {
+        background-color: #ECEEFE;
+        // width: calc(100% + 30px);
+        padding: 0px 30px;
+        margin-left: -30px;
+        margin-right: -30px;
+
+        .message {
+            background-color: white;
+        }
+
+        .last-answer {
+            color: black;
+        }
+    }
+
+}
+
+.sender-and-time {
+    display: flex;
+    align-items: center;
+}
+
+.sender {
+    font-weight: bold;
+    margin-right: 16px;
+    cursor: pointer;
+    &:hover {
+        color: #797EF3;
+    }
+}
+
+.timestamp {
+    color: #777; /* Graue Farbe für die Uhrzeit */
+    font-size: 10px; /* Kleinere Schriftgröße für die Uhrzeit */
+}
+
+.message {
+    background-color: #e6e6e6; /* Hintergrundfarbe der Nachricht */
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #ECEEFE; /* Hintergrundfarbe für den Container */
+    border-radius: 0px 30px 30px 30px; /* Border Radius für alle Ecken außer der oberen linken */
+    padding: 15px;
+    font-size: 18px;
+}
+
+.answers {
+    display: flex;
+    align-items: center;
+}
+
+.answer-count {
+    color: #797EF3;
+    font-size: 14px;
+    margin-right: 16px;
+    cursor: pointer;
+    &:hover {
+        color: #535AF1;
+        font-weight: bold;
+    }
+}
+
+.last-answer {
+    font-size: 10px;
+    color: #777;
+}
+
+/* Separator for date*/
+.line-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: #ADB0D9;
+}
+
+.date-container {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+}
+
+.date-border {
+    height: 1px;
+    flex-grow: 1;
+    background-color: #ccc;
+}
+
+.current-date {
+    padding: 0 10px; /* Abstand um das Datum */
+    background-color: white; /* Hintergrundfarbe des Datums */
+    border: 1px solid #ADB0D9; /* Rahmen um das Datum */
+    border-radius: 12px;
+}
