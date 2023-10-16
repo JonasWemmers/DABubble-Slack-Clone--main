@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAddChannelComponent } from '../dialog-add-channel/dialog-add-channel.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -25,10 +27,14 @@ export class SidebarComponent {
     },
     {
       'name': 'Severus Snap',
-    }
+    },
+    
   ];
   directchatDropdown:boolean = true;
   ChannelDropdown:boolean = true;
+
+  constructor(public dialog: MatDialog) {}
+
 
   openCloseDropdownDirectchat(){
     if(this.directchatDropdown){
@@ -46,5 +52,10 @@ export class SidebarComponent {
     else{
       this.ChannelDropdown = true;
     }
+  }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(DialogAddChannelComponent, {
+    });
   }
 }

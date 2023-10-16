@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogUserinfoEditComponent } from '../dialog-userinfo-edit/dialog-userinfo-edit.component';
 import { first } from 'rxjs';
 
 @Component({

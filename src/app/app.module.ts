@@ -19,7 +19,7 @@ import { ChannelChatComponent } from './channel-chat/channel-chat.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatMenuModule} from '@angular/material/menu';
-import { DialogUserinfoEditComponent } from './dialog-userinfo-edit/dialog-userinfo-edit.component';
+import { DialogAddChannelComponent } from './dialog-add-channel/dialog-add-channel.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,7 @@ import { DialogUserinfoEditComponent } from './dialog-userinfo-edit/dialog-useri
     NewPasswordComponent,
     StartScreenComponent,
     ChannelChatComponent,
-    DialogUserinfoEditComponent
+    DialogAddChannelComponent,
   ],
   imports: [
     BrowserModule,
