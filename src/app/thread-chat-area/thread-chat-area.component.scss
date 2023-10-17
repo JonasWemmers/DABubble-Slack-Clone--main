@@ -1,10 +1,5 @@
 .thread-chat-area {
-    overflow-y: auto;
     p {
         margin: 32px 0px;
     }
-}
-
-.thread-chat-area::-webkit-scrollbar {
-    display: none; /* Versteckt die Scrollleiste in WebKit (Chrome, Safari) */
 }

@@ -227,4 +227,13 @@ textarea {
 
 app-chat-area {
     flex: 1 1 auto; /* Nimmt den verfügbaren Raum im .chat-area Container ein */
+    overflow-y: auto;
+
+    /* WebKit-basierte Browser (Chrome, Safari) */
+    &::-webkit-scrollbar {
+        width: 0; /* Setzt die Breite der Scrollbar auf 0, um sie unsichtbar zu machen */
+    }
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
 }

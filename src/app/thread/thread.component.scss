@@ -43,7 +43,6 @@
     flex-direction: row;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
     font-weight: 400;
 
     h3 {
@@ -54,6 +53,8 @@
 
     p {
         color: #797EF3;
+        font-size: 14px;
+        margin-bottom: 0;
     }
 }
 
@@ -121,8 +122,15 @@ textarea {
 }
 
 .thread-messages {
-    // height: auto;
-    // width: 100%;
     flex: 1;
     overflow-y: auto;
+    margin: 16px 0px;
+
+    /* WebKit-basierte Browser (Chrome, Safari) */
+    &::-webkit-scrollbar {
+        width: 0; /* Setzt die Breite der Scrollbar auf 0, um sie unsichtbar zu machen */
+    }
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
 }
