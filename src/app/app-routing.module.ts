@@ -13,6 +13,7 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
 import { RegistrationComponent } from './registration/registration.component';
 import { SelectAvatarComponent } from './select-avatar/select-avatar.component';
 import { NewPasswordComponent } from './new-password/new-password.component';
+import { ThreadChatAreaComponent } from './thread-chat-area/thread-chat-area.component';
 
 const routes: Routes = [
   
@@ -33,6 +34,7 @@ const routes: Routes = [
   {path: 'header', component: HeaderComponent},
   {path: 'sidebar', component: SidebarComponent},
   {path: 'channel-chat', component: ChannelChatComponent},
+  {path: 'thread-chat', component: ThreadChatAreaComponent},
 ];
 
 @NgModule({

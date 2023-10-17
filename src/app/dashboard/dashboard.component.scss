@@ -1,18 +1,30 @@
 .dashboard {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 80vh;
+    height: 100vh;
     margin: 0;
     padding: 0;
     background-color: #ECEEFE;
-}
+    overflow: hidden;
 
-.dashboard-main {
-    display: flex;
-    gap: 24px;
-    height: 100%;
-    margin-left: 24px;
-    margin-right: 24px;
-    width: 100%;
+    &-main {
+        display: flex;
+        gap: 24px;
+        height: 100%;
+        margin-left: 24px;
+        margin-right: 24px;
+        width: calc(100% - 108px); 
+
+        app-sidebar {
+            flex: 0 0 15%;
+        }
+
+        app-channel-chat {
+            flex: 1;
+        }
+
+        app-thread {
+            flex: 0 0 18%;
+        }
+    }
 }

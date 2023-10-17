@@ -5,10 +5,11 @@
     width: 100%;
     font-family: 'Nunito';
     background-color: white;
-    height: 100%;
+    height: calc(100% - 150px);
     padding: 32px 30px;
-    padding-top: 0px !important;
+    padding-top: 0 !important;
     border-radius: 30px;
+    overflow: hidden;
 }
 
 .thread-header {
@@ -66,14 +67,17 @@ textarea {
 }
 
 .thread-answer-box {
+    align-self: center;
     border: 1px solid lightgray;
     border-radius: 20px;
     padding: 20px;
-    height: 100px;
+    height: 140px;
     width: 100%;
     margin: 0;
     position: relative;
     bottom: 0;
+    box-sizing: border-box;
+    flex: 0 0 auto;
 }
 
 .thread-icon-bar {
@@ -117,6 +121,8 @@ textarea {
 }
 
 .thread-messages {
-    height: auto;
-    width: 100%;
+    // height: auto;
+    // width: 100%;
+    flex: 1;
+    overflow-y: auto;
 }

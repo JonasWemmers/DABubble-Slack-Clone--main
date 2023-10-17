@@ -1,8 +1,7 @@
 .channel-chat {
     background-color: white;
-    height: 100%;
-    width: 700px;
-    //width: auto;
+    height: calc(100% - 180px);
+    width: auto;
     padding: 32px 0px;
     display: flex;
     flex-direction: column;
@@ -19,6 +18,7 @@
     align-items: center;
     justify-content: space-between;
     position: relative;
+    flex: 0 0 auto;
 
     &::after {
         content: '';
@@ -47,6 +47,10 @@
     font-weight: 700;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
+
+    p {
+        margin-bottom: 0;
+    }
     
 
     &:hover {
@@ -54,7 +58,7 @@
         color: #797EF3;
 
         .arrow-svg {
-            fill: #797EF3 !important;
+            fill: #797EF3;
         }
     }
 
@@ -83,6 +87,7 @@
         padding-left: 4px;
         padding-right: 2px;
         transition: color 0.5s ease;
+        margin-bottom: 0;
     }
     
     .add-person {
@@ -118,6 +123,7 @@ textarea {
     position: relative;
     bottom: 0;
     box-sizing: border-box;
+    flex: 0 0 auto;
 }
 
 .thread-icon-bar {
@@ -163,7 +169,7 @@ textarea {
 .chat-member-icons {
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     min-width: auto;
     max-width: 80%;
@@ -203,4 +209,22 @@ textarea {
 .chat-area {
     width: 100%;
     margin: 16px 0px;
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+
+// .chat-area::-webkit-scrollbar-thumb {
+//     /* WebKit (Chrome, Safari) */
+//     background-color: #797EF3;
+//     border-radius: 4px;
+//   }
+
+// .chat-area::-moz-scrollbar-thumb {
+//     /* Firefox */
+//     background-color: #797EF3;
+//     border-radius: 4px;
+//   }
+
+app-chat-area {
+    flex: 1 1 auto; /* Nimmt den verfügbaren Raum im .chat-area Container ein */
 }
