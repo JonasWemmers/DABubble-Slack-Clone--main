@@ -7,7 +7,7 @@
         <img src="./assets/img/search.svg" class="img_searchfield">
     </div>
     <div class="user-header" (click)="openMenu()">
-        <p>Frederik Beck</p>
+        <p>{{ profil_data[0]['name'] }}</p>
         <img src="./assets/img/user_avatar2.png">
         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="keyboard_arrow_down">
@@ -91,7 +91,7 @@
                     font-size: 32px;
                     font-style: normal;
                     font-weight: 700;
-                    line-height: normal;">Frederik Beck</h2>
+                    line-height: normal;">{{ profil_data[0]['name'] }}</h2>
                     <p style="color: #535AF1;" (click)="openEditMenu()" class="hover_pointer">Bearbeiten</p>
                 </div>
                 <div style="display: flex; gap: 15px; color: #92C83E !important;font-family: Nunito; font-size: 20px;
@@ -121,7 +121,7 @@
                         <p>E-Mail-Adresse</p>
                     </div>
 
-                    <a href="mailto: fred.beck@email.com">fred.beck@email.com</a>
+                    <a href="mailto: {{profil_data[0]['email']}}">{{ profil_data[0]['email'] }}</a>
                 </div>
             </div>
         </div>
@@ -198,7 +198,7 @@
                     </svg>
                     <p>Vollständiger Name</p>
                 </div>
-                <input type="text" class="edit-user-input" placeholder="Frederik Beck" style="margin-bottom: 16px;">
+                <input type="text" class="edit-user-input" [(ngModel)]="copy_of_name" placeholder="Vor- und Nachname" style="margin-bottom: 16px;">
                 <div class="input_header">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
                         <mask id="mask0_13923_9009" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -213,11 +213,11 @@
                     </svg>
                     <p>E-Mail-Adresse</p>
                 </div>
-                <input type="email" class="edit-user-input" placeholder="fred.beck@email.com">
+                <input type="email" class="edit-user-input" [(ngModel)]="copy_of_email" placeholder="E-Mail-Adresse">
             </div>
             <div class="btn-section-edit">
                 <p class="hover_pointer">Abbrechen</p>
-                <p class="hover_pointer">Speichern</p>
+                <p class="hover_pointer" (click)="saveUserData()">Speichern</p>
             </div>
         </div>
 

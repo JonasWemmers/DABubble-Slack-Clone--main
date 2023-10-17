@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dialog-add-channel',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class DialogAddChannelComponent {
 
+  constructor(
+    public dialogRef: MatDialogRef<DialogAddChannelComponent>,
+  ) {}
+
+  closeDialog(){
+    this.dialogRef.close();
+  }
 }

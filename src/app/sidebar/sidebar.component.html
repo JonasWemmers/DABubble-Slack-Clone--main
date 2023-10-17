@@ -49,13 +49,13 @@
         <div class="channel-overview" *ngIf="ChannelDropdown">
             <p># Entwicklerteam</p>
         </div>
-        <div class="add_channel" *ngIf="ChannelDropdown">
+        <div class="add_channel" *ngIf="ChannelDropdown" (click)="openDialog()">
             <img src="./assets/img/add_circle.svg" alt="">
             <p>Channel hinzufügen</p>
         </div>
     </div>
     <div class="sidebar-directchat-section">
-        <div class="directchat_header">
+        <div class="directchat_header" (click)="openCloseDropdownDirectchat()">
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="arrow_drop_down">
                     <mask id="mask0_13554_14144" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -69,7 +69,7 @@
                     </g>
                 </g>
             </svg>
-            <div class="directchat-header-title" (click)="openCloseDropdownDirectchat()">
+            <div class="directchat-header-title">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="account_circle">
                         <mask id="mask0_13554_6326" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
