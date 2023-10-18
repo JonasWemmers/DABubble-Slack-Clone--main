@@ -27,6 +27,7 @@ import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { ThreadChatAreaComponent } from './thread-chat-area/thread-chat-area.component';
+import { DirectChatComponent } from './direct-chat/direct-chat.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ThreadChatAreaComponent } from './thread-chat-area/thread-chat-area.com
     ChannelChatComponent,
     DialogAddChannelComponent,
     ThreadChatAreaComponent,
+    DirectChatComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-channel-chat',
@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./channel-chat.component.scss']
 })
 export class ChannelChatComponent {
+
+  @Output() activateThreadEvent: EventEmitter<void> = new EventEmitter<void>();
+
+  passActivateThreadEvent(event: void) {
+    this.activateThreadEvent.emit();
+  }
 
 }

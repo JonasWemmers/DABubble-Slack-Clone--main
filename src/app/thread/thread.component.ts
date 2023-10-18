@@ -1,4 +1,4 @@
-import { Component, ElementRef, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Renderer2, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-thread',
@@ -7,11 +7,20 @@ import { Component, ElementRef, Renderer2 } from '@angular/core';
 })
 export class ThreadComponent {
 
-  constructor(private renderer: Renderer2, private el: ElementRef) {}
+  constructor(private renderer: Renderer2, private el: ElementRef) { }
 
-  hideThreadComponent() {
-    // Füge die CSS-Eigenschaft 'display: none' zur Komponente hinzu
-    this.renderer.setStyle(this.el.nativeElement, 'display', 'none');
+  @Output() closeThreadEvent: EventEmitter<void> = new EventEmitter<void>();
+
+  isThreadActive: boolean = false;
+
+  activateThread() {
+    this.isThreadActive = true;
   }
+
+  closeThread() {
+    console.log('Thread wird geschlossen');
+    this.closeThreadEvent.emit();
+  }
+
 
 }

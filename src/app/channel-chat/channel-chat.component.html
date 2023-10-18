@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="chat-area">
-        <app-chat-area></app-chat-area>
+        <app-chat-area (activateThreadEvent)="passActivateThreadEvent($event)"></app-chat-area>
     </div>
         <div class="thread-answer-box">
             <textarea placeholder="Nachricht an #Entwicklerteam" cols="30" rows="4"></textarea>

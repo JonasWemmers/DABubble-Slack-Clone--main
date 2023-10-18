@@ -11,15 +11,14 @@
         display: flex;
         gap: 24px;
         height: 100%;
-        margin-left: 24px;
-        margin-right: 24px;
         width: calc(100% - 108px); 
+        margin-left: 24px;
 
         app-sidebar {
             flex: 0 0 12%;
         }
 
-        app-channel-chat {
+        .chat-container {
             flex: 1;
         }
 

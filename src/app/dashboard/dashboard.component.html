@@ -1,8 +1,12 @@
 <div class="dashboard">
     <app-header></app-header>
-    <div class="dashboard-main">
+    <div class="dashboard-main" [style.width]="changeWidth">
         <app-sidebar></app-sidebar>
-        <app-channel-chat></app-channel-chat>
-        <app-thread></app-thread>
+        <div class="chat-container">
+            <app-channel-chat *ngIf="isChannelChatActive" (activateThreadEvent)="activateThread()"></app-channel-chat>
+            <app-direct-chat *ngIf="isDirectChatActive"></app-direct-chat>
+        </div>
+        <app-thread *ngIf="isThreadActive" (closeThreadEvent)="handleThreadClosed()"></app-thread>
+
     </div>
 </div>

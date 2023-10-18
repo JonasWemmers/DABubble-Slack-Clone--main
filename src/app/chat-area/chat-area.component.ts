@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-chat-area',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chat-area.component.scss']
 })
 export class ChatAreaComponent implements OnInit {
+
+  @Output() activateThreadEvent: EventEmitter<void> = new EventEmitter<void>();
 
   formattedDate!: string;
 
@@ -23,6 +25,10 @@ export class ChatAreaComponent implements OnInit {
     const monat = monate[aktuellesDatum.getMonth()];
 
     this.formattedDate = `${wochentag}, ${tag}. ${monat}`;
+  }
+
+  onActivateThreadClick() {
+    this.activateThreadEvent.emit();
   }
 
 }
