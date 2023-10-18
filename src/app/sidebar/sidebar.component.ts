@@ -36,8 +36,8 @@ export class SidebarComponent {
   directchatDropdown: boolean = true;
   ChannelDropdown: boolean = true;
 
-  constructor(public dialog: MatDialog, private firebase: FirebaseService) {
-    firebase.getSubColls()
+  constructor(public dialog: MatDialog, private fb: FirebaseService) {
+    fb.getSubColDocs('entwicklerteam','WPLt7nxgwgzFyM8uUhJV','thread');
   }
 
 
