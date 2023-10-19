@@ -13,4 +13,8 @@ export class ChannelChatComponent {
     this.activateThreadEvent.emit();
   }
 
+  sendMessage() {
+    
+  }
+
 }
