@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Auth, updatePassword, User, reauthenticateWithCredential, EmailAuthProvider } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-new-password',
@@ -11,7 +12,7 @@ export class NewPasswordComponent {
   confirmPassword: string = '';
   oobCode: string = ''; // Hier wird der OOB-Code aus der URL extrahiert.
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private auth: Auth, private router: Router) {
     this.route.queryParams.subscribe(params => {
       this.newPassword = params['newPassword'] || ''; // Extrahiert das neue Passwort aus der URL
       this.confirmPassword = params['confirmPassword'] || ''; // Extrahiert die Passwortbestätigung aus der URL
@@ -21,15 +22,24 @@ export class NewPasswordComponent {
 
   async changePassword() {
     if (this.oobCode && this.newPassword && this.confirmPassword) {
-      if (this.newPassword === this.confirmPassword) {
-        try {
-          // Führen Sie die Passwortänderung durch
+      try {
+        const user: User | null = this.auth.currentUser;
+        if (user) {
+          const email = user.email; // Annahme: Sie verwenden die E-Mail-Authentifizierung
+          let password: string = 'password'; // Annahme: Hier sollte das aktuelle Passwort des Benutzers stehen
+          password = password as string; // Hier wird 'password' explizit als Zeichenfolge deklariert
+
+          const credential = EmailAuthProvider.credential(email as string, password);
+          await reauthenticateWithCredential(user, credential);
+
+          await updatePassword(user, this.newPassword);
           console.log('Passwort wurde erfolgreich geändert und in der Datenbank aktualisiert.');
-        } catch (error) {
-          console.error('Fehler bei der Passwortänderung:', error);
+          this.router.navigate(['/login']); // Annahme: Weiterleitung zur Erfolgseite
+        } else {
+          console.error('Benutzer ist nicht angemeldet.');
         }
-      } else {
-        console.error('Die neuen Passwörter stimmen nicht überein.');
+      } catch (error) {
+        console.error('Fehler bei der Passwortänderung:', error);
       }
     } else {
       console.error('Ungültige Daten für die Passwortänderung.');
