@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Auth, updatePassword, User, reauthenticateWithCredential, EmailAuthProvider } from '@angular/fire/auth';
+import { Auth, updatePassword, User, confirmPasswordReset, getAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-new-password',
@@ -10,33 +10,31 @@ import { Auth, updatePassword, User, reauthenticateWithCredential, EmailAuthProv
 export class NewPasswordComponent {
   newPassword: string = '';
   confirmPassword: string = '';
-  oobCode: string = ''; // Hier wird der OOB-Code aus der URL extrahiert.
+  oobCode: string = '';
 
   constructor(private route: ActivatedRoute, private auth: Auth, private router: Router) {
-    this.route.queryParams.subscribe(params => {
-      this.newPassword = params['newPassword'] || ''; // Extrahiert das neue Passwort aus der URL
-      this.confirmPassword = params['confirmPassword'] || ''; // Extrahiert die Passwortbestätigung aus der URL
-      this.oobCode = params['oobCode'] || ''; // Extrahiert den OOB-Code aus der URL
-    });
+    this.oobCode = this.route.snapshot.queryParams['oobCode'] || '';
   }
 
   async changePassword() {
-    if (this.oobCode && this.newPassword && this.confirmPassword) {
+    if (this.newPassword && this.confirmPassword) {
       try {
-        const user: User | null = this.auth.currentUser;
-        if (user) {
-          const email = user.email; // Annahme: Sie verwenden die E-Mail-Authentifizierung
-          let password: string = 'password'; // Annahme: Hier sollte das aktuelle Passwort des Benutzers stehen
-          password = password as string; // Hier wird 'password' explizit als Zeichenfolge deklariert
+        if (this.oobCode) {
+          // Stellen Sie sicher, dass der Benutzer angemeldet ist
+          const user: User | null = this.auth.currentUser;
 
-          const credential = EmailAuthProvider.credential(email as string, password);
-          await reauthenticateWithCredential(user, credential);
+          if (user) {
+            // Ändern Sie das Passwort mithilfe von confirmPasswordReset
+            const auth = getAuth();
+            await confirmPasswordReset(auth, this.oobCode, this.newPassword);
 
-          await updatePassword(user, this.newPassword);
-          console.log('Passwort wurde erfolgreich geändert und in der Datenbank aktualisiert.');
-          this.router.navigate(['/login']); // Annahme: Weiterleitung zur Erfolgseite
+            console.log('Passwort wurde erfolgreich geändert.');
+            this.router.navigate(['/login']);
+          } else {
+            console.error('Benutzer ist nicht angemeldet.');
+          }
         } else {
-          console.error('Benutzer ist nicht angemeldet.');
+          console.error('Ungültiger oder fehlender OOB-Code.');
         }
       } catch (error) {
         console.error('Fehler bei der Passwortänderung:', error);
