@@ -1,32 +1,32 @@
 <div class="signin_div">
     <span class="headline">Anmeldung</span>
-    <p>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</p>
-    <div class="input_div">
+    <form [formGroup]="loginForm" (ngSubmit)="loginWithEmailPassword()">
+      <div class="input_div">
         <img class="input_img" src="assets/img/mail.png" alt="">
-        <input type="email" placeholder="beispielname@email.com">
-        <!--<span class="error">Diese E-Mail-Adresse ist leider ungültig.</span>-->
-    </div>
-    <div class="input_div">
+        <input type="email" formControlName="email" placeholder="E-Mail-Adresse">
+        <div *ngIf="isSubmitClicked && loginForm.get('email')?.hasError('required')" class="error">Dieses Feld ist erforderlich.</div>
+        <div *ngIf="isSubmitClicked && loginForm.get('email')?.hasError('email')" class="error">Ungültige E-Mail-Adresse.</div>
+      </div>
+      <div class="input_div">
         <img class="input_img_2" src="assets/img/lock.png">
-        <input type="password" placeholder="Passwort">
-    </div>
-    <div class="forgot_pw">Passwort vergessen?</div>
-    <div class="or">
+        <input type="password" formControlName="password" placeholder="Passwort">
+        <div *ngIf="isSubmitClicked && loginForm.get('password')?.hasError('required')" class="error">Dieses Feld ist erforderlich.</div>
+        <div *ngIf="isSubmitClicked && loginForm.get('password')?.hasError('minlength')" class="error">Das Passwort muss mindestens 6 Zeichen lang sein.</div>
+      </div>
+      <div class="forgot_pw" [routerLink]="['/pw-reset']">Passwort vergessen?</div>
+      <div class="or">
         <img src="assets/img/line.png" alt="">
         <span>ODER</span>
-        <img src="/assets/img/line.png" alt="">
-    </div>
-    <div (click)="loginWithGoogle()" class="google_button">
+        <img src="assets/img/line.png" alt="">
+      </div>
+      <div (click)="loginWithGoogle()" class="google_button">
         <img src="assets/img/Google.png" alt="">
         <span>Anmelden mit Google</span>
-    </div>
-    <div class="button_div_sign_in">
-        <div class="signin_button" [routerLink]="['/dashboard']">
-            Anmelden</div>
+      </div>
+      <div class="button_div_sign_in">
+        <button type="submit" class="signin_button">Anmelden</button>
         <div class="guest_login_button" [routerLink]="['/dashboard']">Gäste-Login</div>
-    </div>
-</div>
-<div class="imprint">
-    <span>Impressum</span>
-    <span>Datenschutz</span>
-</div>
+      </div>
+    </form>
+  </div>
+  

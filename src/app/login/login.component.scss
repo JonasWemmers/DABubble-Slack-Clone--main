@@ -62,6 +62,7 @@
 input {
     font-size: 18px;
     font-weight: 500;
+    margin-bottom: 25px;
     padding-left: 60px;
     border: 1px solid transparent;
     transition: 200ms;
@@ -118,6 +119,8 @@ input {
     height: 60px;
     justify-content: center;
     gap: 16px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 
     &:hover {
         border: 1px solid #686868;
@@ -132,9 +135,13 @@ input {
 .button_div_sign_in {
     display: flex;
     gap: 30px;
+    justify-content: center;
+    margin-top: 30px;
+
 }
 
 .signin_button {
+    border-color: #444DF2;
     transition: 200ms;
     font-weight: 700;
     font-size: 18px;
@@ -150,6 +157,7 @@ input {
     &:hover {
         background-color: #797EF3;
         cursor: pointer;
+        border-color: #797EF3;
     }
 }
 

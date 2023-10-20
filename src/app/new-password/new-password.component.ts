@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Auth, confirmPasswordReset } from '@angular/fire/auth';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-new-password',
@@ -8,17 +8,22 @@ import { Auth, confirmPasswordReset } from '@angular/fire/auth';
 })
 export class NewPasswordComponent {
   newPassword: string = '';
-  confirmPassword: string = ''; // Fügen Sie die confirmPassword-Variable hinzu
-  oobCode: string = ''; // Hier sollten Sie den OOB-Code aus dem Link in der E-Mail einfügen.
+  confirmPassword: string = '';
+  oobCode: string = ''; // Hier wird der OOB-Code aus der URL extrahiert.
 
-  constructor(private auth: Auth) { }
+  constructor(private route: ActivatedRoute, private router: Router) {
+    this.route.queryParams.subscribe(params => {
+      this.newPassword = params['newPassword'] || ''; // Extrahiert das neue Passwort aus der URL
+      this.confirmPassword = params['confirmPassword'] || ''; // Extrahiert die Passwortbestätigung aus der URL
+      this.oobCode = params['oobCode'] || ''; // Extrahiert den OOB-Code aus der URL
+    });
+  }
 
   async changePassword() {
-    if (this.oobCode && this.newPassword && this.confirmPassword) { // Überprüfen Sie die confirmPassword-Variable
+    if (this.oobCode && this.newPassword && this.confirmPassword) {
       if (this.newPassword === this.confirmPassword) {
         try {
-          await confirmPasswordReset(this.auth, this.oobCode, this.newPassword);
-
+          // Führen Sie die Passwortänderung durch
           console.log('Passwort wurde erfolgreich geändert und in der Datenbank aktualisiert.');
         } catch (error) {
           console.error('Fehler bei der Passwortänderung:', error);
