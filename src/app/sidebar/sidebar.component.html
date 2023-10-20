@@ -47,7 +47,10 @@
             <p (click)="openDialog()"><img src="./assets/img/add.svg" alt=""></p>
         </div>
         <div class="channel-overview" *ngIf="ChannelDropdown">
-            <p># Entwicklerteam</p>
+            <!-- <p *ngFor="let channel of channels" (click)="selectChannel(channel)">
+                # {{ channel.name }}
+              </p> -->
+              <p>TEST</p>
         </div>
         <div class="add_channel" *ngIf="ChannelDropdown" (click)="openDialog()">
             <img src="./assets/img/add_circle.svg" alt="">

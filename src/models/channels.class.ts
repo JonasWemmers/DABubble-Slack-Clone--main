@@ -6,7 +6,7 @@ export class Channels {
     emoji_handsUp: boolean;
     emoji_rocked: boolean;
     emoji_smile: boolean;
-    id: string;
+    uid: string;
 
     constructor(obj?: any) {
 
@@ -17,7 +17,7 @@ export class Channels {
         this.emoji_handsUp = obj ? obj.emoji_handsUp || false : false;
         this.emoji_rocked = obj ? obj.emoji_rocked || false : false;
         this.emoji_smile = obj ? obj.emoji_smile || false : false;
-        this.id = obj ? obj.id : '';
+        this.uid = obj ? obj.uid : '';
     }
 
     public toJSON() {
