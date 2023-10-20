@@ -5,7 +5,7 @@ import { FirebaseService } from '../firebase.service';
 import { collectionData, getDocs } from '@angular/fire/firestore';
 import { collection } from 'firebase/firestore';
 import { ChannelService } from '../channel.service';
-// import { Channel } from '../models/channel.class';
+import { Channel } from '../../models/channel.class';
 
 @Component({
   selector: 'app-sidebar',
@@ -37,27 +37,38 @@ export class SidebarComponent implements OnInit {
   ];
   directchatDropdown: boolean = true;
   ChannelDropdown: boolean = true;
-  // channels: Channel[] = [];
+  channels: Channel[] = [];
 
   constructor(public dialog: MatDialog, private fb: FirebaseService, @Inject(ChannelService) private channelService: ChannelService) {
     fb.getSubColDocs('entwicklerteam','WPLt7nxgwgzFyM8uUhJV','thread');
   }
 
   ngOnInit(): void {
-    // this.getChannels();
+    this.getChannels();
   }
 
+  getChannels(): void {
+    this.channelService.getChannels().subscribe({
+      next: (channels: Channel[]) => {
+        this.channels = channels;
+      },
+      error: (error) => {
+        console.error('Error fetching channels:', error);
+      }
+    });
+  }
+  
+
   // getChannels(): void {
-  //   this.channelService.getChannels().subscribe((channels: Channel[]) => {
-  //     this.channels = channels;
-  //   });
+  //   // Verwende den FirebaseService, um die Kanalnamen zu erhalten
+  //   this.fb.subList('channelList');
   // }
 
-  // selectChannel(channel: Channel): void {
-  //   // Hier kannst du die Logik hinzufügen, die bei der Auswahl eines Kanals ausgeführt werden soll.
-  //   // Zum Beispiel: die Anzeige der Nachrichten für den ausgewählten Kanal.
-  //   console.log(`Selected channel: ${channel.name}`);
-  // }
+  selectChannel(channel: Channel): void {
+    // Hier kannst du die Logik hinzufügen, die bei der Auswahl eines Kanals ausgeführt werden soll.
+    // Zum Beispiel: die Anzeige der Nachrichten für den ausgewählten Kanal.
+    console.log(`Selected channel: ${channel.name}`);
+  }
 
   openCloseDropdownDirectchat() {
     if (this.directchatDropdown) {
