@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Auth, updatePassword, User, EmailAuthProvider } from '@angular/fire/auth';
+import { Auth, updatePassword, User, confirmPasswordReset, getAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-new-password',
@@ -17,18 +17,24 @@ export class NewPasswordComponent {
   }
 
   async changePassword() {
-    if (this.oobCode && this.newPassword && this.confirmPassword) {
+    if (this.newPassword && this.confirmPassword) {
       try {
-        // Stellen Sie sicher, dass der Benutzer angemeldet ist
-        const user: User | null = this.auth.currentUser;
+        if (this.oobCode) {
+          // Stellen Sie sicher, dass der Benutzer angemeldet ist
+          const user: User | null = this.auth.currentUser;
 
-        if (user) {
-          // Ändern Sie das Passwort
-          await updatePassword(user, this.newPassword);
-          console.log('Passwort wurde erfolgreich geändert und in der Datenbank aktualisiert.');
-          this.router.navigate(['/login']);
+          if (user) {
+            // Ändern Sie das Passwort mithilfe von confirmPasswordReset
+            const auth = getAuth();
+            await confirmPasswordReset(auth, this.oobCode, this.newPassword);
+
+            console.log('Passwort wurde erfolgreich geändert.');
+            this.router.navigate(['/login']);
+          } else {
+            console.error('Benutzer ist nicht angemeldet.');
+          }
         } else {
-          console.error('Benutzer ist nicht angemeldet.');
+          console.error('Ungültiger oder fehlender OOB-Code.');
         }
       } catch (error) {
         console.error('Fehler bei der Passwortänderung:', error);
