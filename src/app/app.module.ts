@@ -29,6 +29,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { ThreadChatAreaComponent } from './thread-chat-area/thread-chat-area.component';
 import { DirectChatComponent } from './direct-chat/direct-chat.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +49,7 @@ import { DirectChatComponent } from './direct-chat/direct-chat.component';
     DialogAddChannelComponent,
     ThreadChatAreaComponent,
     DirectChatComponent,
+
   ],
   imports: [
     BrowserModule,
