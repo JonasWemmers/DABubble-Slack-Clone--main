@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
 @Component({
   selector: 'app-registration',
@@ -12,16 +13,30 @@ export class RegistrationComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private auth: Auth, private router: Router) {}
+  constructor(
+    private auth: Auth,
+    private router: Router,
+  ) {}
 
-  registerWithEmailAndPassword() {
-    createUserWithEmailAndPassword(this.auth, this.email, this.password)
-      .then((userCredential: any) => {
-        // Wenn die Registrierung erfolgreich ist, können Sie den Benutzer hier weiterleiten oder andere Aktionen durchführen.
-        this.router.navigateByUrl('dashboard');
-      })
-      .catch((error: any) => {
-        console.error(error);
-      });
+  async registerWithEmailAndPassword() {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(this.auth, this.email, this.password);
+
+      // Wenn die Registrierung erfolgreich ist, können Sie den Benutzer hier weiterleiten oder andere Aktionen durchführen.
+      this.router.navigateByUrl('dashboard');
+
+      // Hier fügen wir die Benutzerdaten zu Firestore unter der Sammlung "Accounts" hinzu
+      const userData = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+      };
+
+      const firestore = getFirestore();
+      const docRef = await addDoc(collection(firestore, 'accounts'), userData);
+      console.log('Benutzerdaten erfolgreich zu Firestore hinzugefügt mit ID:', docRef.id);
+    } catch (error) {
+      console.error('Fehler beim Hinzufügen der Benutzerdaten zu Firestore:', error);
+    }
   }
 }
