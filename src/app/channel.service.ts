@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { collection, Firestore, getDocs, query } from 'firebase/firestore';
+import { collection, doc, Firestore, getDocs, query } from 'firebase/firestore';
 import { Channel } from '../models/channel.class';
 import { getFirestore } from 'firebase/firestore';
 

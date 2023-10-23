@@ -3,10 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogAddChannelComponent } from '../dialog-add-channel/dialog-add-channel.component';
 import { FirebaseService } from '../firebase.service';
 import { collectionData, getDocs } from '@angular/fire/firestore';
-import { collection } from 'firebase/firestore';
+import { collection, getDoc } from 'firebase/firestore';
 import { ChannelService } from '../channel.service';
 import { Channel } from '../../models/channel.class';
 import { timeout } from 'rxjs';
+import { User } from 'firebase/auth';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,26 +15,7 @@ import { timeout } from 'rxjs';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  directchat_users: any = [
-    {
-      name: 'Frederik Becker (Du)',
-    },
-    {
-      name: 'Harry Potter',
-    },
-    {
-      name: 'Ron Weasley',
-    },
-    {
-      name: 'Hermine Granger',
-    },
-    {
-      name: 'Rubius Hagrit',
-    },
-    {
-      name: 'Severus Snap',
-    },
-  ];
+  directchat_users: any = [];
   directchatDropdown: boolean = true;
   ChannelDropdown: boolean = true;
   channels: Channel[] = [];
@@ -52,6 +34,7 @@ export class SidebarComponent implements OnInit {
     this.channelInterval = setInterval(()=>{
       this.updateChannelIDs();
     },500)
+    this.fillDirectChatUsers('UOTK3YB6nf9egkY8Ff4R')
   }
 
   getChannels(): void {
@@ -107,5 +90,17 @@ export class SidebarComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogAddChannelComponent, {});
+  }
+
+  async fillDirectChatUsers(docID:string){
+    let userData:any = await getDoc(this.fb.getSingelDocRef('accounts',docID));
+    let chatList = userData.data()['privatChats']
+    this.directchat_users = [];
+    this.directchat_users.push(userData.data()['name']+' (Du)')
+    chatList.forEach(async (element:any) => {
+      let elem:any = (await getDoc(this.fb.getSingelDocRef('accounts', element))).data();
+      this.directchat_users.push(elem['name'])
+    });
+    
   }
 }
