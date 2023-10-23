@@ -25,10 +25,8 @@ export class ChannelService {
   
       querySnapshot.forEach((doc) => {
         const channelData = doc.data();
-        const channel: Channel = {
-          id: doc.id,
-          name: channelData['name'], // Zugriff über ['name']
-        };
+        const channel:Channel = new Channel(channelData);
+        channel.id = doc.id;
         this.channels.push(channel);
       });
     } catch (error) {

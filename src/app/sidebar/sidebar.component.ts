@@ -6,45 +6,52 @@ import { collectionData, getDocs } from '@angular/fire/firestore';
 import { collection } from 'firebase/firestore';
 import { ChannelService } from '../channel.service';
 import { Channel } from '../../models/channel.class';
+import { timeout } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent implements OnInit { 
-
+export class SidebarComponent implements OnInit {
   directchat_users: any = [
     {
-      'name': 'Frederik Becker (Du)',
+      name: 'Frederik Becker (Du)',
     },
     {
-      'name': 'Harry Potter',
+      name: 'Harry Potter',
     },
     {
-      'name': 'Ron Weasley',
+      name: 'Ron Weasley',
     },
     {
-      'name': 'Hermine Granger',
+      name: 'Hermine Granger',
     },
     {
-      'name': 'Rubius Hagrit',
+      name: 'Rubius Hagrit',
     },
     {
-      'name': 'Severus Snap',
+      name: 'Severus Snap',
     },
-
   ];
   directchatDropdown: boolean = true;
   ChannelDropdown: boolean = true;
   channels: Channel[] = [];
+  channelInterval:any;
 
-  constructor(public dialog: MatDialog, private fb: FirebaseService, @Inject(ChannelService) private channelService: ChannelService) {
-    fb.getSubColDocs('entwicklerteam','WPLt7nxgwgzFyM8uUhJV','thread');
+  constructor(
+    public dialog: MatDialog,
+    public fb: FirebaseService,
+    @Inject(ChannelService) private channelService: ChannelService
+  ) {
+    fb.getSubColDocs('entwicklerteam', 'WPLt7nxgwgzFyM8uUhJV', 'thread');
   }
 
   ngOnInit(): void {
     this.getChannels();
+    this.channelInterval = setInterval(()=>{
+      this.updateChannelIDs();
+    },500)
   }
 
   getChannels(): void {
@@ -54,10 +61,22 @@ export class SidebarComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching channels:', error);
-      }
+      },
     });
   }
-  
+
+  updateChannelIDs() {
+    if (this.channels.length > 0) {
+      this.channels.forEach((element) => {
+       let channel = element.toJSON();
+        console.log(channel);
+        this.fb.updateElementFDB('channelList', channel.id, channel)
+      });
+      clearInterval(this.channelInterval)
+    } else {
+      console.log('runde Vorbei');
+    }
+  }
 
   // getChannels(): void {
   //   // Verwende den FirebaseService, um die Kanalnamen zu erhalten
@@ -73,8 +92,7 @@ export class SidebarComponent implements OnInit {
   openCloseDropdownDirectchat() {
     if (this.directchatDropdown) {
       this.directchatDropdown = false;
-    }
-    else {
+    } else {
       this.directchatDropdown = true;
     }
   }
@@ -82,14 +100,12 @@ export class SidebarComponent implements OnInit {
   openCloseDropdownChannel() {
     if (this.ChannelDropdown) {
       this.ChannelDropdown = false;
-    }
-    else {
+    } else {
       this.ChannelDropdown = true;
     }
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(DialogAddChannelComponent, {
-    });
+    const dialogRef = this.dialog.open(DialogAddChannelComponent, {});
   }
 }

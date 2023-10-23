@@ -48,7 +48,7 @@
         </div>
         <div class="channel-overview" *ngIf="ChannelDropdown">
             <p *ngFor="let channel of channels" (click)="selectChannel(channel)">
-                {{ channel.name }}
+                #{{ channel.name }}
               </p>
         </div>
         <div class="add_channel" *ngIf="ChannelDropdown" (click)="openDialog()">

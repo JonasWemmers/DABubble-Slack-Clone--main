@@ -31,15 +31,15 @@
                     fill="#686868" />
             </g>
         </svg>
-        <input type="text" placeholder="z.B Kooperationsprojekt">
+        <input type="text" placeholder="z.B Kooperationsprojekt" [(ngModel)]="channel.name">
     </div>
     <div class="description_and_input">
         <div class="headline_second">
             <p>Beschreibung <span>(optional)</span></p>
         </div>
-        <input type="text" placeholder="Dein Text hier">
+        <input type="text" placeholder="Dein Text hier" [(ngModel)]="channel.description">
     </div>
     <div class="add-btn-sec">
-        <div class="add-btn">Erstellen</div>
+        <div class="add-btn" (click)="addChannel()">Erstellen</div>
     </div>
 </div>
