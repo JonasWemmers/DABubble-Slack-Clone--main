@@ -3,6 +3,10 @@
     padding: 0px 30px;
 }
 
+.overlay {
+    display: none;
+}
+
 .message-container {
     display: flex;
     margin-bottom: 20px; /* Abstand zwischen den Nachrichten */
@@ -28,6 +32,26 @@
 
         .last-answer {
             color: black;
+        }
+
+        .overlay {
+            position: absolute;
+            right: 48px;
+            top: -12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-left: 16px;
+            width: 128px;
+            height: 24px;
+            border: 0.5px solid lightgray;
+            border-radius: 30px 30px 0px 30px;
+            background-color: white;
+            img {
+                width: 14px;
+                height: 14px;
+            }
         }
     }
 
