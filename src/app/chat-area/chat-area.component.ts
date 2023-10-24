@@ -1,4 +1,8 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FirebaseService } from '../firebase.service';
+import { SharedService } from '../services/shared.service';
+import { ChannelService } from '../channel.service';
 
 @Component({
   selector: 'app-chat-area',
@@ -11,8 +15,35 @@ export class ChatAreaComponent implements OnInit {
 
   formattedDate!: string;
 
+  selectedChannel!: string;
+  channelName!: string;
+  firstMessage!: string;
+  constructor(private firebaseService: FirebaseService, private route: ActivatedRoute, private sharedService: SharedService, private channelService: ChannelService) { }
+
+
   ngOnInit() {
     this.formatiereDatum();
+    this.route.params.subscribe((params) => {
+      this.channelName = params['channelName'];
+      this.channelService.channelSelected.subscribe((selectedChannel) => {
+        if (this.selectedChannel === this.channelName) {
+          this.loadFirstMessage();
+        }
+      });
+    });
+  }
+
+  async loadFirstMessage(): Promise<void> {
+    try {
+      this.channelName = this.route.snapshot.params['channelName'];
+      const firstMessageData = await this.firebaseService.getFirstMessage('allgemein', this.channelName);
+  
+      // Annahme: "message" ist das Feld, das die Nachricht enthält
+      this.firstMessage = firstMessageData?.message || 'Keine Nachricht gefunden';
+    } catch (error) {
+      // Handle error
+      console.error('Error loading first message:', error);
+    }
   }
 
   private formatiereDatum() {
@@ -30,5 +61,7 @@ export class ChatAreaComponent implements OnInit {
   onActivateThreadClick() {
     this.activateThreadEvent.emit();
   }
+
+
 
 }

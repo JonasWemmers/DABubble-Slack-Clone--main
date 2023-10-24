@@ -8,6 +8,7 @@ import { ChannelService } from '../channel.service';
 import { Channel } from '../../models/channel.class';
 import { timeout } from 'rxjs';
 import { User } from 'firebase/auth';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,11 +21,13 @@ export class SidebarComponent implements OnInit {
   ChannelDropdown: boolean = true;
   channels: Channel[] = [];
   channelInterval:any;
+  channelsLoaded: boolean = false;
 
   constructor(
     public dialog: MatDialog,
     public fb: FirebaseService,
-    @Inject(ChannelService) private channelService: ChannelService
+    @Inject(ChannelService) private channelService: ChannelService,
+    private sharedService: SharedService
   ) {
     fb.getSubColDocs('entwicklerteam', 'WPLt7nxgwgzFyM8uUhJV', 'thread');
   }
@@ -41,6 +44,7 @@ export class SidebarComponent implements OnInit {
     this.channelService.getChannels().subscribe({
       next: (channels: Channel[]) => {
         this.channels = channels;
+        this.sharedService.setChannelsLoaded(true); // Setze die Flagge, wenn die Channels geladen sind
       },
       error: (error) => {
         console.error('Error fetching channels:', error);
