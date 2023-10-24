@@ -18,13 +18,17 @@ export class ChatAreaComponent implements OnInit {
   selectedChannel!: string;
   channelName!: string;
   firstMessage!: string;
+
+  channelMessages:any;
   constructor(private firebaseService: FirebaseService,
     private route: ActivatedRoute,
     private sharedService: SharedService,
     private channelService: ChannelService) { }
 
-  ngOnInit() {
-    this.formatiereDatum();
+  async ngOnInit() {
+    this.channelMessages = await this.firebaseService.getMessagesChannels('entwicklerteam');
+    
+    /*this.formatiereDatum();
     this.route.params.subscribe((params) => {
       this.channelName = params['channelName'];
       this.channelService.channelSelected.subscribe((selectedChannel) => {
@@ -32,7 +36,7 @@ export class ChatAreaComponent implements OnInit {
           this.loadFirstMessage();
         }
       });
-    });
+    });*/
   }
 
   async loadFirstMessage(): Promise<void> {

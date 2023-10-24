@@ -98,4 +98,15 @@ export class FirebaseService {
       return null;
     }
   }
+
+  async getMessagesChannels(colID:string){
+    let querySnapshot = getDocs(this.getRef(colID));
+    let channelMessages:any = [];
+    (await querySnapshot).forEach((element:any) => {
+      console.log('Elementdata are: ',element.data(), ' with ID: ', element.id); 
+      channelMessages.push(element.data())
+    });
+
+    return channelMessages;
+  }
 }

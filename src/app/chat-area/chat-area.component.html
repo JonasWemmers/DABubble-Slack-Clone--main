@@ -11,7 +11,7 @@
         <div>
             <img src="./assets/img/chat-area/80. avatar interaction.png" alt="">
         </div>
-        <div>
+        <div *ngFor="let message of channelMessages">
             <div class="sender-and-time">
                 <div class="sender">John Doe</div>
                 <div class="timestamp">12:34 Uhr</div>
@@ -23,7 +23,7 @@
                     <!-- <img src="./assets/img/chat-area/more_vert.png" alt=""> -->
                 </div>
             </div>
-            <div class="message">{{ firstMessage }}</div>
+            <div class="message">{{ message.message }}</div>
             <div class="answers">
                 <div class="answer-count" (click)="onActivateThreadClick()">2 Antworten</div>
                 <div class="last-answer">Letzte Antwort 15:56</div>
