@@ -18,8 +18,10 @@ export class ChatAreaComponent implements OnInit {
   selectedChannel!: string;
   channelName!: string;
   firstMessage!: string;
-  constructor(private firebaseService: FirebaseService, private route: ActivatedRoute, private sharedService: SharedService, private channelService: ChannelService) { }
-
+  constructor(private firebaseService: FirebaseService,
+    private route: ActivatedRoute,
+    private sharedService: SharedService,
+    private channelService: ChannelService) { }
 
   ngOnInit() {
     this.formatiereDatum();
@@ -37,11 +39,8 @@ export class ChatAreaComponent implements OnInit {
     try {
       this.channelName = this.route.snapshot.params['channelName'];
       const firstMessageData = await this.firebaseService.getFirstMessage('allgemein', this.channelName);
-  
-      // Annahme: "message" ist das Feld, das die Nachricht enthält
       this.firstMessage = firstMessageData?.message || 'Keine Nachricht gefunden';
     } catch (error) {
-      // Handle error
       console.error('Error loading first message:', error);
     }
   }

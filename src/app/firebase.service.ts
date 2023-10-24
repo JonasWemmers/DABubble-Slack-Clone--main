@@ -73,17 +73,13 @@ export class FirebaseService {
 
   async getFirstMessage(collectionName: string, channelName: string): Promise<{ message: string } | null> {
     try {
-      // Überprüfe, ob channelName einen gültigen Wert hat
+      // Überprüfen, ob channelName einen gültigen Wert hat
       if (!channelName) {
         console.error('channelName ist ungültig oder leer.');
-        channelName = 'allgemein';
         return null;
       }
-  
       const docRef = doc(this.firestore, collectionName, channelName);
-  
       const docSnapshot = await getDoc(docRef);
-  
       if (docSnapshot.exists()) {
         // Überprüfe, ob das Feld "message" im Dokument vorhanden ist
         const data = docSnapshot.data() as { [key: string]: any };

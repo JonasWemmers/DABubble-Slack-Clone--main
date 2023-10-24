@@ -44,7 +44,7 @@ export class SidebarComponent implements OnInit {
     this.channelService.getChannels().subscribe({
       next: (channels: Channel[]) => {
         this.channels = channels;
-        this.sharedService.setChannelsLoaded(true); // Setze die Flagge, wenn die Channels geladen sind
+        this.sharedService.setChannelsLoaded(true);
       },
       error: (error) => {
         console.error('Error fetching channels:', error);
