@@ -21,18 +21,20 @@ export class RegistrationComponent {
   async registerWithEmailAndPassword() {
     try {
       const userCredential = await createUserWithEmailAndPassword(this.auth, this.email, this.password);
+      const user = userCredential.user;
 
       // Wenn die Registrierung erfolgreich ist, können Sie den Benutzer hier weiterleiten oder andere Aktionen durchführen.
       this.router.navigateByUrl('dashboard');
 
       // Hier fügen wir die Benutzerdaten zu Firestore unter der Sammlung "Accounts" hinzu
+      const firestore = getFirestore();
       const userData = {
         name: this.name,
         email: this.email,
         password: this.password,
+        uid: user.uid, // Hinzufügen der Nutzer-UID als Feld
       };
 
-      const firestore = getFirestore();
       const docRef = await addDoc(collection(firestore, 'accounts'), userData);
       console.log('Benutzerdaten erfolgreich zu Firestore hinzugefügt mit ID:', docRef.id);
     } catch (error) {
