@@ -1,7 +1,10 @@
 <div class="channel-chat">
     <div class="channel-chat-header">
         <div class="channel-chat-header-left">
-            <p># {{ selectedChannel | titlecase }}</p>
+            <p *ngIf="selectedChannel; else noChannelMessage"># {{ selectedChannel | titlecase }}</p>
+            <ng-template #noChannelMessage>
+                <p># Allgemein</p>
+            </ng-template>
             <img class="arrow-svg" src="./assets/img/channel-chat/keyboard_arrow_down.svg" alt="">
         </div>
         <div class="channel-chat-header-right">
@@ -17,18 +20,18 @@
     <div class="chat-area">
         <app-chat-area (activateThreadEvent)="passActivateThreadEvent($event)"></app-chat-area>
     </div>
-        <div class="thread-answer-box">
-            <textarea placeholder="Nachricht an #Entwicklerteam" cols="30" rows="4"></textarea>
-            <div class="thread-icon-bar">
-                <div class="thread-icon-bar-left">
-                    <img src="./assets/img/thread/add.png">
-                    <div class="separator"></div>
-                    <img src="./assets/img/thread/sentiment_satisfied.png">
-                    <img src="./assets/img/thread/alternate_email.png">
-                </div>
-                <div class="thread-icon-bar-right">
-                    <img src="./assets/img/thread/send.png" (click)="sendMessage()">
-                </div>
+    <div class="thread-answer-box">
+        <textarea placeholder="Nachricht an #Entwicklerteam" cols="30" rows="4"></textarea>
+        <div class="thread-icon-bar">
+            <div class="thread-icon-bar-left">
+                <img src="./assets/img/thread/add.png">
+                <div class="separator"></div>
+                <img src="./assets/img/thread/sentiment_satisfied.png">
+                <img src="./assets/img/thread/alternate_email.png">
+            </div>
+            <div class="thread-icon-bar-right">
+                <img src="./assets/img/thread/send.png" (click)="sendMessage()">
             </div>
         </div>
+    </div>
 </div>

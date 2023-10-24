@@ -1,4 +1,6 @@
 import { Component  } from '@angular/core';
+import { ChannelService } from '../channel.service';
+import { Channel } from '../../models/channel.class';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,6 +8,12 @@ import { Component  } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
+
+  constructor(private channelService: ChannelService) {
+    this.channelService.channelSelected.subscribe((channel: Channel) => {
+      this.switchToChannelChat();
+    });
+  }
 
   isThreadActive: boolean = false;
   isChannelChatActive: boolean = true;
@@ -15,11 +23,13 @@ export class DashboardComponent {
   switchToChannelChat() {
     this.isChannelChatActive = true;
     this.isDirectChatActive = false;
+    this.changeWidth = 'calc(100% - 48px)';
   }
 
   switchToDirectChat() {
     this.isChannelChatActive = false;
     this.isDirectChatActive = true;
+    this.isThreadActive = false;
   }
 
   activateThread() {

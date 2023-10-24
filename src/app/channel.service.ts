@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter  } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { collection, doc, Firestore, getDocs, query } from 'firebase/firestore';
 import { Channel } from '../models/channel.class';
@@ -22,6 +22,9 @@ export class ChannelService {
   setSelectedChannel(channelId: string): void {
     this.selectedChannelSubject.next(channelId);
   }
+
+  channelSelected: EventEmitter<Channel> = new EventEmitter<Channel>();
+
 
   private async getChannelsFromFirebase(): Promise<void> {
     const channelsQuery = query(collection(this.firestore, 'channelList'));
