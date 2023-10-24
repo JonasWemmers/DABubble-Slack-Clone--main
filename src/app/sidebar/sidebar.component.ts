@@ -61,15 +61,9 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  // getChannels(): void {
-  //   // Verwende den FirebaseService, um die Kanalnamen zu erhalten
-  //   this.fb.subList('channelList');
-  // }
-
   selectChannel(channel: Channel): void {
-    // Hier kannst du die Logik hinzufügen, die bei der Auswahl eines Kanals ausgeführt werden soll.
-    // Zum Beispiel: die Anzeige der Nachrichten für den ausgewählten Kanal.
-    console.log(`Selected channel: ${channel.name}`);
+    console.log(`Selected channel ID: ${channel.name.toLowerCase()}`);
+    this.channelService.setSelectedChannel(channel.name.toLowerCase());
   }
 
   openCloseDropdownDirectchat() {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { collection, doc, Firestore, getDocs, query } from 'firebase/firestore';
 import { Channel } from '../models/channel.class';
 import { getFirestore } from 'firebase/firestore';
@@ -12,9 +12,15 @@ export class ChannelService {
   private firestore: Firestore;
 
   constructor() {
-    // Hier könntest du ggf. Daten aus Firebase abrufen und in this.channels speichern
     this.firestore = getFirestore();
     this.getChannelsFromFirebase();
+  }
+
+  private selectedChannelSubject = new BehaviorSubject<string>('');
+  selectedChannel$: Observable<string> = this.selectedChannelSubject.asObservable();
+
+  setSelectedChannel(channelId: string): void {
+    this.selectedChannelSubject.next(channelId);
   }
 
   private async getChannelsFromFirebase(): Promise<void> {

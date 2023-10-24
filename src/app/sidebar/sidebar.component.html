@@ -47,7 +47,7 @@
             <p (click)="openDialog()"><img src="./assets/img/add.svg" alt=""></p>
         </div>
         <div class="channel-overview" *ngIf="ChannelDropdown">
-            <p *ngFor="let channel of channels" (click)="selectChannel(channel)">
+            <p *ngFor="let channel of channels"  (click)="selectChannel(channel)" [attr.id]="channel.name.toLowerCase()">
                 #{{ channel.name }}
               </p>
         </div>
