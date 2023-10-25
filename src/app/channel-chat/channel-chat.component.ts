@@ -1,5 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ChannelService } from '../channel.service';
+import { SharedService } from '../services/shared.service';
+
 
 @Component({
   selector: 'app-channel-chat',
@@ -10,7 +12,8 @@ export class ChannelChatComponent implements OnInit {
 
   selectedChannel: string = '';
 
-  constructor(private channelService: ChannelService) {}
+  constructor(private channelService: ChannelService,
+    private sharedService: SharedService) {}
 
   ngOnInit(): void {
     this.channelService.selectedChannel$.subscribe((channelId) => {
@@ -22,6 +25,10 @@ export class ChannelChatComponent implements OnInit {
 
   passActivateThreadEvent(event: void) {
     this.activateThreadEvent.emit();
+  }
+
+  onChannelSelected(channel: string): void {
+    this.sharedService.setSelectedChannel(channel);
   }
 
   sendMessage() {

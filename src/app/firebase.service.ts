@@ -71,34 +71,6 @@ export class FirebaseService {
     });
   }
 
-  async getFirstMessage(collectionName: string, channelName: string): Promise<{ message: string } | null> {
-    try {
-      // Überprüfen, ob channelName einen gültigen Wert hat
-      if (!channelName) {
-        console.error('channelName ist ungültig oder leer.');
-        return null;
-      }
-      const docRef = doc(this.firestore, collectionName, channelName);
-      const docSnapshot = await getDoc(docRef);
-      if (docSnapshot.exists()) {
-        // Überprüfe, ob das Feld "message" im Dokument vorhanden ist
-        const data = docSnapshot.data() as { [key: string]: any };
-        if (data && 'message' in data) {
-          return { message: data['message'] || '' };
-        } else {
-          console.error('Das Feld "message" ist im Dokument nicht vorhanden.');
-          return null;
-        }
-      } else {
-        console.error('Das Dokument wurde nicht gefunden.');
-        return null; // Dokument nicht gefunden
-      }
-    } catch (error) {
-      console.error('Fehler beim Laden der ersten Nachricht:', error);
-      return null;
-    }
-  }
-
   async getMessagesChannels(colID:string){
     let querySnapshot = getDocs(this.getRef(colID));
     let channelMessages:any = [];

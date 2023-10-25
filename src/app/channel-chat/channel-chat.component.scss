@@ -226,6 +226,8 @@ textarea {
 //   }
 
 app-chat-area {
+    display: flex;
+    flex-direction: column;
     flex: 1 1 auto; /* Nimmt den verfügbaren Raum im .chat-area Container ein */
     overflow-y: auto;
 

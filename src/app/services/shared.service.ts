@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable  } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,4 +11,13 @@ export class SharedService {
   setChannelsLoaded(loaded: boolean) {
     this.channelsLoadedSubject.next(loaded);
   }
+
+  private selectedChannelSubject = new BehaviorSubject<string | undefined>(undefined);
+  selectedChannel$: Observable<string | undefined> = this.selectedChannelSubject.asObservable();
+
+  setSelectedChannel(channel: string): void {
+    console.log('setSelectedChannel called with channel:', channel);
+    this.selectedChannelSubject.next(channel);
+  }
+
 }

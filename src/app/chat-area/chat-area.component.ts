@@ -15,7 +15,7 @@ export class ChatAreaComponent implements OnInit {
 
   formattedDate!: string;
 
-  selectedChannel!: string;
+  selectedChannel: string | undefined;
   channelName!: string;
   firstMessage!: string;
 
@@ -23,30 +23,19 @@ export class ChatAreaComponent implements OnInit {
   constructor(private firebaseService: FirebaseService,
     private route: ActivatedRoute,
     private sharedService: SharedService,
-    private channelService: ChannelService) { }
+    private channelService: ChannelService) {console.log('SharedService instance:', sharedService); }
 
   async ngOnInit() {
-    this.channelMessages = await this.firebaseService.getMessagesChannels('entwicklerteam');
-    
-    /*this.formatiereDatum();
+    this.channelMessages = await this.firebaseService.getMessagesChannels('allgemein');
+    this.formatiereDatum();
     this.route.params.subscribe((params) => {
       this.channelName = params['channelName'];
-      this.channelService.channelSelected.subscribe((selectedChannel) => {
-        if (this.selectedChannel === this.channelName) {
-          this.loadFirstMessage();
-        }
-      });
-    });*/
-  }
-
-  async loadFirstMessage(): Promise<void> {
-    try {
-      this.channelName = this.route.snapshot.params['channelName'];
-      const firstMessageData = await this.firebaseService.getFirstMessage('allgemein', this.channelName);
-      this.firstMessage = firstMessageData?.message || 'Keine Nachricht gefunden';
-    } catch (error) {
-      console.error('Error loading first message:', error);
-    }
+    });
+    this.sharedService.selectedChannel$.subscribe(channel => {
+      console.log('Selected channel:', channel);
+      this.selectedChannel = channel;
+      this.loadChannelMessages();
+    });
   }
 
   private formatiereDatum() {
@@ -63,8 +52,22 @@ export class ChatAreaComponent implements OnInit {
 
   onActivateThreadClick() {
     this.activateThreadEvent.emit();
+    console.log('onActivateThreadEvent() called');
   }
 
-
+  async loadChannelMessages(): Promise<void> {
+    if (this.selectedChannel) {
+      // Hier kannst du den ausgewählten Kanalnamen verwenden, um die Nachrichten zu laden
+      console.log('Selected channel:', this.selectedChannel);
+      
+      try {
+        // Beispiel: Laden der Nachrichten für 'allgemein'
+        this.channelMessages = await this.firebaseService.getMessagesChannels(this.selectedChannel.toLowerCase());
+      } catch (error) {
+        console.error('Error loading channel messages:', error);
+      }
+    }
+  }
+  
 
 }
