@@ -1,24 +1,23 @@
 <div class="choose_avatar_div">
     <div class="arrow_back">
-        <img src="assets/img/arrow_back.png" alt="">
+      <img src="assets/img/arrow_back.png" alt="">
     </div>
     <div class="headline">Wähle deinen Avatar</div>
-    <img  src="assets/img/81. Profile.png" alt="">
-
+  
+    <img *ngIf="selectedAvatar" [src]="'assets/img/' + selectedAvatar + '.png'" alt="">
+  
     <span>NAME DES USERS</span>
     <div class="choose">
-        <span>Aus der Liste wählen...</span>
-        <div class="avatar_images">
-            <div>
-                <img src="assets/img/user_avatar.png" alt="">
-                <img src="assets/img/user_avatar1.png" alt="">
-                <img src="assets/img/user_avatar2.png" alt="">
-                <img src="assets/img/user_avatar3.png" alt="">
-                <img src="assets/img/user_avatar4.png" alt="">
-                <img src="assets/img/user_avatar5.png" alt="">
-            </div>
+      <span>Aus der Liste wählen...</span>
+      <div class="avatar_images">
+        <div>
+          <img *ngFor="let avatarID of avatarIDs"
+               [src]="'assets/img/' + avatarID + '.png'"
+               [class.selected]="avatarID === selectedAvatar"
+               (click)="selectAvatar(avatarID)">
         </div>
-        
+      </div>
     </div>
     <div class="go_on_button" [routerLink]="['/login']">Weiter</div>
-</div>
+  </div>
+  

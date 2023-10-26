@@ -12,6 +12,7 @@ export class RegistrationComponent {
   name: string = '';
   email: string = '';
   password: string = '';
+  userDocId: string = ''; // Variable zur Speicherung der docRef.id
 
   constructor(
     private auth: Auth,
@@ -23,10 +24,6 @@ export class RegistrationComponent {
       const userCredential = await createUserWithEmailAndPassword(this.auth, this.email, this.password);
       const user = userCredential.user;
 
-      // Wenn die Registrierung erfolgreich ist, können Sie den Benutzer hier weiterleiten oder andere Aktionen durchführen.
-      this.router.navigateByUrl('dashboard');
-
-      // Hier fügen wir die Benutzerdaten zu Firestore unter der Sammlung "Accounts" hinzu
       const firestore = getFirestore();
       const userData = {
         name: this.name,
@@ -36,7 +33,12 @@ export class RegistrationComponent {
       };
 
       const docRef = await addDoc(collection(firestore, 'accounts'), userData);
-      console.log('Benutzerdaten erfolgreich zu Firestore hinzugefügt mit ID:', docRef.id);
+      
+      // Speichere die docRef.id in der Variable
+      this.userDocId = docRef.id;
+
+      // Weiterleitung zur SelectAvatarComponent und Übergabe der docRef.id
+      this.router.navigate(['/select-avatar', { docId: this.userDocId }]);
     } catch (error) {
       console.error('Fehler beim Hinzufügen der Benutzerdaten zu Firestore:', error);
     }
