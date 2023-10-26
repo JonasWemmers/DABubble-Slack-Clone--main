@@ -22,10 +22,13 @@ export class LoginComponent {
   loginWithGoogle() {
     const provider = new GoogleAuthProvider();
     signInWithPopup(this.auth, provider)
-      .then((res: any) => {
-        this.router.navigateByUrl('dashboard');
+      .then((result) => {
+        // Hier erhältst du die Benutzerdaten von Google
+        const user = result.user;
+        // Jetzt leite den Benutzer zur Auswahl des Avatars weiter
+        this.router.navigate(['/select-avatar', { uid: user.uid }]);
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error(error);
       });
   }

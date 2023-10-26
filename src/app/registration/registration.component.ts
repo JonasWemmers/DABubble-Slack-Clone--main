@@ -38,7 +38,7 @@ export class RegistrationComponent {
       this.userDocId = docRef.id;
 
       // Weiterleitung zur SelectAvatarComponent und Übergabe der docRef.id
-      this.router.navigate(['/select-avatar', { docId: this.userDocId }]);
+      this.router.navigate(['/select-avatar', { docId: this.userDocId, name: this.name }]);
     } catch (error) {
       console.error('Fehler beim Hinzufügen der Benutzerdaten zu Firestore:', error);
     }

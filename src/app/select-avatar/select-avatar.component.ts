@@ -11,6 +11,7 @@ export class SelectAvatarComponent implements OnInit {
   avatarIDs: string[] = ['avatar', 'avatar1', 'avatar2', 'avatar3', 'avatar4', 'avatar5'];
   selectedAvatar: string = '';
   docId: string = ''; // Variable zur Speicherung der docRef.id
+  userName: string = ''; // Hier wird der Name des Benutzers gespeichert
 
   constructor(private route: ActivatedRoute) {}
 
@@ -19,6 +20,11 @@ export class SelectAvatarComponent implements OnInit {
       const docId = params.get('docId');
       if (docId !== null) {
         this.docId = docId;
+      }
+
+      const name = params.get('name');
+      if (name !== null) {
+        this.userName = name; // Hier wird der Name gesetzt
       }
     });
   }
