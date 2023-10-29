@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Auth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { getFirestore, doc, setDoc } from 'firebase/firestore'; // Import für Firestore hinzugefügt
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  isSubmitClicked: boolean = false; // Neues Flag für die Überprüfung
+  isSubmitClicked: boolean = false;
+  userDocId: string = ''; // Deklaration von userDocId
+  userEmail: string = ''; // E-Mail hinzugefügt
 
   constructor(private auth: Auth, private router: Router, private formBuilder: FormBuilder) {
     this.loginForm = this.formBuilder.group({
@@ -22,11 +25,19 @@ export class LoginComponent {
   loginWithGoogle() {
     const provider = new GoogleAuthProvider();
     signInWithPopup(this.auth, provider)
-      .then((result) => {
-        // Hier erhältst du die Benutzerdaten von Google
+      .then(async (result) => {
         const user = result.user;
-        // Jetzt leite den Benutzer zur Auswahl des Avatars weiter
-        this.router.navigate(['/select-avatar', { uid: user.uid }]);
+        this.userDocId = user.uid; // Speichern Sie die uid als userDocId
+        if (user.email) {
+          this.userEmail = user.email; // Extrahieren Sie die Google-E-Mail-Adresse, wenn sie vorhanden ist
+        }
+
+        // Hier wird die uid und die E-Mail-Adresse in Firestore gespeichert
+        const firestore = getFirestore();
+        const userDocRef = doc(firestore, 'accounts', this.userDocId);
+        await setDoc(userDocRef, { uid: this.userDocId, email: this.userEmail }, { merge: true });
+
+        this.router.navigate(['/select-avatar', { uid: user.uid, name: user.displayName, docId: this.userDocId, email: this.userEmail }]);
       })
       .catch((error) => {
         console.error(error);
@@ -34,7 +45,7 @@ export class LoginComponent {
   }
 
   loginWithEmailPassword() {
-    this.isSubmitClicked = true; // Setzen des Flags, wenn auf "Anmelden" geklickt wird
+    this.isSubmitClicked = true;
 
     if (this.loginForm.valid) {
       const email = this.loginForm.get('email')?.value;

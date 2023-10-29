@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { Router } from '@angular/router'; // Import für die Navigation hinzugefügt
 
 @Component({
   selector: 'app-select-avatar',
@@ -10,24 +11,43 @@ import { getFirestore, doc, setDoc } from 'firebase/firestore';
 export class SelectAvatarComponent implements OnInit {
   avatarIDs: string[] = ['avatar', 'avatar1', 'avatar2', 'avatar3', 'avatar4', 'avatar5'];
   selectedAvatar: string = '';
-  docId: string = ''; // Variable zur Speicherung der docRef.id
-  userName: string = ''; // Hier wird der Name des Benutzers gespeichert
+  docId: string = '';
+  userName: string = '';
+  userEmail: string = ''; // E-Mail hinzugefügt
+  password: string = ''; // Passwort hinzugefügt
+  private router: Router;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, router: Router) {
+    this.router = router;
+  }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      const docId = params.get('docId');
+      const docId = params.get('uid');
       if (docId !== null) {
         this.docId = docId;
       }
 
       const name = params.get('name');
       if (name !== null) {
-        this.userName = name; // Hier wird der Name gesetzt
+        this.userName = name;
       }
+
+      const email = params.get('email');
+      if (email !== null) {
+        this.userEmail = email;
+      }
+
+      // Hier können Sie die E-Mail-Adresse von Google verwenden oder abrufen
+      // z.B., wenn die E-Mail in den Parametern nicht verfügbar ist
+      // this.userEmail = this.getGoogleUserEmail();
     });
   }
+
+  // Hier können Sie die Logik hinzufügen, um die E-Mail-Adresse von Google abzurufen
+  // getGoogleUserEmail() {
+  //   // Fügen Sie hier Ihre Logik hinzu, um die E-Mail-Adresse von Google zu erhalten
+  // }
 
   selectAvatar(avatarID: string) {
     this.selectedAvatar = avatarID;
@@ -36,13 +56,20 @@ export class SelectAvatarComponent implements OnInit {
       const firestore = getFirestore();
       const userDocRef = doc(firestore, 'accounts', this.docId);
 
-      // Aktualisiere das vorhandene Benutzerdokument mit dem 'profilpicture'-Feld
-      setDoc(userDocRef, { profilpicture: this.selectedAvatar }, { merge: true })
+      // Aktualisieren des vorhandenen Benutzerdokuments mit den erforderlichen Informationen
+      setDoc(userDocRef, {
+        profilpicture: this.selectedAvatar,
+        name: this.userName,
+        email: this.userEmail,
+        password: this.password, // Passwort hinzugefügt
+      }, { merge: true })
         .then(() => {
-          console.log('Avatar-ID erfolgreich in Firestore gespeichert');
+          console.log('Benutzerinformationen erfolgreich in Firestore gespeichert');
+          // Nachdem die Informationen erfolgreich gespeichert wurden, auf das Dashboard weiterleiten
+          this.router.navigateByUrl('dashboard');
         })
         .catch((error) => {
-          console.error('Fehler beim Speichern der Avatar-ID in Firestore:', error);
+          console.error('Fehler beim Speichern der Benutzerinformationen in Firestore:', error);
         });
     }
   }
