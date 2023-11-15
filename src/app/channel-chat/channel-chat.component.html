@@ -21,7 +21,10 @@
         <app-chat-area (activateThreadEvent)="passActivateThreadEvent($event)"></app-chat-area>
     </div>
     <div class="thread-answer-box">
-        <textarea placeholder="Nachricht an #Entwicklerteam" cols="30" rows="4"></textarea>
+        <textarea [(ngModel)]="newMessage" *ngIf="selectedChannel; else noChannelPlaceholder" placeholder="Nachricht an # {{ selectedChannel | titlecase  }}" cols="30" rows="4"></textarea>
+        <ng-template #noChannelPlaceholder>
+            <textarea [(ngModel)]="newMessage" placeholder="Nachricht an # Allgemein" cols="30" rows="4"></textarea>
+        </ng-template>
         <div class="thread-icon-bar">
             <div class="thread-icon-bar-left">
                 <img src="./assets/img/thread/add.png">

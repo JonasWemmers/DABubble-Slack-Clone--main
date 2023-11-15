@@ -22,6 +22,7 @@ export class LoginComponent {
     });
   }
 
+  
   loginWithGoogle() {
     const provider = new GoogleAuthProvider();
     signInWithPopup(this.auth, provider)

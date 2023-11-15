@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Auth } from '@angular/fire/auth';
-import { User } from 'firebase/auth';
+import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc, DocumentSnapshot } from 'firebase/firestore';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -18,7 +18,7 @@ interface MyUserType {
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent {
   first_menu_edit: boolean = false;
   pb_edit_menu: boolean = false;
   second_menu: boolean = false;
@@ -33,6 +33,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(public dialog: MatDialog, private authService: Auth) {}
 
+
+/*
   ngOnInit() {
     this.authSubscription = this.authService.onAuthStateChanged
       .subscribe({
@@ -59,7 +61,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
         unsubscribe: () => this.destroy$.next() // Unsubscribe, wenn destroy$ das nächste Mal ausgelöst wird
       });
   }
+*/
 
+/*
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
@@ -68,7 +72,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.authSubscription.unsubscribe();
     }
   }
-
+*/
   openMenu() {
     this.second_menu = false;
     this.pb_edit_menu = false;
@@ -94,4 +98,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.second_menu = false;
     this.pb_edit_menu = false;
   }
+
+  logout() {
+    this.authService.signOut();
+  }
+  
 }
