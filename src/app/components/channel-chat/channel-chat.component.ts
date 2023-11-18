@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ChannelService } from '../channel.service';
-import { SharedService } from '../services/shared.service';
+import { ChannelService } from '../../services/channel.service';
+import { SharedService } from '../../services/shared.service';
 import { Message } from 'src/models/message.class';
-import { FirebaseService } from '../firebase.service';
+import { FirebaseService } from '../../services/firebase.service';
 import { Firestore } from '@angular/fire/firestore';
 
 @Component({
@@ -47,7 +47,6 @@ export class ChannelChatComponent implements OnInit {
         emoji_smile: 0,
       });
       console.log(message);
-      // Get the active Channel and then push the Message inside the Channel under messages.
       this.addMessageToChannel(message);
     } else {
       console.log('message was empty');

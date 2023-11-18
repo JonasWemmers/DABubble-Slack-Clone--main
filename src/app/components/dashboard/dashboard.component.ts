@@ -1,6 +1,6 @@
 import { Component  } from '@angular/core';
-import { ChannelService } from '../channel.service';
-import { Channel } from '../../models/channel.class';
+import { ChannelService } from '../../services/channel.service';
+import { Channel } from '../../../models/channel.class';
 
 @Component({
   selector: 'app-dashboard',

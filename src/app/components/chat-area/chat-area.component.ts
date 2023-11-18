@@ -1,8 +1,8 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FirebaseService } from '../firebase.service';
-import { SharedService } from '../services/shared.service';
-import { ChannelService } from '../channel.service';
+import { FirebaseService } from '../../services/firebase.service';
+import { SharedService } from '../../services/shared.service';
+import { ChannelService } from '../../services/channel.service';
 
 @Component({
   selector: 'app-chat-area',
@@ -14,18 +14,19 @@ export class ChatAreaComponent implements OnInit {
   @Output() activateThreadEvent: EventEmitter<void> = new EventEmitter<void>();
 
   formattedDate!: string;
-
+  currentChannelId!: string;
   selectedChannel: string | undefined;
   channelName!: string;
   firstMessage!: string;
-
   channelMessages:any;
   constructor(private firebaseService: FirebaseService,
     private route: ActivatedRoute,
     private sharedService: SharedService,
-    private channelService: ChannelService) {console.log('SharedService instance:', sharedService); }
+    private channelService: ChannelService){}
+
 
   async ngOnInit() {
+    this.currentChannelId = this.sharedService.currentChannelId;
     this.channelMessages = await this.firebaseService.getMessagesChannels('allgemein');
     this.formatiereDatum();
     this.route.params.subscribe((params) => {
@@ -50,6 +51,9 @@ export class ChatAreaComponent implements OnInit {
     this.formattedDate = `${wochentag}, ${tag}. ${monat}`;
   }
 
+
+
+
   onActivateThreadClick() {
     this.activateThreadEvent.emit();
     console.log('onActivateThreadEvent() called');
@@ -68,6 +72,4 @@ export class ChatAreaComponent implements OnInit {
       }
     }
   }
-  
-
 }

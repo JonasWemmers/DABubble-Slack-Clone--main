@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter  } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { collection, doc, Firestore, getDocs, query } from 'firebase/firestore';
-import { Channel } from '../models/channel.class';
+import { Channel } from '../../models/channel.class';
 import { getFirestore } from 'firebase/firestore';
 
 @Injectable({

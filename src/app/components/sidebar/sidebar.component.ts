@@ -1,14 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddChannelComponent } from '../dialog-add-channel/dialog-add-channel.component';
-import { FirebaseService } from '../firebase.service';
-import { collectionData, getDocs } from '@angular/fire/firestore';
+import { FirebaseService } from '../../services/firebase.service';
 import { collection, getDoc } from 'firebase/firestore';
-import { ChannelService } from '../channel.service';
-import { Channel } from '../../models/channel.class';
+import { ChannelService } from '../../services/channel.service';
+import { Channel } from '../../../models/channel.class';
 import { timeout } from 'rxjs';
 import { User } from 'firebase/auth';
-import { SharedService } from '../services/shared.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -27,7 +26,7 @@ export class SidebarComponent implements OnInit {
     public dialog: MatDialog,
     public fb: FirebaseService,
     @Inject(ChannelService) private channelService: ChannelService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
   ) {
     fb.getSubColDocs('entwicklerteam', 'WPLt7nxgwgzFyM8uUhJV', 'thread');
   }
