@@ -31,7 +31,6 @@ export class ChannelService {
   
     try {
       const querySnapshot = await getDocs(channelsQuery);
-  
       querySnapshot.forEach((doc) => {
         const channelData = doc.data();
         const channel:Channel = new Channel(channelData);

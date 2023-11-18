@@ -66,6 +66,7 @@ export class SidebarComponent implements OnInit {
   }
 
   selectChannel(channel: Channel): void {
+    this.sharedService.currentChannelId = channel.id;
     console.log(`Selected channel ID: ${channel.name.toLowerCase()}`);
     this.channelService.setSelectedChannel(channel.name.toLowerCase());
     // this.channelService.channelSelected.emit(channel);

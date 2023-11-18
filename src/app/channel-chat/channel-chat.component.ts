@@ -1,8 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ChannelService } from '../channel.service';
 import { SharedService } from '../services/shared.service';
-import { Channels } from 'src/models/channels.class';
-
+import { Message } from 'src/models/message.class';
+import { FirebaseService } from '../firebase.service';
+import { Firestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-channel-chat',
@@ -12,9 +13,10 @@ import { Channels } from 'src/models/channels.class';
 export class ChannelChatComponent implements OnInit {
   newMessage: string = '';
   selectedChannel: string = '';
+  selectedChannelId: string = '';
 
   constructor(private channelService: ChannelService,
-    private sharedService: SharedService) { }
+    private sharedService: SharedService, private firebaseService: FirebaseService, private firestore: Firestore) { }
 
   ngOnInit(): void {
     this.channelService.selectedChannel$.subscribe((channelId) => {
@@ -34,22 +36,27 @@ export class ChannelChatComponent implements OnInit {
 
   sendMessage() {
     if (this.newMessage !== '') {
-      const message = new Channels({
+      const date = new Date().getTime();
+      const message = new Message({
         message: this.newMessage,
-        timestamp: 0,
-        userSend: '',
+        timestamp: date,
+        userSend: '',  // Get user(id), that sended the Message
         emoji_confirm: 0,
         emoji_handsUp: 0,
         emoji_rocked: 0,
         emoji_smile: 0,
-        uid: '', 
       });
       console.log(message);
-      // Store the message inside the channel obj under messages
-
+      // Get the active Channel and then push the Message inside the Channel under messages.
+      this.addMessageToChannel(message);
     } else {
       console.log('message was empty');
     }
     this.newMessage = '';
   }
+
+  addMessageToChannel(message: any) {
+   this.firebaseService.updateSingleDocElement('channelList', this.sharedService.currentChannelId, message.toJSON())
+  }
+
 }

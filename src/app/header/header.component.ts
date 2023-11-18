@@ -98,9 +98,4 @@ export class HeaderComponent {
     this.second_menu = false;
     this.pb_edit_menu = false;
   }
-
-  logout() {
-    this.authService.signOut();
-  }
-  
 }

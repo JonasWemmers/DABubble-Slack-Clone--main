@@ -1,4 +1,4 @@
-export class Channels {
+export class Message {
     message: string;
     timestamp: number;
     userSend: string;
@@ -6,10 +6,8 @@ export class Channels {
     emoji_handsUp: boolean;
     emoji_rocked: boolean;
     emoji_smile: boolean;
-    uid: string;
 
     constructor(obj?: any) {
-
         this.message = obj ? obj.message : '';
         this.timestamp = obj ? obj.timestamp : 0;
         this.userSend = obj ? obj.userSend : '';
@@ -17,7 +15,6 @@ export class Channels {
         this.emoji_handsUp = obj ? obj.emoji_handsUp || false : false;
         this.emoji_rocked = obj ? obj.emoji_rocked || false : false;
         this.emoji_smile = obj ? obj.emoji_smile || false : false;
-        this.uid = obj ? obj.uid : '';
     }
 
     public toJSON() {

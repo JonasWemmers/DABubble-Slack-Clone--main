@@ -9,6 +9,8 @@ import {
   getDoc,
   onSnapshot,
   updateDoc,
+  setDoc,
+  arrayUnion,
 } from 'firebase/firestore';
 
 @Injectable({
@@ -81,4 +83,22 @@ export class FirebaseService {
 
     return channelMessages;
   }
+
+ 
+/**
+ * 
+ * @param colId collection-id
+ * @param docId document-id
+ * @param item item, that should be added to Array
+ * 
+ * This function gets the reference of a single document inside the firestore,
+ * than adds the item into the existing array messages
+ * 
+ * !!Still needs some rework, that it not only pushes the item into the messages Array, insted of that, into a variable value!!
+ */
+  async updateSingleDocElement(colId: string, docId: string, item: {}) {
+    updateDoc(this.getSingelDocRef(colId, docId), { messages: arrayUnion(item)
+    });
+  }
 }
+
