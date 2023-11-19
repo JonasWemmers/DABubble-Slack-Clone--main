@@ -2,8 +2,6 @@ import { Injectable, EventEmitter, Inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 //import { collection, doc, Firestore, getDocs, query } from 'firebase/firestore';
 import { Channel } from '../../models/channel.class';
-import { FirebaseService } from './firebase.service';
-import { SharedService } from './shared.service';
 //import { getFirestore } from 'firebase/firestore';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import { FirebaseService } from './firebase.service'; // Aktualisieren Sie den Pfad entsprechend Ihrer Struktur
