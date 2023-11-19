@@ -7,7 +7,6 @@ import { BehaviorSubject, Observable  } from 'rxjs';
 export class SharedService {
   private channelsLoadedSubject = new BehaviorSubject<boolean>(false);
   channelsLoaded$ = this.channelsLoadedSubject.asObservable();
-  currentChannelId:string = '';
 
   setChannelsLoaded(loaded: boolean) {
     this.channelsLoadedSubject.next(loaded);

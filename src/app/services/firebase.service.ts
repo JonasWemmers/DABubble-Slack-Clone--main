@@ -11,6 +11,7 @@ import {
   updateDoc,
   setDoc,
   arrayUnion,
+  query,
 } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { Accounts } from 'src/models/accounts.class';
@@ -23,6 +24,8 @@ export class FirebaseService {
   firestore: Firestore = inject(Firestore);
 
   constructor() { }
+
+
 
   getAccountsRef() {
     return collection(this.firestore, 'accounts');
@@ -56,17 +59,7 @@ export class FirebaseService {
     });
   }
 
-  async getMessagesChannels(colID: string) {
-    let querySnapshot = getDocs(this.getRef(colID));
-    let channelMessages: any = [];
-    (await querySnapshot).forEach((element: any) => {
-      console.log('Elementdata are: ', element.data(), ' with ID: ', element.id);
-      channelMessages.push(element.data())
-    });
-
-    return channelMessages;
-  }
-
+  //Still usefull or should be rewritten? Doesnt return anything, just loggs the data
   async getSubColDocs(ColID: string, DocID: string, SubColID: string) {
     const querySnapshot = await getDocs(
       collection(this.firestore, ColID, DocID, SubColID)
@@ -91,5 +84,16 @@ export class FirebaseService {
     updateDoc(this.getSingelDocRef(colId, docId), {
       messages: arrayUnion(item)
     });
+  }
+
+
+  /**
+   * 
+   * @param colID collection-id
+   * @returns The collection, can then be transformed into the data to work with it.
+   */
+  async collectionSnapshot(colID: string) {
+    const q = query(this.getRef(colID));
+    return getDocs(q);
   }
 }

@@ -26,8 +26,7 @@ export class ChatAreaComponent implements OnInit {
 
 
   async ngOnInit() {
-    this.currentChannelId = this.sharedService.currentChannelId;
-    this.channelMessages = await this.firebaseService.getMessagesChannels('allgemein');
+    this.currentChannelId = this.channelService.currentChannelId;
     this.formatiereDatum();
     this.route.params.subscribe((params) => {
       this.channelName = params['channelName'];
@@ -35,7 +34,6 @@ export class ChatAreaComponent implements OnInit {
     this.sharedService.selectedChannel$.subscribe(channel => {
       console.log('Selected channel:', channel);
       this.selectedChannel = channel;
-      this.loadChannelMessages();
     });
   }
 
@@ -51,25 +49,9 @@ export class ChatAreaComponent implements OnInit {
     this.formattedDate = `${wochentag}, ${tag}. ${monat}`;
   }
 
-
-
-
   onActivateThreadClick() {
     this.activateThreadEvent.emit();
     console.log('onActivateThreadEvent() called');
   }
 
-  async loadChannelMessages(): Promise<void> {
-    if (this.selectedChannel) {
-      // Hier kannst du den ausgewählten Kanalnamen verwenden, um die Nachrichten zu laden
-      console.log('Selected channel:', this.selectedChannel);
-      
-      try {
-        // Beispiel: Laden der Nachrichten für 'allgemein'
-        this.channelMessages = await this.firebaseService.getMessagesChannels(this.selectedChannel.toLowerCase());
-      } catch (error) {
-        console.error('Error loading channel messages:', error);
-      }
-    }
-  }
 }

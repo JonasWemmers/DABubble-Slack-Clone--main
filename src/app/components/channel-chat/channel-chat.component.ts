@@ -45,8 +45,9 @@ export class ChannelChatComponent implements OnInit {
         emoji_handsUp: 0,
         emoji_rocked: 0,
         emoji_smile: 0,
+        answers: []
       });
-      console.log(message);
+      console.log(message, this.channelService.currentChannelId);
       this.addMessageToChannel(message);
     } else {
       console.log('message was empty');
@@ -55,7 +56,7 @@ export class ChannelChatComponent implements OnInit {
   }
 
   addMessageToChannel(message: any) {
-   this.firebaseService.updateSingleDocElement('channelList', this.sharedService.currentChannelId, message.toJSON())
+   this.firebaseService.updateSingleDocElement('channelList', this.channelService.currentChannelId, message.toJSON())
   }
 
 }

@@ -25,30 +25,22 @@ export class SidebarComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public fb: FirebaseService,
-    @Inject(ChannelService) private channelService: ChannelService,
     private sharedService: SharedService,
-  ) {
-    fb.getSubColDocs('entwicklerteam', 'WPLt7nxgwgzFyM8uUhJV', 'thread');
-  }
+    private channelService: ChannelService
+  ) {}
 
   ngOnInit(): void {
     this.getChannels();
-    this.channelInterval = setInterval(()=>{
-      this.updateChannelIDs();
-    },500)
-    this.fillDirectChatUsers('UOTK3YB6nf9egkY8Ff4R')
   }
 
-  getChannels(): void {
-    this.channelService.getChannels().subscribe({
-      next: (channels: Channel[]) => {
-        this.channels = channels;
-        this.sharedService.setChannelsLoaded(true);
-      },
-      error: (error) => {
-        console.error('Error fetching channels:', error);
-      },
-    });
+  async getChannels() {
+    try {
+      await this.channelService.loadChannels();
+      this.channels = this.channelService.channels;
+      console.log(this.channels);
+    } catch (error) {
+      console.log('Error loading channels in sidebar', error);
+    }
   }
 
   updateChannelIDs() {
@@ -60,15 +52,13 @@ export class SidebarComponent implements OnInit {
       });
       clearInterval(this.channelInterval)
     } else {
-      console.log('runde Vorbei');
     }
   }
 
   selectChannel(channel: Channel): void {
-    this.sharedService.currentChannelId = channel.id;
+    this.channelService.currentChannelId = channel.id;
     console.log(`Selected channel ID: ${channel.name.toLowerCase()}`);
     this.channelService.setSelectedChannel(channel.name.toLowerCase());
-    // this.channelService.channelSelected.emit(channel);
   }
 
   openCloseDropdownDirectchat() {
@@ -89,17 +79,5 @@ export class SidebarComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogAddChannelComponent, {});
-  }
-
-  async fillDirectChatUsers(docID:string){
-    let userData:any = await getDoc(this.fb.getSingelDocRef('accounts',docID));
-    let chatList = userData.data()['privatChats']
-    this.directchat_users = [];
-    this.directchat_users.push(userData.data()['name']+' (Du)')
-    chatList.forEach(async (element:any) => {
-      let elem:any = (await getDoc(this.fb.getSingelDocRef('accounts', element))).data();
-      this.directchat_users.push(elem['name'])
-    });
-    
   }
 }
