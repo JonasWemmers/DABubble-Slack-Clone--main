@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Auth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { getFirestore, doc, setDoc } from 'firebase/firestore'; // Import für Firestore hinzugefügt
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore'; // Import für Firestore hinzugefügt
 
 @Component({
   selector: 'app-login',
@@ -32,18 +32,28 @@ export class LoginComponent {
         if (user.email) {
           this.userEmail = user.email; // Extrahieren Sie die Google-E-Mail-Adresse, wenn sie vorhanden ist
         }
-
-        // Hier wird die uid und die E-Mail-Adresse in Firestore gespeichert
+  
+        // Überprüfen, ob Benutzer bereits existiert
         const firestore = getFirestore();
         const userDocRef = doc(firestore, 'accounts', this.userDocId);
-        await setDoc(userDocRef, { uid: this.userDocId, email: this.userEmail }, { merge: true });
-
-        this.router.navigate(['/select-avatar', { uid: user.uid, name: user.displayName, docId: this.userDocId, email: this.userEmail }]);
+        const userDocSnap = await getDoc(userDocRef);
+  
+        if (userDocSnap.exists()) {
+          // Benutzer existiert bereits, leiten Sie zum Dashboard weiter
+          this.router.navigate(['/dashboard', { uid: user.uid}]);
+        } else {
+          // Benutzer existiert nicht, fügen Sie den Benutzer hinzu
+          await setDoc(userDocRef, { uid: this.userDocId, email: this.userEmail }, { merge: true });
+  
+          // Leiten Sie zum Avatar-Auswahlbildschirm weiter
+          this.router.navigate(['/select-avatar', { uid: user.uid, name: user.displayName, docId: this.userDocId, email: this.userEmail }]);
+        }
       })
       .catch((error) => {
         console.error(error);
       });
   }
+  
 
   loginWithEmailPassword() {
     this.isSubmitClicked = true;

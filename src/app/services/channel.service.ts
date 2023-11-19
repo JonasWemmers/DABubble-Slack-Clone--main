@@ -1,11 +1,11 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-//import { collection, doc, Firestore, getDocs, query } from 'firebase/firestore';
+import { collection, doc, Firestore, getDocs, query } from '@angular/fire/firestore';
 import { Channel } from '../../models/channel.class';
-import { FirebaseService } from './firebase.service';
-import { SharedService } from './shared.service';
-//import { getFirestore } from 'firebase/firestore';
+//import { FirebaseService } from './firebase.service';
+//import { SharedService } from './shared.service';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
+import { FirebaseService } from './firebase.service'; // Aktualisieren Sie den Pfad entsprechend Ihrer Struktur
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +14,8 @@ export class ChannelService {
   channels: Channel[] = [];
   currentChannelId!: string;
   channelsLoaded: boolean = false;
-  //private firestore: Firestore;
 
-  constructor(private firebaseService: FirebaseService) {
+  constructor(public firestore: Firestore, private firebaseService: FirebaseService) {
     //this.loadChannels();
   }
 

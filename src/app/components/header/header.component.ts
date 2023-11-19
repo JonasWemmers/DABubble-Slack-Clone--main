@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Auth } from '@angular/fire/auth';
-import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
+import { User, getAuth, onAuthStateChanged, Unsubscribe } from 'firebase/auth';
 import { getFirestore, doc, getDoc, DocumentSnapshot } from 'firebase/firestore';
 import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Firestore } from '@angular/fire/firestore';
 
 interface MyUserType {
   name: string;
@@ -18,7 +18,7 @@ interface MyUserType {
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy{
   first_menu_edit: boolean = false;
   pb_edit_menu: boolean = false;
   second_menu: boolean = false;
@@ -29,14 +29,43 @@ export class HeaderComponent {
   password: string = '';
 
   private destroy$ = new Subject<void>();
-  private authSubscription: Subscription | undefined;
+  private authSubscription: Unsubscribe | undefined;
 
-  constructor(public dialog: MatDialog, private authService: Auth) {}
+  constructor(public dialog: MatDialog, private authService: Auth, private firestore: Firestore) {}
 
 
-/*
+
   ngOnInit() {
-    this.authSubscription = this.authService.onAuthStateChanged
+    this.authSubscription = this.authService.onAuthStateChanged(firebaseUser => {
+      if (firebaseUser) {
+        const uid = firebaseUser.uid;
+        const firestore = getFirestore();
+  
+        // Nehmen Sie an, dass die UID als benutzerdefinierte ID in der 'accounts'-Sammlung verwendet wird
+        const userDocumentReference = doc(firestore, 'accounts', uid);
+  
+        const userDocSnap = getDoc(userDocumentReference) as Promise<DocumentSnapshot<MyUserType>>;
+  
+        userDocSnap.then(snapshot => {
+          if (snapshot.exists()) {
+            this.docId = snapshot.id; // Das ist die Dokumenten-ID
+            this.userName = snapshot.data().name;
+            this.userEmail = snapshot.data().email;
+            this.avatarIDs = snapshot.data().profilpicture;
+            // ... andere Eigenschaften ...
+            console.log(this.userName, this.userEmail, this.avatarIDs); // Hier sollte der Wert vorhanden sein
+          } else {
+            console.log('Benutzerdaten existieren nicht.');
+          }
+        }).catch(error => {
+          console.error('Fehler beim Abrufen von Benutzerdaten:', error);
+        });
+      }
+    });
+  }
+  
+
+    /*
       .subscribe({
         next: (user: User | null) => {
           if (user) {
@@ -63,16 +92,16 @@ export class HeaderComponent {
   }
 */
 
-/*
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
 
     if (this.authSubscription) {
-      this.authSubscription.unsubscribe();
+      this.authSubscription();
     }
   }
-*/
+
   openMenu() {
     this.second_menu = false;
     this.pb_edit_menu = false;
