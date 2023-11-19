@@ -26,7 +26,6 @@ export class FirebaseService {
   constructor() { }
 
 
-
   getAccountsRef() {
     return collection(this.firestore, 'accounts');
   }
@@ -96,4 +95,10 @@ export class FirebaseService {
     const q = query(this.getRef(colID));
     return getDocs(q);
   }
+
+  async documentSnapshot(colID: string, docID: string) {
+    const docRef = this.getSingelDocRef(colID, docID);
+    return getDoc(docRef);
+  }
+
 }

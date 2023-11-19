@@ -1,45 +1,25 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, Inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-//import { collection, doc, Firestore, getDocs, query } from 'firebase/firestore';
 import { Channel } from '../../models/channel.class';
 import { FirebaseService } from './firebase.service';
-import { SharedService } from './shared.service';
-//import { getFirestore } from 'firebase/firestore';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChannelService {
+  selectedChannelSubject = new BehaviorSubject<string>('');
+  selectedChannel$: Observable<string> = this.selectedChannelSubject.asObservable();
+  channelSelected: EventEmitter<Channel> = new EventEmitter<Channel>();
   channels: Channel[] = [];
   currentChannelId!: string;
-  channelsLoaded: boolean = false;
-  //private firestore: Firestore;
 
-  constructor(private firebaseService: FirebaseService) {
-    //this.loadChannels();
-  }
+  constructor(private firebaseService: FirebaseService) {}
 
-  /**
-   * Channel-Service Tasks:
-   * @Var: Holds current Channel-ID and available Channels
-   * 
-   * @functions: 
-   * 1. Add Channel to Firebase.
-   * 2. Delete Channel from Firebase
-   * 3. (Realtime updates the Channels)
-   * 4. Search Channel (with #)
-   * 5. User Management (add user or delete them from the Channel)
-   * 6. Update Channel Information
-   * 
-   */
-
-
-  getCurrentChannelId() {
+  async setCurrentChannelId() {
     if (this.currentChannelId == undefined) {
-      this.currentChannelId = this.channels[0]['id'];
+      console.log('Hier muesste noch die ID des ersten Channels ausgelesen werden.');
     }
-    console.log(this.currentChannelId);
   }
 
   /**
@@ -52,7 +32,7 @@ export class ChannelService {
       const querySnapshot = await this.firebaseService.collectionSnapshot('channelList');
       this.channels = this.processChannels(querySnapshot);
       this.channels.sort((a, b) => a.name.localeCompare(b.name));
-      this.getCurrentChannelId();
+      this.setCurrentChannelId();
     } catch (error) {
       console.log('Error fetching channel data:', error);
     }
@@ -76,25 +56,12 @@ export class ChannelService {
   }
 
 
-
-
-
-
-  /**
-   * Alte Funktionalitaeten, peu a peu umbauen 
-   */
-
-
-  private selectedChannelSubject = new BehaviorSubject<string>('');
-  selectedChannel$: Observable<string> = this.selectedChannelSubject.asObservable();
-
   setSelectedChannel(channelId: string): void {
     this.selectedChannelSubject.next(channelId);
   }
 
-  channelSelected: EventEmitter<Channel> = new EventEmitter<Channel>();
 
-  addChannel(channel: Channel): void {
-    this.channels.push(channel);
-  }
+   addChannel(channel: Channel): void {
+     this.channels.push(channel);
+   }
 }

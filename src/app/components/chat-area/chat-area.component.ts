@@ -1,7 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../../services/firebase.service';
-import { SharedService } from '../../services/shared.service';
 import { ChannelService } from '../../services/channel.service';
 
 @Component({
@@ -17,12 +16,8 @@ export class ChatAreaComponent implements OnInit {
   currentChannelId!: string;
   selectedChannel: string | undefined;
   channelName!: string;
-  firstMessage!: string;
   channelMessages:any;
-  constructor(private firebaseService: FirebaseService,
-    private route: ActivatedRoute,
-    private sharedService: SharedService,
-    private channelService: ChannelService){}
+  constructor(private firebaseService: FirebaseService, private route: ActivatedRoute, private channelService: ChannelService) {}
 
 
   async ngOnInit() {
@@ -31,8 +26,7 @@ export class ChatAreaComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.channelName = params['channelName'];
     });
-    this.sharedService.selectedChannel$.subscribe(channel => {
-      console.log('Selected channel:', channel);
+    this.channelService.selectedChannel$.subscribe(channel => {
       this.selectedChannel = channel;
     });
   }

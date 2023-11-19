@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
-import { SharedService } from '../../services/shared.service';
 import { Message } from 'src/models/message.class';
 import { FirebaseService } from '../../services/firebase.service';
 import { Firestore } from '@angular/fire/firestore';
@@ -15,8 +14,7 @@ export class ChannelChatComponent implements OnInit {
   selectedChannel: string = '';
   selectedChannelId: string = '';
 
-  constructor(private channelService: ChannelService,
-    private sharedService: SharedService, private firebaseService: FirebaseService, private firestore: Firestore) { }
+  constructor(private channelService: ChannelService, private firebaseService: FirebaseService) {}
 
   ngOnInit(): void {
     this.channelService.selectedChannel$.subscribe((channelId) => {
@@ -31,7 +29,7 @@ export class ChannelChatComponent implements OnInit {
   }
 
   onChannelSelected(channel: string): void {
-    this.sharedService.setSelectedChannel(channel);
+    this.channelService.setSelectedChannel(channel);
   }
 
   sendMessage() {

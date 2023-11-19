@@ -29,6 +29,9 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { ThreadChatAreaComponent } from './components/thread-chat-area/thread-chat-area.component';
 import { DirectChatComponent } from './components/direct-chat/direct-chat.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { FirebaseService } from './services/firebase.service';
+import { ChannelService } from './services/channel.service';
+import { MessageService } from './services/message.service';
 
 @NgModule({
   declarations: [
@@ -64,7 +67,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())
   ],
-  providers: [],
+  providers: [FirebaseService, ChannelService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
