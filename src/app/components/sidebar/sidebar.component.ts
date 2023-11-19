@@ -2,12 +2,10 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddChannelComponent } from '../dialog-add-channel/dialog-add-channel.component';
 import { FirebaseService } from '../../services/firebase.service';
-import { collection, getDoc } from 'firebase/firestore';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../../models/channel.class';
-import { timeout } from 'rxjs';
-import { User } from 'firebase/auth';
-import { SharedService } from '../../services/shared.service';
+import { MessageService } from 'src/app/services/message.service';
+
 
 @Component({
   selector: 'app-sidebar',
@@ -19,19 +17,13 @@ export class SidebarComponent implements OnInit {
   directchatDropdown: boolean = true;
   ChannelDropdown: boolean = true;
   channels: Channel[] = [];
-  channelInterval:any;
-  channelsLoaded: boolean = false;
 
-  constructor(
-    public dialog: MatDialog,
-    public fb: FirebaseService,
-    private sharedService: SharedService,
-    private channelService: ChannelService
-  ) {}
+  constructor(public dialog: MatDialog, public fb: FirebaseService, private channelService: ChannelService, private messageService: MessageService) {}
 
   ngOnInit(): void {
     this.getChannels();
   }
+
 
   async getChannels() {
     try {
@@ -43,22 +35,15 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  updateChannelIDs() {
-    if (this.channels.length > 0) {
-      this.channels.forEach((element) => {
-       let channel = element.toJSON();
-        console.log(channel);
-        this.fb.updateElementFDB('channelList', channel.id, channel)
-      });
-      clearInterval(this.channelInterval)
-    } else {
-    }
-  }
 
   selectChannel(channel: Channel): void {
     this.channelService.currentChannelId = channel.id;
-    console.log(`Selected channel ID: ${channel.name.toLowerCase()}`);
+    console.log('ChannelID is:', channel.id);
+    
     this.channelService.setSelectedChannel(channel.name.toLowerCase());
+    this.messageService.loadChannel().catch(err => {
+      console.log('Could read the Channel-ID', err);
+    });
   }
 
   openCloseDropdownDirectchat() {
