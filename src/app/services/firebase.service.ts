@@ -12,6 +12,7 @@ import {
   setDoc,
   arrayUnion,
   query,
+  where,
 } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { Accounts } from 'src/models/accounts.class';
@@ -46,6 +47,11 @@ export class FirebaseService {
       .then((docRef) => {
         console.log('Document written with ID: ', docRef?.id);
       });
+  }
+
+  async addElementFDBReturnDocRef(ColID: string, item: {}) {
+    const docRef = await addDoc(this.getRef(ColID), item);
+    return docRef.id;
   }
 
   async updateElementFDB(ColID: string, DocID: string, item: {}) {
@@ -99,6 +105,20 @@ export class FirebaseService {
   async documentSnapshot(colID: string, docID: string) {
     const docRef = this.getSingelDocRef(colID, docID);
     return getDoc(docRef);
+  }
+
+  /**
+   * 
+   * @param colID collection ID
+   * @param param1 first search param
+   * @param param2 second search param
+   * 
+   * 
+   */
+  queryCollection(colID: string, param1: string, param2: string) {
+    const ref = this.getRef(colID);
+    const q = query(ref, where(param1, '==', param2));
+    return getDocs(q);
   }
 
 }

@@ -67,7 +67,24 @@ export class ChannelService {
   }
 
 
-   addChannel(channel: Channel): void {
-     this.channels.push(channel);
-   }
+  async addChannel(channel: Channel) {
+    try {
+      const docID = await this.firebaseService.addElementFDBReturnDocRef('channelList', channel.toJSON());
+      channel.id = docID;
+      // User send noch hinzufuegen
+      this.firebaseService.updateElementFDB('channelList', docID, channel.toJSON());
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  //  console.log(channel);
+  //  const querySnapshot = await this.firebaseService.queryCollection('channelList', 'name', 'Allgemein');
+  //  querySnapshot.forEach((doc) => {
+  //   const channelData = doc.data() as Channel;
+  //   console.log(channelData);
+  //  })   
+
+
 }
+
