@@ -24,8 +24,9 @@ export class ChannelService {
 
   async setCurrentChannelId() {
     if (this.currentChannelId == undefined) {
-      console.log('Hier muesste noch die ID des ersten Channels ausgelesen werden.');
+      this.currentChannelId = this.channels[0]['id'];
     }
+    console.log('Current Channel id is:', this.currentChannelId);
   }
 
   /**
@@ -71,8 +72,9 @@ export class ChannelService {
     try {
       const docID = await this.firebaseService.addElementFDBReturnDocRef('channelList', channel.toJSON());
       channel.id = docID;
-      // User send noch hinzufuegen
+      // User create noch hinzufuegen
       this.firebaseService.updateElementFDB('channelList', docID, channel.toJSON());
+      this.loadChannels();
     } catch (err) {
       console.log(err);
     }
