@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
 
 @Component({
   selector: 'app-registration',
@@ -12,7 +12,7 @@ export class RegistrationComponent {
   name: string = '';
   email: string = '';
   password: string = '';
-  userDocId: string = ''; // Variable zur Speicherung der docRef.id
+  userDocId: string = ''; // Variable zur Speicherung der docRef.id (hier die uid)
 
   constructor(
     private auth: Auth,
@@ -25,20 +25,23 @@ export class RegistrationComponent {
       const user = userCredential.user;
 
       const firestore = getFirestore();
+
+      // Verwende die uid des Benutzers als userDocId
+      this.userDocId = user.uid;
+
+      const userDocRef = doc(firestore, 'accounts', this.userDocId);
       const userData = {
         name: this.name,
         email: this.email,
         password: this.password,
-        uid: user.uid, // Hinzufügen der Nutzer-UID als Feld
+        uid: user.uid,
       };
 
-      const docRef = await addDoc(collection(firestore, 'accounts'), userData);
-      
-      // Speichere die docRef.id in der Variable
-      this.userDocId = docRef.id;
+      // Setze die Benutzerdaten in das Dokument mit der uid als DocId
+      await setDoc(userDocRef, userData);
 
-      // Weiterleitung zur SelectAvatarComponent und Übergabe der docRef.id
-      this.router.navigate(['/select-avatar', { docId: this.userDocId, name: this.name }]);
+      // Weiterleitung zur SelectAvatarComponent und Übergabe der uid als DocId
+      this.router.navigate(['/select-avatar', { docId: this.userDocId, name: this.name, email: this.email}]);
     } catch (error) {
       console.error('Fehler beim Hinzufügen der Benutzerdaten zu Firestore:', error);
     }
