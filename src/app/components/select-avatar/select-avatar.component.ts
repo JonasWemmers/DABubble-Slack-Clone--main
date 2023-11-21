@@ -37,25 +37,18 @@ export class SelectAvatarComponent implements OnInit {
       if (email !== null) {
         this.userEmail = email;
       }
-
-      // Hier können Sie die E-Mail-Adresse von Google verwenden oder abrufen
-      // z.B., wenn die E-Mail in den Parametern nicht verfügbar ist
-      // this.userEmail = this.getGoogleUserEmail();
     });
   }
 
-  // Hier können Sie die Logik hinzufügen, um die E-Mail-Adresse von Google abzurufen
-  // getGoogleUserEmail() {
-  //   // Fügen Sie hier Ihre Logik hinzu, um die E-Mail-Adresse von Google zu erhalten
-  // }
+
 
   selectAvatar(avatarID: string) {
     this.selectedAvatar = avatarID;
-
+  
     if (this.docId && this.selectedAvatar) {
       const firestore = getFirestore();
       const userDocRef = doc(firestore, 'accounts', this.docId);
-
+  
       // Aktualisieren des vorhandenen Benutzerdokuments mit den erforderlichen Informationen
       setDoc(userDocRef, {
         profilpicture: this.selectedAvatar,
@@ -65,12 +58,16 @@ export class SelectAvatarComponent implements OnInit {
       }, { merge: true })
         .then(() => {
           console.log('Benutzerinformationen erfolgreich in Firestore gespeichert');
-          // Nachdem die Informationen erfolgreich gespeichert wurden, auf das Dashboard weiterleiten
-          this.router.navigateByUrl('dashboard');
+  
+          // Führe die Weiterleitung mit einer leichten Verzögerung durch
+          setTimeout(() => {
+            // Nachdem die Informationen erfolgreich gespeichert wurden, auf das Dashboard weiterleiten
+            this.router.navigateByUrl('dashboard');
+          }, 500); // Hier kannst du die Verzögerung nach Bedarf anpassen
         })
         .catch((error) => {
           console.error('Fehler beim Speichern der Benutzerinformationen in Firestore:', error);
         });
     }
   }
-}
+}  
