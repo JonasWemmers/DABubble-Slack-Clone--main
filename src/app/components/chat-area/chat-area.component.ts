@@ -1,48 +1,52 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FirebaseService } from '../../services/firebase.service';
+import { Component, EventEmitter, Output, OnDestroy, OnInit } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
-import { MessageService } from 'src/app/services/message.service';
 import { Channel } from 'src/models/channel.class';
+import { Subscription } from 'rxjs';
+
+
+
 
 @Component({
   selector: 'app-chat-area',
   templateUrl: './chat-area.component.html',
   styleUrls: ['./chat-area.component.scss']
 })
-export class ChatAreaComponent implements OnInit {
+export class ChatAreaComponent implements OnDestroy, OnInit {
 
-  @Output() activateThreadEvent: EventEmitter<void> = new EventEmitter<void>();
   channel: Channel[] = [];
   formattedDate!: string;
-  constructor(private firebaseService: FirebaseService, private route: ActivatedRoute, private channelService: ChannelService, private messageService: MessageService) {}
+
+  channelSubscription: Subscription;
+
+  constructor(private channelService: ChannelService) {
+    this.channelSubscription = this.channelService.channelObservable$.subscribe((currentChannel) => {
+      this.channel = currentChannel;
+    });
+  }
 
 
   async ngOnInit() {
+    this.channel = [];
     try {
-      await this.channelService.loadChannels()
+      await this.channelService.loadChannels();
       await this.channelService.setCurrentChannelId();
-      await this.messageService.loadChannel();
-      this.channel = this.messageService.channel;
-      console.log(this.channel);
     } catch (error) {
       console.error('Error initializing component:', error);
     }
   }
 
-  private formatiereDatum() {
-    const tage = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
-    const monate = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
-    const aktuellesDatum = new Date();
-    const wochentag = tage[aktuellesDatum.getDay()];
-    const tag = aktuellesDatum.getDate();
-    const monat = monate[aktuellesDatum.getMonth()];
-    this.formattedDate = `${wochentag}, ${tag}. ${monat}`;
+  ngOnDestroy(): void {
+    this.channelSubscription.unsubscribe();
   }
 
-  // onActivateThreadClick() {
-  //   this.activateThreadEvent.emit();
-  //   console.log('onActivateThreadEvent() called');
+  // ---> Should be something for a shared service?
+  // private formatiereDatum() {
+  //   const tage = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+  //   const monate = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+  //   const aktuellesDatum = new Date();
+  //   const wochentag = tage[aktuellesDatum.getDay()];
+  //   const tag = aktuellesDatum.getDate();
+  //   const monat = monate[aktuellesDatum.getMonth()];
+  //   this.formattedDate = `${wochentag}, ${tag}. ${monat}`;
   // }
-
 }

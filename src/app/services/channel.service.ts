@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter, Inject } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Channel } from '../../models/channel.class';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
@@ -12,19 +12,31 @@ export class ChannelService {
   selectedChannel$: Observable<string> = this.selectedChannelSubject.asObservable();
   channelSelected: EventEmitter<Channel> = new EventEmitter<Channel>();
   channels: Channel[] = [];
+  currentChannel: Channel[] = [];
   currentChannelId!: string;
-  channelsLoaded: boolean = false;
-  //private firestore: Firestore;
+  channelSubject = new BehaviorSubject<Channel[]>([]);
+  channelObservable$ = this.channelSubject.asObservable();
 
-  constructor(private firebaseService: FirebaseService) {
-    //this.loadChannels();
-  }
+
+  constructor(private firebaseService: FirebaseService) { }
+
 
   async setCurrentChannelId() {
     if (this.currentChannelId == undefined) {
       this.currentChannelId = this.channels[0]['id'];
+      this.setCurrentChannel();
     }
-    console.log('Current Channel id is:', this.currentChannelId);
+  }
+
+  async setCurrentChannel() {
+    try {
+      const docSnap = await this.firebaseService.documentSnapshot('channelList', this.currentChannelId);
+      const channel = docSnap.data() as Channel;
+      this.currentChannel = [channel];
+      this.channelSubject.next(this.currentChannel); // Notify subscribers
+    } catch (error) {
+      console.error('Error setting current channel:', error);
+    }
   }
 
   /**

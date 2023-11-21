@@ -18,7 +18,7 @@ export class SidebarComponent implements OnInit {
   ChannelDropdown: boolean = true;
   channels: Channel[] = [];
 
-  constructor(public dialog: MatDialog, public fb: FirebaseService, private channelService: ChannelService, private messageService: MessageService) {}
+  constructor(public dialog: MatDialog, public fb: FirebaseService, private channelService: ChannelService) {}
 
   ngOnInit(): void {
     this.getChannels();
@@ -29,7 +29,6 @@ export class SidebarComponent implements OnInit {
     try {
       await this.channelService.loadChannels();
       this.channels = this.channelService.channels;
-      console.log(this.channels);
     } catch (error) {
       console.log('Error loading channels in sidebar', error);
     }
@@ -37,12 +36,10 @@ export class SidebarComponent implements OnInit {
 
 
   selectChannel(channel: Channel): void {
-    this.channelService.currentChannelId = channel.id;
-    console.log('ChannelID is:', channel.id);
-    this.channelService.setSelectedChannel(channel.name.toLowerCase());
-    this.messageService.loadChannel().catch(err => {
-      console.log('Couldnt read the Channel-ID', err);
-    });
+      this.channelService.currentChannelId = channel.id;
+      console.log('ChannelID is:', channel.id);
+      this.channelService.setSelectedChannel(channel.name.toLowerCase());
+      this.channelService.setCurrentChannel();
   }
 
   openCloseDropdownDirectchat() {

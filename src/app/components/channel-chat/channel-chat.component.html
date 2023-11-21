@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="chat-area">
-        <app-chat-area (activateThreadEvent)="passActivateThreadEvent($event)"></app-chat-area>
+        <app-chat-area></app-chat-area>
     </div>
     <div class="thread-answer-box">
         <textarea [(ngModel)]="newMessage" *ngIf="selectedChannel; else noChannelPlaceholder" placeholder="Nachricht an # {{ selectedChannel | titlecase  }}" cols="30" rows="4"></textarea>

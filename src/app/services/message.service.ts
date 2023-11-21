@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ChannelService } from './channel.service';
 import { FirebaseService } from './firebase.service';
-import { Channel } from 'src/models/channel.class';
 import { Message } from 'src/models/message.class';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
-  channel: Channel[] = [];
-
 
   constructor(private channelService: ChannelService, private firebaseService: FirebaseService) { }
 
@@ -26,21 +23,11 @@ export class MessageService {
    * 
    */
 
-  async loadChannel() {
-    this.channel = [];
-    const docSnap = await this.firebaseService.documentSnapshot('channelList', this.channelService.currentChannelId);
-    this.channel.push(docSnap.data() as Channel);
-    console.log(this.channel);
-  }
 
 
-
-  addMessageToUser() { }
-
-  answerMessageChannel() { }
+  addMessageToUser() {}
+  answerMessageChannel() {}
   answerMessageUser() { }
-
-
 
 
   async addMessageToChannel(newMessage: string) {
