@@ -1,10 +1,8 @@
 import { Injectable, EventEmitter, Inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-//import { collection, doc, Firestore, getDocs, query } from 'firebase/firestore';
 import { Channel } from '../../models/channel.class';
-//import { getFirestore } from 'firebase/firestore';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
-import { FirebaseService } from './firebase.service'; // Aktualisieren Sie den Pfad entsprechend Ihrer Struktur
+import { FirebaseService } from './firebase.service';
 
 @Injectable({
   providedIn: 'root',
@@ -72,21 +70,12 @@ export class ChannelService {
     try {
       const docID = await this.firebaseService.addElementFDBReturnDocRef('channelList', channel.toJSON());
       channel.id = docID;
-      // User create noch hinzufuegen
+      // User creator noch hinzufügen
       this.firebaseService.updateElementFDB('channelList', docID, channel.toJSON());
       this.loadChannels();
     } catch (err) {
       console.log(err);
     }
   }
-
-  //  console.log(channel);
-  //  const querySnapshot = await this.firebaseService.queryCollection('channelList', 'name', 'Allgemein');
-  //  querySnapshot.forEach((doc) => {
-  //   const channelData = doc.data() as Channel;
-  //   console.log(channelData);
-  //  })   
-
-
 }
 

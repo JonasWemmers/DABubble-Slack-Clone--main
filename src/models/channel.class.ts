@@ -1,10 +1,12 @@
+import { Message } from "./message.class";
+
 export class Channel {
   id: string;
   name: string;
   description: string;
   creator: string;
   users: string[];
-  messages: string[];
+  messages: Message[];
 
   constructor(obj?: any) {
     this.id = obj ? obj.id : '';

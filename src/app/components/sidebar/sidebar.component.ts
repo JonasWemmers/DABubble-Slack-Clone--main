@@ -39,10 +39,9 @@ export class SidebarComponent implements OnInit {
   selectChannel(channel: Channel): void {
     this.channelService.currentChannelId = channel.id;
     console.log('ChannelID is:', channel.id);
-    
     this.channelService.setSelectedChannel(channel.name.toLowerCase());
     this.messageService.loadChannel().catch(err => {
-      console.log('Could read the Channel-ID', err);
+      console.log('Couldnt read the Channel-ID', err);
     });
   }
 

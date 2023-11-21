@@ -106,19 +106,4 @@ export class FirebaseService {
     const docRef = this.getSingelDocRef(colID, docID);
     return getDoc(docRef);
   }
-
-  /**
-   * 
-   * @param colID collection ID
-   * @param param1 first search param
-   * @param param2 second search param
-   * 
-   * 
-   */
-  queryCollection(colID: string, param1: string, param2: string) {
-    const ref = this.getRef(colID);
-    const q = query(ref, where(param1, '==', param2));
-    return getDocs(q);
-  }
-
 }

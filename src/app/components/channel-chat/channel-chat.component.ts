@@ -1,8 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
-import { Message } from 'src/models/message.class';
 import { FirebaseService } from '../../services/firebase.service';
-import { Firestore } from '@angular/fire/firestore';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-channel-chat',
@@ -14,7 +13,7 @@ export class ChannelChatComponent implements OnInit {
   selectedChannel: string = '';
   selectedChannelId: string = '';
 
-  constructor(private channelService: ChannelService, private firebaseService: FirebaseService) {}
+  constructor(private channelService: ChannelService, private firebaseService: FirebaseService, private messageService: MessageService) {}
 
   ngOnInit(): void {
     this.channelService.selectedChannel$.subscribe((channelId) => {
@@ -33,28 +32,11 @@ export class ChannelChatComponent implements OnInit {
   }
 
   sendMessage() {
-    if (this.newMessage !== '') {
-      const date = new Date().getTime();
-      const message = new Message({
-        message: this.newMessage,
-        timestamp: date,
-        userSend: '',  // Get user(id), that sended the Message
-        emoji_confirm: 0,
-        emoji_handsUp: 0,
-        emoji_rocked: 0,
-        emoji_smile: 0,
-        answers: []
-      });
-      console.log(message, this.channelService.currentChannelId);
-      this.addMessageToChannel(message);
-    } else {
-      console.log('message was empty');
-    }
-    this.newMessage = '';
-  }
+    this.messageService.addMessageToChannel(this.newMessage).catch((err) => {
+      console.log('Coudnt add message to channel', err);
+    }).then(() => {
+      this.newMessage = '';
+    })
 
-  addMessageToChannel(message: any) {
-   this.firebaseService.updateSingleDocElement('channelList', this.channelService.currentChannelId, message.toJSON())
   }
-
 }

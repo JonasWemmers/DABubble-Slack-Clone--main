@@ -7,26 +7,30 @@
         </div>
         <div class="line"></div>
     </div>
-    <div class="message-container">
-        <div>
-            <img src="./assets/img/chat-area/80. avatar interaction.png" alt="">
-        </div>
-        <div *ngFor="let message of channelMessages">
-            <div class="sender-and-time">
-                <div class="sender">John Doe</div>
-                <div class="timestamp">12:34 Uhr</div>
-                <div class="overlay">
-                    <img src="./assets/img/chat-area/🦆 emoji _white heavy check mark_.png" alt="">
-                    <img src="./assets/img/chat-area/🦆 emoji _person raising both hands in celebration_.png" alt="">
-                    <img src="./assets/img/chat-area/add_reaction (1).png" alt="">
-                    <img src="./assets/img/chat-area/comment.png" alt="">
-                    <!-- <img src="./assets/img/chat-area/more_vert.png" alt=""> -->
-                </div>
+
+    <div *ngIf="channel && channel.length > 0 && channel[0]?.messages">
+        <div *ngFor="let message of channel[0]?.messages" class="message-container">
+            <div>
+                <img src="./assets/img/chat-area/80. avatar interaction.png" alt="">
             </div>
-            <div class="message">{{ message.message }}</div>
-            <div class="answers">
-                <div class="answer-count" (click)="onActivateThreadClick()">2 Antworten</div>
-                <div class="last-answer">Letzte Antwort 15:56</div>
+            <div *ngIf="message">
+                <div class="sender-and-time">
+                    <div class="sender">{{ message.userSend }}</div>
+                    <div class="timestamp">{{ message.timestamp }}</div>
+                    <div class="overlay">
+                        <img src="./assets/img/chat-area/🦆 emoji _white heavy check mark_.png" alt="">
+                        <img src="./assets/img/chat-area/🦆 emoji _person raising both hands in celebration_.png"
+                            alt="">
+                        <img src="./assets/img/chat-area/add_reaction (1).png" alt="">
+                        <img src="./assets/img/chat-area/comment.png" alt="">
+                        <!-- <img src="./assets/img/chat-area/more_vert.png" alt=""> -->
+                    </div>
+                </div>
+                <div class="message">{{ message.message }}</div>
+                <div class="answers">
+                    <div class="answer-count"> {{ message.answers.length }}</div>
+                    <div class="last-answer">Letzte Antwort 15:56</div>
+                </div>
             </div>
         </div>
     </div>
