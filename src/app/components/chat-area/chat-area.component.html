@@ -16,10 +16,10 @@
             <div *ngIf="message">
                 <div class="sender-and-time">
                     <div class="sender">{{ message.userSend }}</div>
-                    <div class="timestamp">{{ message.timestamp }}</div>
+                    <div class="timestamp">{{ sharedService.formatTime(message.timestamp) }}</div>
                     <div class="overlay">
-                        <img src="./assets/img/chat-area/🦆 emoji _white heavy check mark_.png" alt="">
-                        <img src="./assets/img/chat-area/🦆 emoji _person raising both hands in celebration_.png"
+                        <img (click)="addEmoji(this.message, 'checkmark')" src="./assets/img/chat-area/emoji_checkmark.png">
+                        <img (click)="addEmoji(this.message, 'hands')" src="./assets/img/chat-area/emoji_raising_hands.png"
                             alt="">
                         <img src="./assets/img/chat-area/add_reaction (1).png" alt="">
                         <img src="./assets/img/chat-area/comment.png" alt="">
@@ -28,8 +28,11 @@
                 </div>
                 <div class="message">{{ message.message }}</div>
                 <div class="answers">
-                    <div class="answer-count"> {{ message.answers.length }}</div>
-                    <div class="last-answer">Letzte Antwort 15:56</div>
+                    <div *ngIf="message.answers.length > 0; else noAnswers" class="answer-count" (click)="answerMessage(this.message);">{{ message.answers.length }} Antworten</div>
+                      <ng-template #noAnswers>
+                        <div (click)="answerMessage(this.message);" class="answer-count">Antworten</div>
+                      </ng-template>
+                    <div *ngIf="" class="last-answer">Letzte Antwort 15:56</div>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -29,9 +29,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { ThreadChatAreaComponent } from './components/thread-chat-area/thread-chat-area.component';
 import { DirectChatComponent } from './components/direct-chat/direct-chat.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { FirebaseService } from './services/firebase.service';
-import { ChannelService } from './services/channel.service';
-import { MessageService } from './services/message.service';
+
 
 @NgModule({
   declarations: [
@@ -52,7 +50,6 @@ import { MessageService } from './services/message.service';
     DialogAddChannelComponent,
     ThreadChatAreaComponent,
     DirectChatComponent,
-    ChatAreaComponent
   ],
   imports: [
     BrowserModule,
@@ -63,11 +60,12 @@ import { MessageService } from './services/message.service';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    CommonModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())
   ],
-  providers: [FirebaseService, ChannelService, MessageService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

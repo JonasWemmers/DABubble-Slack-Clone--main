@@ -14,7 +14,6 @@ import {
   query,
   where,
 } from 'firebase/firestore';
-import { Observable } from 'rxjs';
 import { Accounts } from 'src/models/accounts.class';
 
 @Injectable({

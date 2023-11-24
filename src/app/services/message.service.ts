@@ -7,7 +7,7 @@ import { Message } from 'src/models/message.class';
   providedIn: 'root'
 })
 export class MessageService {
-
+  currentMessage: Message[] = [];
   constructor(private channelService: ChannelService, private firebaseService: FirebaseService) { }
 
   /**
@@ -30,6 +30,16 @@ export class MessageService {
   answerMessageUser() { }
 
 
+  addEmojiToMessage() {
+
+
+  }
+
+  removeEmojiFromMessage() {
+
+  }
+
+
   async addMessageToChannel(newMessage: string) {
     if (newMessage !== '') {
       const date = new Date().getTime();
@@ -45,9 +55,9 @@ export class MessageService {
       });
       console.log(message, this.channelService.currentChannelId);
       await this.firebaseService.updateSingleDocElement('channelList', this.channelService.currentChannelId, message.toJSON());
+      this.channelService.setCurrentChannel();
     } else {
       console.log('message was empty');
     }
   }
-
 }
