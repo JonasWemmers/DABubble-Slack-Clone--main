@@ -1,21 +1,33 @@
-import { Component  } from '@angular/core';
+import { Component, OnDestroy  } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
-import { Channel } from '../../../models/channel.class';
+import { MessageService } from 'src/app/services/message.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnDestroy {
+  isThreadActive: boolean = false;
+  threadSubscription: Subscription;
 
-  constructor(private channelService: ChannelService) {
-    this.channelService.channelSelected.subscribe((channel: Channel) => {
-      this.switchToChannelChat();
-    });
+  constructor(private channelService: ChannelService, private messageService: MessageService) {
+    this.threadSubscription = this.messageService.isThreadOpen$.subscribe((isThreadOpen: boolean) => {
+      this.isThreadActive = isThreadOpen;
+    })
+    setInterval(() => {
+      if (this.isThreadActive) {
+        this.activateThread()
+      }
+    }, 50)
   }
 
-  isThreadActive: boolean = false;
+
+  ngOnDestroy(): void {
+    this.threadSubscription.unsubscribe();
+  }
+
   isChannelChatActive: boolean = true;
   isDirectChatActive: boolean = false;
   changeWidth: string = 'calc(100% - 48px)';

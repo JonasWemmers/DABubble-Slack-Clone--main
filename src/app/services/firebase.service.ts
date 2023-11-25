@@ -87,9 +87,8 @@ export class FirebaseService {
   async updateSingleDocElement(colId: string, docId: string, item: {}) {
     updateDoc(this.getSingelDocRef(colId, docId), {
       messages: arrayUnion(item)
-    });
+  });
   }
-
 
   /**
    * 

@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from 'src/models/channel.class';
 import { Subscription } from 'rxjs';
 import { MessageService } from 'src/app/services/message.service';
 import { SharedService } from 'src/app/services/shared.service';
-
+import { Message } from 'src/models/message.class';
 
 
 
@@ -14,7 +14,6 @@ import { SharedService } from 'src/app/services/shared.service';
   styleUrls: ['./chat-area.component.scss']
 })
 export class ChatAreaComponent implements OnDestroy, OnInit {
-
   channel: Channel[] = [];
   formattedDate!: string;
   channelSubscription: Subscription;
@@ -42,12 +41,16 @@ export class ChatAreaComponent implements OnDestroy, OnInit {
 
   answerMessage(message: any) {
     this.messageService.currentMessage = message;
+    console.log(message);
+    this.messageService.setCurrentThread();
     //Open Thread with that message
   }
 
-  addEmoji(message: any, emoji:string) {
-    console.log(message);
-    console.log(emoji);
+  updateEmoji(message: any, emojiType: string) {
+
   }
 
+  openThread(message: any) {
+    this.messageService.setSelectedMessage(message);
+  }
 }

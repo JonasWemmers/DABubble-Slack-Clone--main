@@ -2,13 +2,38 @@ import { Injectable } from '@angular/core';
 import { ChannelService } from './channel.service';
 import { FirebaseService } from './firebase.service';
 import { Message } from 'src/models/message.class';
+import { BehaviorSubject, Subject, Subscriber } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
-  currentMessage: Message[] = [];
+  currentMessage = new BehaviorSubject<any>(null);
+  currentMessage$ = this.currentMessage.asObservable();
+
+  isThreadOpen = new Subject<boolean>();
+  isThreadOpen$ = this.isThreadOpen.asObservable();
+
+
+
   constructor(private channelService: ChannelService, private firebaseService: FirebaseService) { }
+  
+
+
+  setSelectedMessage(message: any) {
+    this.currentMessage.next(message);
+  }
+
+  setCurrentThread() {
+    this.isThreadOpen.next(true);
+  }
+
+  closeThread() {
+    this.isThreadOpen.next(false);
+  }
+
+
+
 
   /**
    * Tasks:
@@ -25,19 +50,32 @@ export class MessageService {
 
 
 
-  addMessageToUser() {}
-  answerMessageChannel() {}
+  addMessageToUser() { }
+  answerMessageChannel() { }
   answerMessageUser() { }
 
 
-  addEmojiToMessage() {
+
+  updateEmoji(message: Message, emojiType: string) {
 
 
+    // Doenst work, because i don't know, can take a string as emojiType, but no var with a string?
+
+    // const userId = '198171293719823'
+    // if (!message.emojisByUser[userId]) {
+    //   message.emojisByUser[userId] = { confirm: 0, handsUp: 0, rocket: 0, nerd: 0 };
+    // }
+
+    // if (message.emojisByUser[userId][emojiType] > 0) {
+    //   message.emojisByUser[userId][emojiType]--;
+    // } else {
+    //   message.emojisByUser[userId][emojiType]++;
+    // }
+    // //Update that message -> update Channel on Server
+    // console.log(message);
   }
 
-  removeEmojiFromMessage() {
 
-  }
 
 
   async addMessageToChannel(newMessage: string) {
@@ -47,10 +85,8 @@ export class MessageService {
         message: newMessage,
         timestamp: date,
         userSend: '',  // Get user(id), that sended the Message
-        emoji_confirm: 0,
-        emoji_handsUp: 0,
-        emoji_rocked: 0,
-        emoji_smile: 0,
+        emojisByUser: {},
+        id: '',
         answers: []
       });
       console.log(message, this.channelService.currentChannelId);
@@ -60,4 +96,9 @@ export class MessageService {
       console.log('message was empty');
     }
   }
+
+
+
+
+
 }

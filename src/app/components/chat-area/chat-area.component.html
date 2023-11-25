@@ -18,8 +18,8 @@
                     <div class="sender">{{ message.userSend }}</div>
                     <div class="timestamp">{{ sharedService.formatTime(message.timestamp) }}</div>
                     <div class="overlay">
-                        <img (click)="addEmoji(this.message, 'checkmark')" src="./assets/img/chat-area/emoji_checkmark.png">
-                        <img (click)="addEmoji(this.message, 'hands')" src="./assets/img/chat-area/emoji_raising_hands.png"
+                        <img (click)="updateEmoji(this.message, 'confirm')" src="./assets/img/chat-area/emoji_checkmark.png">
+                        <img (click)="updateEmoji(this.message, 'handsUp')" src="./assets/img/chat-area/emoji_raising_hands.png"
                             alt="">
                         <img src="./assets/img/chat-area/add_reaction (1).png" alt="">
                         <img src="./assets/img/chat-area/comment.png" alt="">
@@ -28,7 +28,7 @@
                 </div>
                 <div class="message">{{ message.message }}</div>
                 <div class="answers">
-                    <div *ngIf="message.answers.length > 0; else noAnswers" class="answer-count" (click)="answerMessage(this.message);">{{ message.answers.length }} Antworten</div>
+                    <div *ngIf="message.answers.length > 0; else noAnswers" class="answer-count" (click)="answerMessage(this.message)">{{ message.answers.length }} Antworten</div>
                       <ng-template #noAnswers>
                         <div (click)="answerMessage(this.message);" class="answer-count">Antworten</div>
                       </ng-template>

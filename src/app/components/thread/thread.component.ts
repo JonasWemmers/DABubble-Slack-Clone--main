@@ -1,24 +1,32 @@
-import { Component, ElementRef, Renderer2, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { MessageService } from 'src/app/services/message.service';
+import { ChannelService } from 'src/app/services/channel.service';
 
 @Component({
   selector: 'app-thread',
   templateUrl: './thread.component.html',
   styleUrls: ['./thread.component.scss']
 })
-export class ThreadComponent {
+export class ThreadComponent implements OnInit {
+  currentMessage: any;
+  isThreadOpen!: boolean;
 
-  constructor(private renderer: Renderer2, private el: ElementRef) { }
-
+  constructor(private messageService: MessageService, private channelService: ChannelService) { }
   @Output() closeThreadEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  isThreadActive: boolean = false;
+  ngOnInit(): void {
+    this.messageService.currentMessage$.subscribe(
+      (message) => (this.currentMessage = message)
+    );
 
-  activateThread() {
-    this.isThreadActive = true;
+    this.messageService.isThreadOpen$.subscribe(
+      (isThreadOpen) => (this.isThreadOpen = isThreadOpen)
+    )
   }
 
+
+
   closeThread() {
-    console.log('Thread wird geschlossen');
     this.closeThreadEvent.emit();
   }
 
