@@ -18,7 +18,7 @@ export class SidebarComponent implements OnInit {
   ChannelDropdown: boolean = true;
   channels: Channel[] = [];
 
-  constructor(public dialog: MatDialog, public fb: FirebaseService, private channelService: ChannelService) {}
+  constructor(public dialog: MatDialog, public fb: FirebaseService, private channelService: ChannelService, private messageService: MessageService) {}
 
   ngOnInit(): void {
     this.getChannels();
@@ -40,6 +40,7 @@ export class SidebarComponent implements OnInit {
       console.log('ChannelID is:', channel.id);
       this.channelService.setSelectedChannel(channel.name.toLowerCase());
       this.channelService.setCurrentChannel();
+      this.messageService.closeThread();
   }
 
   openCloseDropdownDirectchat() {

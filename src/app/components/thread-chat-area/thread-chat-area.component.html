@@ -5,21 +5,24 @@
         </div>
         <div>
             <div class="sender-and-time">
-                <div class="sender">John Doe</div>
-                <div class="timestamp">12:34 Uhr</div>
+                <div class="sender">{{ currentMessage.userSend }}</div>
+                <div class="timestamp">{{ sharedService.formatTime(currentMessage.timestamp) }}</div>
                 <div class="overlay">
                     <img src="./assets/img/thread/add_reaction.png" alt="" (click)="openEmojiList()">
                 </div>
             </div>
-            <div class="message">Hallo, wie geht es dir?</div>
+            <div class="message">{{ currentMessage.message }}</div>
         </div>
     </div>
     <div class="answers">
-        <div class="answer-count">2 Antworten</div>
+        <div *ngIf="currentMessage.answers.length > 0; else noAnswers" class="answer-count">{{ currentMessage.answers.length }} Antworten</div>
+        <ng-template #noAnswers>
+            <div class="answer-count">0 Antworten</div>
+        </ng-template>
         <div class="line"></div>
     </div>
 
-    <div class="answer-container">
+    <div class="answer-container" *ngFor="let answers of currentMessage.message.answers">
         <div>
             <img src="./assets/img/chat-area/80. avatar interaction.png" alt="">
         </div>

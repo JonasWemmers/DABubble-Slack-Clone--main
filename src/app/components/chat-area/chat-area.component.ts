@@ -43,7 +43,6 @@ export class ChatAreaComponent implements OnDestroy, OnInit {
     this.messageService.currentMessage = message;
     console.log(message);
     this.messageService.setCurrentThread();
-    //Open Thread with that message
   }
 
   updateEmoji(message: any, emojiType: string) {

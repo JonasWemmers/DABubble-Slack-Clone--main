@@ -10,15 +10,14 @@ import { FirebaseService } from './firebase.service';
 export class ChannelService {
   selectedChannelSubject = new BehaviorSubject<string>('');
   selectedChannel$: Observable<string> = this.selectedChannelSubject.asObservable();
-  channelSelected: EventEmitter<Channel> = new EventEmitter<Channel>();
+  channelSubject = new BehaviorSubject<Channel[]>([]);
+  channelObservable$ = this.channelSubject.asObservable();
   channels: Channel[] = [];
   currentChannel: Channel[] = [];
   currentChannelId!: string;
-  channelSubject = new BehaviorSubject<Channel[]>([]);
-  channelObservable$ = this.channelSubject.asObservable();
 
 
-  constructor(private firebaseService: FirebaseService) { }
+  constructor(private firebaseService: FirebaseService) {}
 
 
   async setCurrentChannelId() {
@@ -33,7 +32,7 @@ export class ChannelService {
       const docSnap = await this.firebaseService.documentSnapshot('channelList', this.currentChannelId);
       const channel = docSnap.data() as Channel;
       this.currentChannel = [channel];
-      this.channelSubject.next(this.currentChannel); // Notify subscribers
+      this.channelSubject.next(this.currentChannel);
     } catch (error) {
       console.error('Error setting current channel:', error);
     }

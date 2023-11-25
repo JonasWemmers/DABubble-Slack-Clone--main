@@ -16,11 +16,6 @@ export class DashboardComponent implements OnDestroy {
     this.threadSubscription = this.messageService.isThreadOpen$.subscribe((isThreadOpen: boolean) => {
       this.isThreadActive = isThreadOpen;
     })
-    setInterval(() => {
-      if (this.isThreadActive) {
-        this.activateThread()
-      }
-    }, 50)
   }
 
 
@@ -45,7 +40,6 @@ export class DashboardComponent implements OnDestroy {
   }
 
   activateThread() {
-    this.isThreadActive = true;
     this.changeWidth = 'calc(100% - 108px)';
   }
 
