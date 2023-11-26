@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { Router } from '@angular/router'; // Import für die Navigation hinzugefügt
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { Accounts } from 'src/models/accounts.class';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-select-avatar',
@@ -15,15 +18,15 @@ export class SelectAvatarComponent implements OnInit {
   userName: string = '';
   userEmail: string = ''; // E-Mail hinzugefügt
   password: string = ''; // Passwort hinzugefügt
-  private router: Router;
+  
 
-  constructor(private route: ActivatedRoute, router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, private firebaseService: FirebaseService, private authService: AuthService) {
     this.router = router;
   }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      const docId = params.get('uid');
+      const docId = params.get('docId') || params.get('uid');
       if (docId !== null) {
         this.docId = docId;
       }
@@ -42,32 +45,46 @@ export class SelectAvatarComponent implements OnInit {
 
 
 
-  selectAvatar(avatarID: string) {
-    this.selectedAvatar = avatarID;
-  
-    if (this.docId && this.selectedAvatar) {
-      const firestore = getFirestore();
-      const userDocRef = doc(firestore, 'accounts', this.docId);
-  
-      // Aktualisieren des vorhandenen Benutzerdokuments mit den erforderlichen Informationen
-      setDoc(userDocRef, {
-        profilpicture: this.selectedAvatar,
+  async selectAvatar(avatarID: string) {
+    if (this.authService.userId && avatarID) {
+      //const userDocRef = this.firebaseService.getSingelDocRef('accounts', this.docId);
+      const data = new Accounts({
+        profilpicture: avatarID,
         name: this.userName,
         email: this.userEmail,
-        password: this.password, // Passwort hinzugefügt
-      }, { merge: true })
-        .then(() => {
-          console.log('Benutzerinformationen erfolgreich in Firestore gespeichert');
-  
-          // Führe die Weiterleitung mit einer leichten Verzögerung durch
-          setTimeout(() => {
-            // Nachdem die Informationen erfolgreich gespeichert wurden, auf das Dashboard weiterleiten
-            this.router.navigateByUrl('dashboard');
-          }, 500); // Hier kannst du die Verzögerung nach Bedarf anpassen
-        })
-        .catch((error) => {
-          console.error('Fehler beim Speichern der Benutzerinformationen in Firestore:', error);
-        });
+        password: this.password,
+        id: this.docId,
+        channel: [],
+      });
+      // Aktualisieren des vorhandenen Benutzerdokuments mit den erforderlichen Informationen
+      await this.firebaseService.updateElementFDB('accounts', this.docId, data.toJSON()).then(() => {
+        setTimeout(() => {
+          this.router.navigateByUrl('dashboard');
+        }, 500);
+        console.log('Benutzerinformationen erfolgreich in Firestore gespeichert')
+      }).catch((error) => {
+        console.log('Fehler beim Speichern der Benutzerinformationen in Firestore:', error);
+      });
+
+
+      //  setDoc(userDocRef, {
+      //    profilpicture: this.selectedAvatar,
+      //    name: this.userName,
+      //    email: this.userEmail,
+      //    password: this.password, // Passwort hinzugefügt
+      //  }, { merge: true })
+      //    .then(() => {
+      //      console.log('Benutzerinformationen erfolgreich in Firestore gespeichert');
+
+      //     // Führe die Weiterleitung mit einer leichten Verzögerung durch
+      //     setTimeout(() => {
+      //       // Nachdem die Informationen erfolgreich gespeichert wurden, auf das Dashboard weiterleiten
+      //       this.router.navigateByUrl('dashboard');
+      //     }, 500); // Hier kannst du die Verzögerung nach Bedarf anpassen
+      //   })
+      //   .catch((error) => {
+      //     console.error('Fehler beim Speichern der Benutzerinformationen in Firestore:', error);
+      //   });
     }
   }
-}  
+}

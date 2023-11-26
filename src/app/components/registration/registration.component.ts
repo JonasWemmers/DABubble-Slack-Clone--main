@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -13,10 +14,12 @@ export class RegistrationComponent {
   email: string = '';
   password: string = '';
   userDocId: string = ''; // Variable zur Speicherung der docRef.id (hier die uid)
+  profilepicture: string = ''
 
   constructor(
     private auth: Auth,
     private router: Router,
+    private authService: AuthService,
   ) {}
 
   async registerWithEmailAndPassword() {
@@ -35,6 +38,7 @@ export class RegistrationComponent {
         email: this.email,
         password: this.password,
         uid: user.uid,
+        profilepicture: this.profilepicture,
       };
 
       // Setze die Benutzerdaten in das Dokument mit der uid als DocId
@@ -42,6 +46,7 @@ export class RegistrationComponent {
 
       // Weiterleitung zur SelectAvatarComponent und Übergabe der uid als DocId
       this.router.navigate(['/select-avatar', { docId: this.userDocId, name: this.name, email: this.email}]);
+      this.authService.userId = this.userDocId;
     } catch (error) {
       console.error('Fehler beim Hinzufügen der Benutzerdaten zu Firestore:', error);
     }

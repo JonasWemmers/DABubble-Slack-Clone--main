@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Auth } from '@angular/fire/auth';
 import { User, getAuth, onAuthStateChanged, Unsubscribe } from 'firebase/auth';
@@ -31,11 +31,12 @@ export class HeaderComponent implements OnInit, OnDestroy{
   private destroy$ = new Subject<void>();
   private authSubscription: Unsubscribe | undefined;
 
-  constructor(public dialog: MatDialog, private authService: Auth, private firestore: Firestore) {}
+  constructor(public dialog: MatDialog, private authService: Auth, private firestore: Firestore, private cdr: ChangeDetectorRef) {
+  }
 
 
 
-  ngOnInit() {
+  async ngOnInit() {
     this.authSubscription = this.authService.onAuthStateChanged(firebaseUser => {
       if (firebaseUser) {
         const uid = firebaseUser.uid;
@@ -48,18 +49,23 @@ export class HeaderComponent implements OnInit, OnDestroy{
   
         userDocSnap.then(snapshot => {
           if (snapshot.exists()) {
+            console.log('SnapshotData:', snapshot.data());
+
+            
             this.docId = snapshot.id; // Das ist die Dokumenten-ID
             this.userName = snapshot.data().name;
             this.userEmail = snapshot.data().email;
             this.avatarIDs = snapshot.data().profilpicture;
             // ... andere Eigenschaften ...
             console.log(this.userName, this.userEmail, this.avatarIDs); // Hier sollte der Wert vorhanden sein
+
+            this.cdr.detectChanges();
           } else {
             console.log('Benutzerdaten existieren nicht.');
           }
         }).catch(error => {
           console.error('Fehler beim Abrufen von Benutzerdaten:', error);
-        });
+        })
       }
     });
   }
