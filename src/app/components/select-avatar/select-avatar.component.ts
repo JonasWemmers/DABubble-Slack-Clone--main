@@ -20,7 +20,7 @@ export class SelectAvatarComponent implements OnInit {
   password: string = ''; // Passwort hinzugefügt
   
 
-  constructor(private route: ActivatedRoute, private router: Router, private firebaseService: FirebaseService, private authService: AuthService) {
+  constructor(private route: ActivatedRoute, private router: Router, private firebaseService: FirebaseService) {
     this.router = router;
   }
 
@@ -46,7 +46,11 @@ export class SelectAvatarComponent implements OnInit {
 
 
   async selectAvatar(avatarID: string) {
-    if (this.authService.userId && avatarID) {
+    let docId;
+    this.route.paramMap.subscribe((params) => {
+      docId = params.get('docId') || params.get('uid');
+    })
+    if (docId && avatarID) {
       //const userDocRef = this.firebaseService.getSingelDocRef('accounts', this.docId);
       const data = new Accounts({
         profilpicture: avatarID,

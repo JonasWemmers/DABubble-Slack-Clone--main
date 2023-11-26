@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Auth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithRedirect } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +8,6 @@ export class AuthService {
   //Observable und user im AuthService, damit von ueberall dort zugegriffen werden kann?
   //user: any;
   //authState: Observable<any | null>    
-  userId: string = '';
 
 
   constructor(private auth: Auth) { }
