@@ -15,9 +15,12 @@ export class DashboardComponent implements OnDestroy {
   isDirectChatActive: boolean = false;
   changeWidth: string = 'calc(100% - 48px)';
 
-  constructor(private channelService: ChannelService, private messageService: MessageService) {
+  constructor(private messageService: MessageService) {
     this.threadSubscription = this.messageService.isThreadOpen$.subscribe((isThreadOpen: boolean) => {
       this.isThreadActive = isThreadOpen;
+      if (this.isThreadActive) {
+        this.activateThread();
+      }
     })
   }
 
@@ -45,7 +48,6 @@ export class DashboardComponent implements OnDestroy {
   }
 
   handleThreadClosed() {
-    console.log('Thread wurde geschlossen');
     this.isThreadActive = false;
     this.changeWidth = 'calc(100% - 48px)';
   }

@@ -15,16 +15,14 @@ constructor(private messageService: MessageService, private channelService: Chan
 
 ngOnInit(): void {
   this.currentMessage = this.messageService.currentMessage;
-  console.log(this.currentMessage);
-  
 }
 
 ngOnDestroy(): void {
   
 }
 
-  openEmojiList() {
+openEmojiList() {
     
-  }
+}
 
 }

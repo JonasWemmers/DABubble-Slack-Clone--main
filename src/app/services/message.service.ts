@@ -2,19 +2,16 @@ import { Injectable } from '@angular/core';
 import { ChannelService } from './channel.service';
 import { FirebaseService } from './firebase.service';
 import { Message } from 'src/models/message.class';
-import { BehaviorSubject, Subject, Subscriber } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
-  currentMessage = new BehaviorSubject<any>(null);
-  currentMessage$ = this.currentMessage.asObservable();
-
+  currentMessage = new BehaviorSubject<Message[]>([]);
+  currentMessageObservable$ = this.currentMessage.asObservable();
   isThreadOpen = new Subject<boolean>();
   isThreadOpen$ = this.isThreadOpen.asObservable();
-
-
 
   constructor(private channelService: ChannelService, private firebaseService: FirebaseService) { }
   
@@ -77,6 +74,11 @@ export class MessageService {
 
 
 
+  /**
+   * AddMessage to Channel and Add Answer could be the same function,
+   * just for developing purposes two seperate functions right now,
+   * refactorying later
+   */
 
   async addMessageToChannel(newMessage: string) {
     if (newMessage !== '') {
@@ -96,6 +98,25 @@ export class MessageService {
       console.log('message was empty');
     }
   }
+
+  async addAnswerToMessage(newAnswer: string) {
+    if (newAnswer !== '') {
+      const date = new Date().getTime();
+      const answer = new Message({
+        message: newAnswer,
+        timestamp: date,
+        userSend: '',  // Get user(id), that sended the Message
+        emojisByUser: {},
+        id: '',
+        answers: []  // Maybe a new class for Answers, because that is not needed;
+      });
+      console.log(answer, this.currentMessage);
+    }
+  }
+
+
+
+
 
 
 

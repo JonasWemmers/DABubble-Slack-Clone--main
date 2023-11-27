@@ -12,7 +12,7 @@
         <app-thread-chat-area></app-thread-chat-area>
     </div>
     <div class="thread-answer-box">
-        <textarea placeholder="Antworten..." id="thread-answer-text" rows="4"></textarea>
+        <textarea [(ngModel)]="newAnswer"  placeholder="Antworten..." id="thread-answer-text" rows="4"></textarea>
         <div class="thread-icon-bar">
             <div class="thread-icon-bar-left">
                 <img src="./assets/img/thread/add.png">
@@ -21,7 +21,7 @@
                 <img src="./assets/img/thread/alternate_email.png">
             </div>
             <div class="thread-icon-bar-right">
-                <img src="./assets/img/thread/send.png">
+                <img (click)="sendAnswer()" src="./assets/img/thread/send.png">
             </div>
         </div>
     </div>

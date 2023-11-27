@@ -53,7 +53,7 @@ export class SelectAvatarComponent implements OnInit {
     if (docId && avatarID) {
       //const userDocRef = this.firebaseService.getSingelDocRef('accounts', this.docId);
       const data = new Accounts({
-        profilpicture: avatarID,
+        profilepicture: avatarID,
         name: this.userName,
         email: this.userEmail,
         password: this.password,

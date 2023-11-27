@@ -40,16 +40,17 @@ export class ChatAreaComponent implements OnDestroy, OnInit {
   }
 
   answerMessage(message: any) {
+    this.messageService.setSelectedMessage(message);
     this.messageService.currentMessage = message;
-    console.log(message);
     this.messageService.setCurrentThread();
+
   }
 
   updateEmoji(message: any, emojiType: string) {
 
   }
 
-  openThread(message: any) {
-    this.messageService.setSelectedMessage(message);
-  }
+  // openThread(message: any) {
+  //   this.messageService.setSelectedMessage(message);
+  // }
 }

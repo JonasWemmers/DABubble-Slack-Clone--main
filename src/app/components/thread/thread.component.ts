@@ -3,6 +3,7 @@ import { MessageService } from 'src/app/services/message.service';
 import { ChannelService } from 'src/app/services/channel.service';
 import { Channel } from 'src/models/channel.class';
 import { Subscription } from 'rxjs';
+import { Message } from 'src/models/message.class';
 
 @Component({
   selector: 'app-thread',
@@ -10,31 +11,47 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./thread.component.scss']
 })
 export class ThreadComponent implements OnInit, OnDestroy {
+  @Output() closeThreadEvent: EventEmitter<void> = new EventEmitter<void>();
   channel: Channel[] = [];
   formattedDate!: string;
   channelSubscription: Subscription;
+  messageSubscription: Subscription;
+  newAnswer: string = '';
+  currentMessage: Message[] = [];
 
   constructor(private messageService: MessageService, private channelService: ChannelService) { 
     this.channelSubscription = this.channelService.channelObservable$.subscribe((currentChannel) => {
       this.channel = currentChannel;
     });
+    this.messageSubscription = this.messageService.currentMessageObservable$.subscribe((currentMessage) => {
+      this.currentMessage = currentMessage;
+    });
   }
-  @Output() closeThreadEvent: EventEmitter<void> = new EventEmitter<void>();
+  
 
   ngOnInit(): void {
-
     
   }
 
 
   ngOnDestroy(): void {
     this.channelSubscription.unsubscribe();
+    this.messageSubscription.unsubscribe();
   }
 
 
   closeThread() {
     this.closeThreadEvent.emit();
   }
+
+  sendAnswer() {
+    console.log(this.channel);
+    console.log(this.currentMessage);
+  }
+
+
+
+
 
 
 }

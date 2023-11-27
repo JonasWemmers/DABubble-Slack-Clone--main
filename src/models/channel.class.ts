@@ -14,7 +14,7 @@ export class Channel {
     this.description = obj ? obj.description : '';
     this.creator = obj ? obj.creator : '';
     this.users = obj ? obj.users : [];
-    this.messages = obj ? obj.messages: [];
+    this.messages = obj ? obj.messages : [];
   }
 
   public toJSON() {
@@ -26,5 +26,9 @@ export class Channel {
       users: this.users || [],
       messages: this.messages || []
     };
+  }
+
+  public findMessageIndex(timestamp: number) {
+    return this.messages.findIndex(messages => messages.timestamp === timestamp)
   }
 }
