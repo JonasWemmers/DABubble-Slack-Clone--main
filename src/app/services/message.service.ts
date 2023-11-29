@@ -17,8 +17,9 @@ export class MessageService {
   
 
 
-  setSelectedMessage(message: any) {
-    this.currentMessage.next(message);
+  setSelectedMessage(message: Message | Message[]) {
+    const messageArray = Array.isArray(message) ? message : [message]
+    this.currentMessage.next(messageArray);
   }
 
   setCurrentThread() {

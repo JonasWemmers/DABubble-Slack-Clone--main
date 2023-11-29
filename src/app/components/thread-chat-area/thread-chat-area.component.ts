@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ChannelService } from 'src/app/services/channel.service';
 import { MessageService } from 'src/app/services/message.service';
 import { SharedService } from 'src/app/services/shared.service';
+import { Subscription } from 'rxjs';
+import { Message } from 'src/models/message.class';
 
 @Component({
   selector: 'app-thread-chat-area',
@@ -9,16 +11,21 @@ import { SharedService } from 'src/app/services/shared.service';
   styleUrls: ['./thread-chat-area.component.scss']
 })
 export class ThreadChatAreaComponent implements OnInit, OnDestroy {
-  currentMessage: any;
+  currentMessage: Message[] = [];
+  messageSubscription: Subscription;
 
-constructor(private messageService: MessageService, private channelService: ChannelService, public sharedService: SharedService) {}
+  constructor(private messageService: MessageService, private channelService: ChannelService, public sharedService: SharedService) {
+    this.messageSubscription = this.messageService.currentMessageObservable$.subscribe((currentMessage) => {
+    this.currentMessage = currentMessage;
+  });
+}
 
 ngOnInit(): void {
-  this.currentMessage = this.messageService.currentMessage;
+
 }
 
 ngOnDestroy(): void {
-  
+  this.messageSubscription.unsubscribe();
 }
 
 openEmojiList() {
