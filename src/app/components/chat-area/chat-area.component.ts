@@ -39,11 +39,9 @@ export class ChatAreaComponent implements OnDestroy, OnInit {
     this.channelSubscription.unsubscribe();
   }
 
-  answerMessage(message: any) {
-    this.messageService.setSelectedMessage(message);
-    this.messageService.currentMessage = message;
+  answerMessage(message: Message) {
+    this.messageService.setSelectedMessage([message]);
     this.messageService.setCurrentThread();
-
   }
 
   updateEmoji(message: any, emojiType: string) {

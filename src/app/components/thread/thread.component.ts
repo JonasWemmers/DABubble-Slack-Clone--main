@@ -45,8 +45,10 @@ export class ThreadComponent implements OnInit, OnDestroy {
   }
 
   sendAnswer() {
-    console.log(this.channel);
     console.log(this.currentMessage);
+    this.messageService.addAnswerToMessage(this.newAnswer);
+   
+
   }
 
 
