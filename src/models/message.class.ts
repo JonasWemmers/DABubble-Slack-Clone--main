@@ -3,14 +3,14 @@ export class Message {
     timestamp: number;
     userSend: string;
     emojisByUser: { [userId: string]: { confirm: number; handsUp: number; rocket: number; nerd: number } };
-    answers: [];
+    answers: any[];
 
     constructor(obj?: any) {
         this.message = obj ? obj.message : '';
         this.timestamp = obj ? obj.timestamp : 0;
         this.userSend = obj ? obj.userSend : '';
         this.emojisByUser = obj ? obj.emojisByUser || {} : {};
-        this.answers = obj ? obj.answers : [];
+        this.answers = obj ? obj.answers || [] : [];
     }
 
     public toJSON() {
