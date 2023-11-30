@@ -6,7 +6,7 @@
         <div>
             <div class="sender-and-time">
                 <div class="sender">{{ currentMessage[0].userSend }}</div>
-                <div class="timestamp">{{ currentMessage[0].timestamp }} </div>
+                <div class="timestamp">{{ sharedService.formatTime(currentMessage[0].timestamp) }} </div>
                 <div class="overlay">
                     <img src="./assets/img/thread/add_reaction.png" alt="" (click)="openEmojiList()">
                 </div>
@@ -29,13 +29,13 @@
         </div>
         <div>
             <div class="sender-and-time">
-                <div class="sender">Sofia Müller</div>
-                <div class="timestamp">13:54 Uhr</div>
+                <div class="sender">{{ answers.userSend }} </div>
+                <div class="timestamp">{{ sharedService.formatTime(answers.timestamp) }}</div>
                 <div class="overlay">
                     <img src="./assets/img/thread/add_reaction.png" alt="">
                 </div>
             </div>
-            <div class="message">Es geht mir gut. Danke!</div>
+            <div class="message">{{ answers.message }}</div>
             <div class="answer-emojies">
                 <div class="emojies-list">
                     <img src="./assets/img/thread/add_reaction.png" alt="">
