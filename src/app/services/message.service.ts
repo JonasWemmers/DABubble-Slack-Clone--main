@@ -100,21 +100,6 @@ export class MessageService {
     }
   }
 
-  async addAnswerToMessage(newAnswer: string) {
-    if (newAnswer !== '') {
-      const date = new Date().getTime();
-      const answer = new Message({
-        message: newAnswer,
-        timestamp: date,
-        userSend: '',  // Get user(id), that sended the Message
-        emojisByUser: {},
-        id: '',
-        answers: []  // Maybe a new class for Answers, because that is not needed;
-      });
-      console.log(answer, this.currentMessage);
-    }
-  }
-
 
 
 

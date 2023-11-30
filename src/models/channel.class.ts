@@ -27,8 +27,4 @@ export class Channel {
       messages: this.messages || []
     };
   }
-
-  public findMessageIndex(timestamp: number) {
-    return this.messages.findIndex(messages => messages.timestamp === timestamp)
-  }
 }
