@@ -3,7 +3,7 @@
         <img src="/assets/img/Logo.png" alt="">
     </div>
     <div class="search-section">
-        <input type="text" class="search-field" placeholder="Code learning durchsuchen">
+        <input [(ngModel)]="searchTerm" (input)="onSearch()" type="text" class="search-field" placeholder="Code learning durchsuchen">
         <img src="./assets/img/search.svg" class="img_searchfield">
     </div>
     <div class="user-header" (click)="openMenu()">

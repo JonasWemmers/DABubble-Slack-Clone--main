@@ -4,7 +4,11 @@ import { Auth } from '@angular/fire/auth';
 import { User, getAuth, onAuthStateChanged, Unsubscribe } from 'firebase/auth';
 import { getFirestore, doc, getDoc, DocumentSnapshot } from 'firebase/firestore';
 import { Subject, Subscription } from 'rxjs';
+import { Channel } from 'src/models/channel.class';
 import { Firestore } from '@angular/fire/firestore';
+import { ChannelService } from 'src/app/services/channel.service';
+import { Accounts } from 'src/models/accounts.class';
+
 
 interface MyUserType {
   name: string;
@@ -19,6 +23,7 @@ interface MyUserType {
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy{
+  searchTerm: string = '';
   first_menu_edit: boolean = false;
   pb_edit_menu: boolean = false;
   second_menu: boolean = false;
@@ -31,7 +36,12 @@ export class HeaderComponent implements OnInit, OnDestroy{
   private destroy$ = new Subject<void>();
   private authSubscription: Unsubscribe | undefined;
 
-  constructor(public dialog: MatDialog, private authService: Auth, private firestore: Firestore, private cdr: ChangeDetectorRef) {
+  constructor(
+    public dialog: MatDialog, 
+    private authService: Auth, 
+    private cdr: ChangeDetectorRef,
+    private channelService: ChannelService) {
+
   }
 
 
@@ -69,34 +79,6 @@ export class HeaderComponent implements OnInit, OnDestroy{
       }
     });
   }
-  
-
-    /*
-      .subscribe({
-        next: (user: User | null) => {
-          if (user) {
-            const uid = user.uid;
-            const firestore = getFirestore();
-            const userDocumentReference = doc(firestore, 'accounts', uid);
-            const userDocSnap = getDoc(userDocumentReference) as Promise<DocumentSnapshot<MyUserType>>;
-
-            userDocSnap.then(snapshot => {
-              if (snapshot.exists()) {
-                this.docId = snapshot.id;
-                this.userName = snapshot.data().name;
-                this.userEmail = snapshot.data().email;
-                this.avatarIDs = snapshot.data().profilpicture;
-                // ... andere Eigenschaften ...
-              }
-            });
-          }
-        },
-        error: (error: any) => console.error('Error in onAuthStateChanged:', error),
-        complete: () => console.log('onAuthStateChanged completed'),
-        unsubscribe: () => this.destroy$.next() // Unsubscribe, wenn destroy$ das nächste Mal ausgelöst wird
-      });
-  }
-*/
 
 
   ngOnDestroy() {
@@ -132,5 +114,24 @@ export class HeaderComponent implements OnInit, OnDestroy{
     this.first_menu_edit = false;
     this.second_menu = false;
     this.pb_edit_menu = false;
+  }
+
+  onSearch() {
+    const channels: Channel[] = this.channelService.channels;
+    //const users: Accounts = 
+    if (this.searchTerm.charAt(0) === '#') {
+      const searchTermWithoutHash = this.searchTerm.substring(1).toLowerCase();
+      const filteredChannels = channels.filter(channel =>
+        channel.name.toLowerCase().startsWith(searchTermWithoutHash)
+      );
+      console.log('Channels matching the search term:', filteredChannels);
+    }
+
+    if (this.searchTerm.charAt(0) === '@') {
+      const searchTermWithoutHash = this.searchTerm.substring(1).toLowerCase();
+      //const filterdUsers;
+      //console.log('Users matching the search term:', filterdUsers);
+      
+    }
   }
 }
