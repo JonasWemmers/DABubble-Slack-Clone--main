@@ -1,3 +1,5 @@
+import { DirectMessage } from "./directmessage.class";
+
 export class Accounts {
     name: string;
     email: string;
@@ -5,6 +7,7 @@ export class Accounts {
     channel: string[];
     profilpicture: string;
     id: string;
+    directMessages: { [userId: string]: DirectMessage[] };
 
     constructor(obj?:any) {
         this.name = obj ? obj.name : '';
@@ -13,6 +16,7 @@ export class Accounts {
         this.channel = obj ? obj.channel || [] : [];
         this.profilpicture = obj ? obj.profilpicture : '';
         this.id = obj ? obj.id : '';
+        this.directMessages = obj ? obj.directMessages || {} : {};
     }
 
     public toJSON() {
@@ -22,6 +26,7 @@ export class Accounts {
             password: this.password,
             channel: this.channel,
             profilpicture: this.profilpicture,
+            directMessages: this.directMessages,
         };
     }
 }

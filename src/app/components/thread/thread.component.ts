@@ -59,6 +59,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
       console.log(this.channel);
       console.log(this.channel[0].id);
       await this.firebaseService.updateElementFDB('channelList', this.channel[0].id, this.channel[0]);
+      this.newAnswer = '';
     }
   }
 
