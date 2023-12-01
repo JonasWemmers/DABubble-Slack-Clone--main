@@ -20,11 +20,7 @@ import { Accounts } from 'src/models/accounts.class';
   providedIn: 'root'
 })
 export class FirebaseService {
-  accounts: Accounts[] = [];
   firestore: Firestore = inject(Firestore);
-
-  constructor() { }
-
 
   getAccountsRef() {
     return collection(this.firestore, 'accounts');

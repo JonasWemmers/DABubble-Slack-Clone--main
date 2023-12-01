@@ -5,10 +5,6 @@ import { Auth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEma
   providedIn: 'root'
 })
 export class AuthService {
-  //Observable und user im AuthService, damit von ueberall dort zugegriffen werden kann?
-  //user: any;
-  //authState: Observable<any | null>    
-
 
   constructor(private auth: Auth) { }
 
