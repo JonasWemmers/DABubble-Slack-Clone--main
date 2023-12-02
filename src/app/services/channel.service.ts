@@ -81,7 +81,7 @@ export class ChannelService {
     try {
       const docID = await this.firebaseService.addElementFDBReturnDocRef('channelList', channel.toJSON());
       channel.id = docID;
-      // User creator noch hinzufügen
+      // channel.creator = ?    User creator noch hinzufügen
       this.firebaseService.updateElementFDB('channelList', docID, channel.toJSON());
       this.loadChannels();
     } catch (err) {

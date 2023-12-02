@@ -48,7 +48,4 @@ export class ChatAreaComponent implements OnDestroy, OnInit {
 
   }
 
-  // openThread(message: any) {
-  //   this.messageService.setSelectedMessage(message);
-  // }
 }

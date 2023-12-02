@@ -3,6 +3,8 @@ import { Auth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword }
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore'; // Import für Firestore hinzugefügt
+import { UserService } from 'src/app/services/user.service';
+import { Accounts } from 'src/models/accounts.class';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,7 @@ export class LoginComponent {
   userDocId: string = ''; // Deklaration von userDocId
   userEmail: string = ''; // E-Mail hinzugefügt
 
-  constructor(private auth: Auth, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private auth: Auth, private router: Router, private formBuilder: FormBuilder, private userService: UserService) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]

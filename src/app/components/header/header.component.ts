@@ -8,6 +8,7 @@ import { Channel } from 'src/models/channel.class';
 import { Firestore } from '@angular/fire/firestore';
 import { ChannelService } from 'src/app/services/channel.service';
 import { Accounts } from 'src/models/accounts.class';
+import { UserService } from 'src/app/services/user.service';
 
 
 interface MyUserType {
@@ -22,7 +23,7 @@ interface MyUserType {
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy{
+export class HeaderComponent implements OnInit, OnDestroy {
   searchTerm: string = '';
   first_menu_edit: boolean = false;
   pb_edit_menu: boolean = false;
@@ -37,10 +38,11 @@ export class HeaderComponent implements OnInit, OnDestroy{
   private authSubscription: Unsubscribe | undefined;
 
   constructor(
-    public dialog: MatDialog, 
-    private authService: Auth, 
+    public dialog: MatDialog,
+    private authService: Auth,
     private cdr: ChangeDetectorRef,
-    private channelService: ChannelService) {
+    private channelService: ChannelService,
+    private userService: UserService) {
 
   }
 
@@ -51,24 +53,24 @@ export class HeaderComponent implements OnInit, OnDestroy{
       if (firebaseUser) {
         const uid = firebaseUser.uid;
         const firestore = getFirestore();
-  
+
         // Nehmen Sie an, dass die UID als benutzerdefinierte ID in der 'accounts'-Sammlung verwendet wird
         const userDocumentReference = doc(firestore, 'accounts', uid);
-  
+
         const userDocSnap = getDoc(userDocumentReference) as Promise<DocumentSnapshot<MyUserType>>;
-  
+
         userDocSnap.then(snapshot => {
           if (snapshot.exists()) {
             console.log('SnapshotData:', snapshot.data());
 
-            
+
             this.docId = snapshot.id; // Das ist die Dokumenten-ID
             this.userName = snapshot.data().name;
             this.userEmail = snapshot.data().email;
             this.avatarIDs = snapshot.data().profilpicture;
             // ... andere Eigenschaften ...
             console.log(this.userName, this.userEmail, this.avatarIDs); // Hier sollte der Wert vorhanden sein
-
+            
             this.cdr.detectChanges();
           } else {
             console.log('Benutzerdaten existieren nicht.');
@@ -110,7 +112,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
   saveUserData() {
     // Hier könntest du die Änderungen speichern, wenn notwendig.
     // Beispiel: this.authService.updateUserProfile(this.userName, this.userEmail);
-    
+
     this.first_menu_edit = false;
     this.second_menu = false;
     this.pb_edit_menu = false;
@@ -118,7 +120,8 @@ export class HeaderComponent implements OnInit, OnDestroy{
 
   onSearch() {
     const channels: Channel[] = this.channelService.channels;
-    //const users: Accounts = 
+    const users: Accounts[] = this.userService.users;
+
     if (this.searchTerm.charAt(0) === '#') {
       const searchTermWithoutHash = this.searchTerm.substring(1).toLowerCase();
       const filteredChannels = channels.filter(channel =>
@@ -128,10 +131,12 @@ export class HeaderComponent implements OnInit, OnDestroy{
     }
 
     if (this.searchTerm.charAt(0) === '@') {
-      const searchTermWithoutHash = this.searchTerm.substring(1).toLowerCase();
-      //const filterdUsers;
-      //console.log('Users matching the search term:', filterdUsers);
-      
+      console.log(users);
+      const searchTermWithoutAt = this.searchTerm.substring(1).toLowerCase();
+      const filteredUsers = users.filter(user => 
+        user && user.name && user.name.toLowerCase().startsWith(searchTermWithoutAt)  
+      );
+      console.log('Users matching the search term:', filteredUsers);
     }
   }
 }

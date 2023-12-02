@@ -30,30 +30,6 @@ export class MessageService {
     this.isThreadOpen.next(false);
   }
 
-
-
-
-  /**
-   * Tasks:
-   * 
-   * Add Message to Channel
-   * Message User
-   * Answer Message to Userquestion
-   * Edit Message
-   * Render Messages
-   * 
-   * 
-   * 
-   */
-
-
-
-  addMessageToUser() { }
-  answerMessageChannel() { }
-  answerMessageUser() { }
-
-
-
   updateEmoji(message: Message, emojiType: string) {
 
 
@@ -75,12 +51,6 @@ export class MessageService {
 
 
 
-  /**
-   * AddMessage to Channel and Add Answer could be the same function,
-   * just for developing purposes two seperate functions right now,
-   * refactorying later
-   */
-
   async addMessageToChannel(newMessage: string) {
     if (newMessage !== '') {
       const date = new Date().getTime();
@@ -99,13 +69,4 @@ export class MessageService {
       console.log('message was empty');
     }
   }
-
-
-
-
-
-
-
-
-
 }
