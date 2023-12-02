@@ -14,7 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 interface MyUserType {
   name: string;
   email: string;
-  profilpicture: string[];
+  profilepicture: string[];
   // ... andere Eigenschaften ...
 }
 
@@ -67,7 +67,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.docId = snapshot.id; // Das ist die Dokumenten-ID
             this.userName = snapshot.data().name;
             this.userEmail = snapshot.data().email;
-            this.avatarIDs = snapshot.data().profilpicture;
+            this.avatarIDs = snapshot.data().profilepicture;
             // ... andere Eigenschaften ...
             console.log(this.userName, this.userEmail, this.avatarIDs); // Hier sollte der Wert vorhanden sein
             

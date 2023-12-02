@@ -5,7 +5,7 @@ export class Accounts {
     email: string;
     password: string;
     channel: string[];
-    profilpicture: string;
+    profilepicture: string;
     uid: string;
     directMessages: { [userId: string]: DirectMessage[] };
 
@@ -14,7 +14,7 @@ export class Accounts {
         this.email = obj ? obj.email : '';
         this.password = obj ? obj.password : '';
         this.channel = obj ? obj.channel || [] : [];
-        this.profilpicture = obj ? obj.profilpicture : '';
+        this.profilepicture = obj ? obj.profilepicture : '';
         this.uid = obj ? obj.uid : '';
         this.directMessages = obj ? obj.directMessages || {} : {};
     }
@@ -25,7 +25,7 @@ export class Accounts {
             email: this.email,
             password: this.password,
             channel: this.channel,
-            profilpicture: this.profilpicture,
+            profilepicture: this.profilepicture,
             uid: this.uid,
             directMessages: this.directMessages,
         };

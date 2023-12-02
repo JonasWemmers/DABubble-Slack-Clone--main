@@ -36,7 +36,7 @@ export class UserService {
   getUserAvatar(uid: string) {
     const user = this.users.find(user => user.uid === uid);
     if (user) {
-      return user.profilpicture;
+      return user.profilepicture;
     } else {
       return 'avatar1';
     }

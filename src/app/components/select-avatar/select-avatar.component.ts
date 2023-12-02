@@ -59,6 +59,7 @@ export class SelectAvatarComponent implements OnInit {
         password: this.password,
         uid: this.docId,
         channel: [],
+        directMessages: {},
       });
       // Aktualisieren des vorhandenen Benutzerdokuments mit den erforderlichen Informationen
       await this.firebaseService.updateElementFDB('accounts', this.docId, data.toJSON()).then(() => {
