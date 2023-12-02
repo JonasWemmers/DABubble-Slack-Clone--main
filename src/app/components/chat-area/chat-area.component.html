@@ -11,11 +11,11 @@
     <div *ngIf="channel && channel.length > 0 && channel[0]?.messages">
         <div *ngFor="let message of channel[0]?.messages" class="message-container">
             <div>
-                <img src="./assets/img/chat-area/80. avatar interaction.png" alt="">
+                <img src="./assets/img/{{ userService.getUserAvatar(message.userSend) }}.png">
             </div>
             <div *ngIf="message">
                 <div class="sender-and-time">
-                    <div class="sender">{{ message.userSend }}</div>
+                    <div class="sender">{{ userService.getUserName(message.userSend) }}</div>
                     <div class="timestamp">{{ sharedService.formatTime(message.timestamp) }}</div>
                     <div class="overlay">
                         <img (click)="updateEmoji(this.message, 'confirm')" src="./assets/img/chat-area/emoji_checkmark.png">

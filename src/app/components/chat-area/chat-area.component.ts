@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { MessageService } from 'src/app/services/message.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { Message } from 'src/models/message.class';
+import { UserService } from 'src/app/services/user.service';
 
 
 
@@ -18,7 +19,8 @@ export class ChatAreaComponent implements OnDestroy, OnInit {
   formattedDate!: string;
   channelSubscription: Subscription;
 
-  constructor(private channelService: ChannelService, private messageService: MessageService, public sharedService: SharedService) {
+
+  constructor(private channelService: ChannelService, private messageService: MessageService, public sharedService: SharedService, public userService: UserService) {
     this.channelSubscription = this.channelService.channelObservable$.subscribe((currentChannel) => {
       this.channel = currentChannel;
     });

@@ -1,19 +1,33 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { ChannelService } from './channel.service';
 import { FirebaseService } from './firebase.service';
 import { Message } from 'src/models/message.class';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { UserService } from './user.service';
+import { Accounts } from 'src/models/accounts.class';
+import { AuthService } from './auth.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class MessageService {
+export class MessageService implements OnDestroy {
   currentMessage = new BehaviorSubject<Message[]>([]);
   currentMessageObservable$ = this.currentMessage.asObservable();
   isThreadOpen = new Subject<boolean>();
   isThreadOpen$ = this.isThreadOpen.asObservable();
+  userSubscription: Subscription;
+  user: Accounts[] = [];
 
-  constructor(private channelService: ChannelService, private firebaseService: FirebaseService) { }
+  constructor(private channelService: ChannelService, private firebaseService: FirebaseService, private userService: UserService, private authService: AuthService) { 
+    this.userSubscription = this.userService.currentUserObservable$.subscribe((currentUser) => {
+      this.user = currentUser;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
+  }
   
 
 
@@ -52,21 +66,27 @@ export class MessageService {
 
 
   async addMessageToChannel(newMessage: string) {
-    if (newMessage !== '') {
+    try {
+      if (!this.user || this.user.length === 0) {
+        await this.authService.getCurrentUser();
+      }
       const date = new Date().getTime();
+      console.log('Active user that sent this message:', this.user);
+      console.log(this.user[0].uid);
+      
       const message = new Message({
         message: newMessage,
         timestamp: date,
-        userSend: '',  // Get user(id), that sended the Message
+        userSend: this.user[0].uid,
         emojisByUser: {},
-        id: '',
+        uid: '',
         answers: []
       });
       console.log(message, this.channelService.currentChannelId);
       await this.firebaseService.updateSingleDocElement('channelList', this.channelService.currentChannelId, message.toJSON());
       this.channelService.setCurrentChannel();
-    } else {
-      console.log('message was empty');
+    } catch (error) {
+      console.error('Error adding message to channel:', error);
     }
   }
 }

@@ -6,7 +6,7 @@ export class Accounts {
     password: string;
     channel: string[];
     profilpicture: string;
-    id: string;
+    uid: string;
     directMessages: { [userId: string]: DirectMessage[] };
 
     constructor(obj?:any) {
@@ -15,7 +15,7 @@ export class Accounts {
         this.password = obj ? obj.password : '';
         this.channel = obj ? obj.channel || [] : [];
         this.profilpicture = obj ? obj.profilpicture : '';
-        this.id = obj ? obj.id : '';
+        this.uid = obj ? obj.uid : '';
         this.directMessages = obj ? obj.directMessages || {} : {};
     }
 
@@ -26,6 +26,7 @@ export class Accounts {
             password: this.password,
             channel: this.channel,
             profilpicture: this.profilpicture,
+            uid: this.uid,
             directMessages: this.directMessages,
         };
     }

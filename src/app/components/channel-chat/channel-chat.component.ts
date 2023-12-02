@@ -12,7 +12,9 @@ export class ChannelChatComponent implements OnInit {
   selectedChannel: string = '';
   selectedChannelId: string = '';
 
-  constructor(private channelService: ChannelService, private messageService: MessageService) {}
+  constructor(private channelService: ChannelService, private messageService: MessageService) {
+
+  }
 
   ngOnInit(): void {
     this.channelService.selectedChannel$.subscribe((channelId) => {
