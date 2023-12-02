@@ -57,7 +57,7 @@ export class SelectAvatarComponent implements OnInit {
         name: this.userName,
         email: this.userEmail,
         password: this.password,
-        id: this.docId,
+        uid: this.docId,
         channel: [],
       });
       // Aktualisieren des vorhandenen Benutzerdokuments mit den erforderlichen Informationen
