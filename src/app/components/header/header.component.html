@@ -2,9 +2,23 @@
     <div class="logo2">
         <img src="/assets/img/Logo.png" alt="">
     </div>
-    <div class="search-section">
-        <input [(ngModel)]="searchTerm" (input)="onSearch()" type="text" class="search-field" placeholder="Code learning durchsuchen">
-        <img src="./assets/img/search.svg" class="img_searchfield">
+    <div class="search-menu">
+        <div class="search-section">
+            <input [(ngModel)]="searchTerm" (input)="onSearch()" type="text" class="search-field" placeholder="Code learning durchsuchen">
+            <img src="./assets/img/search.svg" class="img_searchfield">
+        </div>
+        <div class="hidden-search-menu" *ngIf="searchActive">
+            <div *ngIf="searchUser" class="user-search-menu">
+                <div *ngFor="let user of searchedUsers">
+                    <div>@ {{ user.name }}</div>
+                </div>
+            </div>
+            <div *ngIf="searchChannel" class="channel-search-menu">
+                <div *ngFor="let channel of searchedChannels">
+                    <div># {{ channel.name }}</div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="user-header" (click)="openMenu()">
         <p>{{ userName }}</p>

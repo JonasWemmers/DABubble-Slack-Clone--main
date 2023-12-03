@@ -39,6 +39,30 @@
   border: none;
 }
 
+.search-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+
+// JUST FOR TESTING!!!
+.hidden-search-menu {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+    top: 71px;
+    padding-left: 29px;
+    background-color: white;
+    width: 588px;
+    z-index: 999;
+
+  .user-search-menu,
+  .channel-search-menu {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .search-section {
   position: relative;
 }

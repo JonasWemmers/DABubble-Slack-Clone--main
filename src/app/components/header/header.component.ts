@@ -34,6 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userEmail: string = '';
   password: string = '';
 
+
   private destroy$ = new Subject<void>();
   private authSubscription: Unsubscribe | undefined;
 
@@ -43,7 +44,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private channelService: ChannelService,
     private userService: UserService) {
-
   }
 
 
@@ -118,25 +118,43 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.pb_edit_menu = false;
   }
 
+
+  // For Testing
+  searchActive: boolean = false;
+  searchUser: boolean = false;
+  searchChannel: boolean = false;
+  searchedChannels: Channel[] = [];
+  searchedUsers: Accounts[] = [];
+
   onSearch() {
     const channels: Channel[] = this.channelService.channels;
     const users: Accounts[] = this.userService.users;
-
+    this.searchUser = false;
+    this.searchChannel = false;
+    this.searchActive = false;
     if (this.searchTerm.charAt(0) === '#') {
+      this.searchActive = true;
+      this.searchChannel = true;
       const searchTermWithoutHash = this.searchTerm.substring(1).toLowerCase();
       const filteredChannels = channels.filter(channel =>
         channel.name.toLowerCase().startsWith(searchTermWithoutHash)
       );
       console.log('Channels matching the search term:', filteredChannels);
+      this.searchedChannels = filteredChannels;
+      console.log('Searched Channel var:', this.searchedChannels);
+      
     }
 
     if (this.searchTerm.charAt(0) === '@') {
-      console.log(users);
+      this.searchActive = true;
+      this.searchUser = true;
       const searchTermWithoutAt = this.searchTerm.substring(1).toLowerCase();
       const filteredUsers = users.filter(user => 
         user && user.name && user.name.toLowerCase().startsWith(searchTermWithoutAt)  
       );
       console.log('Users matching the search term:', filteredUsers);
+      this.searchedUsers = filteredUsers;
+      console.log('Searched User var:', this.searchedUsers);
     }
   }
 }
