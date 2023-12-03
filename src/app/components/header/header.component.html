@@ -4,7 +4,7 @@
     </div>
     <div class="search-menu">
         <div class="search-section">
-            <input [(ngModel)]="searchTerm" (input)="onSearch()" type="text" class="search-field" placeholder="Code learning durchsuchen">
+            <input [class.border-bottom-radius-none]="searchActive" [(ngModel)]="searchTerm" (input)="onSearch()" type="text" class="search-field" placeholder="Code learning durchsuchen">
             <img src="./assets/img/search.svg" class="img_searchfield">
         </div>
         <div class="hidden-search-menu" *ngIf="searchActive">
