@@ -16,6 +16,8 @@ export class MessageService implements OnDestroy {
   currentMessageObservable$ = this.currentMessage.asObservable();
   isThreadOpen = new Subject<boolean>();
   isThreadOpen$ = this.isThreadOpen.asObservable();
+  directChatActive = new Subject<boolean>();
+  directChatActive$ = this.directChatActive.asObservable()
   userSubscription: Subscription;
   user: Accounts[] = [];
 
@@ -30,10 +32,17 @@ export class MessageService implements OnDestroy {
   }
   
 
-
   setSelectedMessage(message: Message | Message[]) {
     const messageArray = Array.isArray(message) ? message : [message]
     this.currentMessage.next(messageArray);
+  }
+
+  openDirectChat() {
+    this.directChatActive.next(true);
+  }
+
+  closeDirectChat() {
+    this.directChatActive.next(false);
   }
 
   setCurrentThread() {

@@ -11,6 +11,8 @@ import { Subscription } from 'rxjs';
 export class DashboardComponent implements OnDestroy {
   isThreadActive: boolean = false;
   threadSubscription: Subscription;
+  directChatOpen: boolean = false;
+  directChatSubscription: Subscription;
   isChannelChatActive: boolean = true;
   isDirectChatActive: boolean = false;
   changeWidth: string = 'calc(100% - 48px)';
@@ -22,11 +24,19 @@ export class DashboardComponent implements OnDestroy {
         this.activateThread();
       }
     })
+
+    this.directChatSubscription = this.messageService.directChatActive$.subscribe((directChatActive) => {
+      this.isDirectChatActive = directChatActive;
+      if (this.isDirectChatActive) {
+        this.switchToDirectChat();
+      } 
+    })
   }
 
 
   ngOnDestroy(): void {
     this.threadSubscription.unsubscribe();
+    this.directChatSubscription.unsubscribe();
   }
 
 
