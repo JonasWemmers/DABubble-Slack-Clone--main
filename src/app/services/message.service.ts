@@ -17,7 +17,9 @@ export class MessageService implements OnDestroy {
   isThreadOpen = new Subject<boolean>();
   isThreadOpen$ = this.isThreadOpen.asObservable();
   directChatActive = new Subject<boolean>();
-  directChatActive$ = this.directChatActive.asObservable()
+  directChatActive$ = this.directChatActive.asObservable();
+  channelChatActive = new Subject<boolean>();
+  channelChatActive$ = this.channelChatActive.asObservable();
   userSubscription: Subscription;
   user: Accounts[] = [];
 
@@ -45,7 +47,7 @@ export class MessageService implements OnDestroy {
     this.directChatActive.next(false);
   }
 
-  setCurrentThread() {
+  openThread() {
     this.isThreadOpen.next(true);
   }
 
@@ -53,25 +55,13 @@ export class MessageService implements OnDestroy {
     this.isThreadOpen.next(false);
   }
 
-  updateEmoji(message: Message, emojiType: string) {
-
-
-    // Doenst work, because i don't know, can take a string as emojiType, but no var with a string?
-
-    // const userId = '198171293719823'
-    // if (!message.emojisByUser[userId]) {
-    //   message.emojisByUser[userId] = { confirm: 0, handsUp: 0, rocket: 0, nerd: 0 };
-    // }
-
-    // if (message.emojisByUser[userId][emojiType] > 0) {
-    //   message.emojisByUser[userId][emojiType]--;
-    // } else {
-    //   message.emojisByUser[userId][emojiType]++;
-    // }
-    // //Update that message -> update Channel on Server
-    // console.log(message);
+  openChannelChat() {
+    this.channelChatActive.next(true);
   }
 
+  closeChannelChat() {
+    this.channelChatActive.next(false);
+  }
 
 
   async addMessageToChannel(newMessage: string) {

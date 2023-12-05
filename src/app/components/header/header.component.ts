@@ -9,6 +9,7 @@ import { Firestore } from '@angular/fire/firestore';
 import { ChannelService } from 'src/app/services/channel.service';
 import { Accounts } from 'src/models/accounts.class';
 import { UserService } from 'src/app/services/user.service';
+import { MessageService } from 'src/app/services/message.service';
 
 
 interface MyUserType {
@@ -43,7 +44,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private authService: Auth,
     private cdr: ChangeDetectorRef,
     private channelService: ChannelService,
-    private userService: UserService) {
+    private userService: UserService,
+    private messageService: MessageService) {
   }
 
 
@@ -157,4 +159,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       console.log('Searched User var:', this.searchedUsers);
     }
   }
+
+  openChat() {
+    this.messageService.openDirectChat();
+  }
+
+  openChannel() {}
 }

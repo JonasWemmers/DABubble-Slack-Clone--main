@@ -11,10 +11,10 @@ import { Subscription } from 'rxjs';
 export class DashboardComponent implements OnDestroy {
   isThreadActive: boolean = false;
   threadSubscription: Subscription;
-  directChatOpen: boolean = false;
+  isDirectChatActive: boolean = false;
   directChatSubscription: Subscription;
   isChannelChatActive: boolean = true;
-  isDirectChatActive: boolean = false;
+  channelChatSubscription: Subscription;
   changeWidth: string = 'calc(100% - 48px)';
 
   constructor(private messageService: MessageService) {
@@ -29,8 +29,16 @@ export class DashboardComponent implements OnDestroy {
       this.isDirectChatActive = directChatActive;
       if (this.isDirectChatActive) {
         this.switchToDirectChat();
-      } 
+      }
     })
+
+    this.channelChatSubscription = this.messageService.channelChatActive$.subscribe((channelChatActive) => {
+      this.isChannelChatActive = channelChatActive;
+    });
+    if (this.isChannelChatActive) {
+      this.messageService.openChannelChat();
+      this.switchToChannelChat();
+    }
   }
 
 
