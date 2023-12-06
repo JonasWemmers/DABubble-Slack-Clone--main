@@ -10,12 +10,12 @@
         <div class="hidden-search-menu" *ngIf="searchActive">
             <div *ngIf="searchUser" class="user-search-menu">
                 <div *ngFor="let user of searchedUsers">
-                    <div (click)="openChat()">@ {{ user.name }}</div>
+                    <div (click)="openChat(user.uid)">@ {{ user.name }}</div>
                 </div>
             </div>
             <div *ngIf="searchChannel" class="channel-search-menu">
                 <div *ngFor="let channel of searchedChannels">
-                    <div (click)="openChannel()"># {{ channel.name }}</div>
+                    <div (click)="openChannel(channel.id, channel.name)"># {{ channel.name }}</div>
                 </div>
             </div>
         </div>

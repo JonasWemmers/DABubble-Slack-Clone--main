@@ -20,6 +20,8 @@ export class MessageService implements OnDestroy {
   directChatActive$ = this.directChatActive.asObservable();
   channelChatActive = new Subject<boolean>();
   channelChatActive$ = this.channelChatActive.asObservable();
+  currentChatPartner = new Subject<string>();
+  currentChatPartner$ = this.currentChatPartner.asObservable();
   userSubscription: Subscription;
   user: Accounts[] = [];
 
@@ -32,7 +34,11 @@ export class MessageService implements OnDestroy {
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
   }
-  
+
+
+  setDirectChatPartner(userId: any) {
+    this.currentChatPartner.next(userId);
+  }
 
   setSelectedMessage(message: Message | Message[]) {
     const messageArray = Array.isArray(message) ? message : [message]

@@ -3,7 +3,6 @@ import { Accounts } from 'src/models/accounts.class';
 import { BehaviorSubject } from 'rxjs';
 import { FirebaseService } from './firebase.service';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'

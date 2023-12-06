@@ -72,7 +72,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.avatarIDs = snapshot.data().profilepicture;
             // ... andere Eigenschaften ...
             console.log(this.userName, this.userEmail, this.avatarIDs); // Hier sollte der Wert vorhanden sein
-            
+
             this.cdr.detectChanges();
           } else {
             console.log('Benutzerdaten existieren nicht.');
@@ -144,15 +144,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       console.log('Channels matching the search term:', filteredChannels);
       this.searchedChannels = filteredChannels;
       console.log('Searched Channel var:', this.searchedChannels);
-      
+
     }
 
     if (this.searchTerm.charAt(0) === '@') {
       this.searchActive = true;
       this.searchUser = true;
       const searchTermWithoutAt = this.searchTerm.substring(1).toLowerCase();
-      const filteredUsers = users.filter(user => 
-        user && user.name && user.name.toLowerCase().startsWith(searchTermWithoutAt)  
+      const filteredUsers = users.filter(user =>
+        user && user.name && user.name.toLowerCase().startsWith(searchTermWithoutAt)
       );
       console.log('Users matching the search term:', filteredUsers);
       this.searchedUsers = filteredUsers;
@@ -160,9 +160,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  openChat() {
+  async openChat(userId: string) {
+    this.searchActive = false;
+    this.searchTerm = '';
     this.messageService.openDirectChat();
+    this.messageService.setDirectChatPartner(userId);
   }
 
-  openChannel() {}
+  openChannel(channelId: string, channelName: string) {
+    this.searchActive = false;
+    this.searchTerm = '';
+    this.channelService.currentChannelId = channelId;
+    this.channelService.setSelectedChannel(channelName)
+    this.channelService.setCurrentChannel();
+    this.messageService.closeThread();
+    this.messageService.closeDirectChat();
+    this.messageService.openChannelChat();
+  }
 }
