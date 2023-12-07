@@ -22,10 +22,10 @@ export class DirectChatAreaComponent implements OnDestroy {
   constructor(private messageService: MessageService,
     public sharedService: SharedService,
     private userService: UserService) {
+
     this.chatPartnerSubscription = this.messageService.currentChatPartner$.subscribe((currentChatPartner) => {
       this.chatPartnerId = currentChatPartner;
       console.log(this.chatPartnerId);
-      
     });
 
     this.currentUserSubscription = this.userService.currentUserObservable$.subscribe((currentUser) => {

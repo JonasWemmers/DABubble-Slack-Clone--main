@@ -1,8 +1,8 @@
 <div class="channel-chat">
     <div class="channel-chat-header">
         <div class="channel-chat-header-left">
-            <img src="./assets/img/thread/Avatar.png" alt="">
-            <p>Sofia Müller</p>
+            <img src="./assets/img/{{ userService.getUserAvatar(chatPartnerId) }}.png">
+            <p>{{ userService.getUserName(chatPartnerId) }}</p>
         </div>
     </div>
     <div class="chat-area">
@@ -10,11 +10,11 @@
     </div>
     <div class="chat-partner">
         <div class="chat-partner-img-name">
-            <img src="./assets/img/thread/Avatar.png" alt="">
-            <h4>Sofia Müller</h4>
+            <img src="./assets/img/{{ userService.getUserAvatar(chatPartnerId) }}.png">
+            <h4>{{ userService.getUserName(chatPartnerId) }}</h4>
         </div>
         <div>
-            <p>Diese Unterhaltung findet nur zwischen <span class="chat-partner-name">@Sofia Müller</span> und dir statt.</p>
+            <p>Diese Unterhaltung findet nur zwischen <span class="chat-partner-name">@{{ userService.getUserName(chatPartnerId) }}</span> und dir statt.</p>
         </div>
     </div>
     <div class="thread-answer-box">

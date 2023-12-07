@@ -26,7 +26,6 @@ export class AuthService {
   async getCurrentUser() {
     const auth = getAuth();
     const user = auth.currentUser;
-
     if (user) {
       console.log(user?.uid);
       await this.userService.setCurrentUser(user?.uid);

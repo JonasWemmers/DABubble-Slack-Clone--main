@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { FirebaseService } from './firebase.service';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,6 +16,7 @@ export class UserService {
   constructor(private firebaseService: FirebaseService) {
     this.getUsers();
   }
+
 
   async getUsers() {
     const querySnapshot = await this.firebaseService.collectionSnapshot('accounts');
@@ -61,6 +63,7 @@ export class UserService {
       const docSnap = await this.firebaseService.documentSnapshot('accounts', uid);
       const user = docSnap.data() as Accounts;
       this.setActiveUser(user);
+      this.getUsers();
       console.log('Current User set:', this.currentUser);
     } catch (error) {
       console.error('Error setting current channel:', error);

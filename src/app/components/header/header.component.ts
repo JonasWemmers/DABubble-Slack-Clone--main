@@ -10,6 +10,7 @@ import { ChannelService } from 'src/app/services/channel.service';
 import { Accounts } from 'src/models/accounts.class';
 import { UserService } from 'src/app/services/user.service';
 import { MessageService } from 'src/app/services/message.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 interface MyUserType {
@@ -41,17 +42,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private authService: Auth,
+    private auth: Auth,
     private cdr: ChangeDetectorRef,
     private channelService: ChannelService,
     private userService: UserService,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    private authService: AuthService) {
   }
 
 
 
   async ngOnInit() {
-    this.authSubscription = this.authService.onAuthStateChanged(firebaseUser => {
+    this.authSubscription = this.auth.onAuthStateChanged(firebaseUser => {
       if (firebaseUser) {
         const uid = firebaseUser.uid;
         const firestore = getFirestore();
@@ -161,6 +163,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   async openChat(userId: string) {
+    this.authService.getCurrentUser();
     this.searchActive = false;
     this.searchTerm = '';
     this.messageService.openDirectChat();
