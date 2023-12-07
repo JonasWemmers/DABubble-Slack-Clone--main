@@ -6,6 +6,7 @@ import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { UserService } from './user.service';
 import { Accounts } from 'src/models/accounts.class';
 import { AuthService } from './auth.service';
+import { DirectMessage } from 'src/models/directmessage.class';
 
 
 @Injectable({
@@ -35,6 +36,16 @@ export class MessageService implements OnDestroy {
     this.userSubscription.unsubscribe();
   }
 
+
+  getChatPartnerMessages(chatPartnerId: any) {
+    const activeUser = this.user[0];
+    const chatPartnerMessages = activeUser.directMessages[chatPartnerId];
+    if (chatPartnerMessages !== undefined) {
+        return chatPartnerMessages
+    } else {
+      return [];
+    }
+  }
 
   setDirectChatPartner(userId: any) {
     this.currentChatPartner.next(userId);

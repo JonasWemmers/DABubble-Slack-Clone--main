@@ -7,16 +7,18 @@
         </div>
         <div class="line"></div>
     </div>
-    <div class="message-container">
-        <div>
-            <img src="./assets/img/chat-area/80. avatar interaction.png" alt="">
-        </div>
-        <div>
-            <div class="sender-and-time">
-                <div class="sender">John Doe</div>
-                <div class="timestamp">12:34 Uhr</div>
+    <div *ngFor="let message of chatPartnerMessages">
+        <div class="message-container">
+            <div>
+                <img src="./assets/img/chat-area/80. avatar interaction.png" alt="">
             </div>
-            <div class="message">Hallo, wie geht es dir?</div>
+            <div>
+                <div class="sender-and-time">
+                    <div class="sender">{{ userService.getUserName(message.senderId) }}</div>
+                    <div class="timestamp">{{ sharedService.formatTime(message.timestamp) }}</div>
+                </div>
+                <div class="message">{{ message.message }}</div>
+            </div>
         </div>
     </div>
 </div>

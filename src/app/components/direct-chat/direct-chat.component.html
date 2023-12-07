@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="thread-answer-box">
-        <textarea placeholder="Nachricht an #Entwicklerteam" cols="30" rows="4"></textarea>
+        <textarea placeholder="Nachricht an {{ userService.getUserName(chatPartnerId) }}" cols="30" rows="4"></textarea>
         <div class="thread-icon-bar">
             <div class="thread-icon-bar-left">
                 <img src="./assets/img/thread/add.png">

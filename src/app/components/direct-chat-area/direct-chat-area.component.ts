@@ -1,10 +1,11 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { FirebaseService } from 'src/app/services/firebase.service';
 import { MessageService } from 'src/app/services/message.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
 import { Accounts } from 'src/models/accounts.class';
+import { DirectMessage } from 'src/models/directmessage.class';
+
 
 @Component({
   selector: 'app-direct-chat-area',
@@ -18,14 +19,18 @@ export class DirectChatAreaComponent implements OnDestroy {
   chatPartnerSubscription: Subscription;
   currentUser: Accounts[] = [];
   currentUserSubscription: Subscription;
+  chatPartnerMessages: DirectMessage[] = [];
 
   constructor(private messageService: MessageService,
     public sharedService: SharedService,
-    private userService: UserService) {
+    public userService: UserService) {
 
     this.chatPartnerSubscription = this.messageService.currentChatPartner$.subscribe((currentChatPartner) => {
       this.chatPartnerId = currentChatPartner;
       console.log(this.chatPartnerId);
+      if (this.chatPartnerId) {
+        this.chatPartnerMessages = this.messageService.getChatPartnerMessages(this.chatPartnerId);
+      }
     });
 
     this.currentUserSubscription = this.userService.currentUserObservable$.subscribe((currentUser) => {
@@ -33,6 +38,8 @@ export class DirectChatAreaComponent implements OnDestroy {
       console.log(this.currentUser);
     });
   }
+
+
 
 
   ngOnDestroy(): void {
