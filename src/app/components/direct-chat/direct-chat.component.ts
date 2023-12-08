@@ -32,21 +32,28 @@ export class DirectChatComponent {
 
 
 
-  sendMessage() {
+  async sendMessage() {
     if (this.newDirectMessage !== '') {
-      const date = new Date().getTime();
-      const message = new DirectMessage({
-        receiverId: this.messageService.currentChatPartner, //still undefined
-        timestamp: date,
-        message: this.newDirectMessage,
-        senderId: this.currentUser[0].uid,
-        emojis: [],
-      })
-      this.messageService.addDirectMessage(this.currentUser[0].uid, message);
-      this.newDirectMessage = '';
+      if (this.chatPartnerId) {
+        const date = new Date().getTime();
+        console.log('ChatPartnerId: ', this.chatPartnerId);
+        const tempReceiverId = String(this.chatPartnerId);
+        console.log('TempReceiverId:', tempReceiverId);  
+        const message = new DirectMessage({
+          receiverId: tempReceiverId,
+          timestamp: date,
+          message: this.newDirectMessage,
+          senderId: this.currentUser[0].uid,
+          emojis: [],
+        })
+        console.log(message);
+        //this.messageService.addDirectMessage(this.currentUser[0].uid, message);
+        this.newDirectMessage = '';
+      } else {
+        console.log('chatPartner id is undefined');
+      }
     } else {
       console.log('Message was empty');
-      
     }
   }
 }

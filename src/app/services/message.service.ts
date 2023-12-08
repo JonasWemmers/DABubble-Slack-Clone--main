@@ -48,7 +48,10 @@ export class MessageService implements OnDestroy {
   }
 
   setDirectChatPartner(userId: any) {
-    this.currentChatPartner.next(userId);
+    console.log('Current Chatpartner id to set is: ', userId);
+    
+    const id = String(userId);
+    this.currentChatPartner.next(id);
   }
 
   setSelectedMessage(message: Message | Message[]) {
