@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="thread-answer-box">
-        <textarea placeholder="Nachricht an {{ userService.getUserName(chatPartnerId) }}" cols="30" rows="4"></textarea>
+        <textarea [(ngModel)]="newDirectMessage" placeholder="Nachricht an {{ userService.getUserName(chatPartnerId) }}" cols="30" rows="4"></textarea>
         <div class="thread-icon-bar">
             <div class="thread-icon-bar-left">
                 <img src="./assets/img/thread/add.png">
@@ -27,7 +27,7 @@
                 <img src="./assets/img/thread/alternate_email.png">
             </div>
             <div class="thread-icon-bar-right">
-                <img src="./assets/img/thread/send.png">
+                <img (click)="sendMessage()" src="./assets/img/thread/send.png">
             </div>
         </div>
     </div>

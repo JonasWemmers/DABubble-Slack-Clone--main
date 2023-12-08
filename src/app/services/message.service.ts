@@ -105,4 +105,15 @@ export class MessageService implements OnDestroy {
       console.error('Error adding message to channel:', error);
     }
   }
+
+  addDirectMessage(userId: string, message: DirectMessage) {
+    console.log('Current Chat Partner:', this.currentChatPartner);
+    if (userId in this.user[0].directMessages) {    //Should be ChatPartner-ID not from the user, otherwise the user would save all chats under its own userId
+      (this.user[0].directMessages[userId] as DirectMessage[]).push(message);
+      console.log(this.user);
+    } else {
+      this.user[0].directMessages[userId] = [message];
+      console.log(this.user);
+    }
+  }
 }

@@ -163,8 +163,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   async openChat(userId: string) {
-    this.authService.getCurrentUser();
     this.messageService.setDirectChatPartner(userId);
+    this.authService.getCurrentUser();
     this.searchActive = false;
     this.searchTerm = '';
     this.messageService.openDirectChat();
