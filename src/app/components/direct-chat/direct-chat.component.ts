@@ -45,9 +45,8 @@ export class DirectChatComponent {
           message: this.newDirectMessage,
           senderId: this.currentUser[0].uid,
           emojis: [],
-        })
-        console.log(message);
-        //this.messageService.addDirectMessage(this.currentUser[0].uid, message);
+        });
+        this.messageService.addDirectMessage(tempReceiverId, message);
         this.newDirectMessage = '';
       } else {
         console.log('chatPartner id is undefined');

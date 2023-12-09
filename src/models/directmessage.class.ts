@@ -6,7 +6,7 @@ export class DirectMessage {
     emojis: string[];
 
     constructor(obj?: any) {
-        this.receiverId = obj ? obj.userId : '';
+        this.receiverId = obj ? obj.receiverId : '';
         this.timestamp = obj ? obj.timestamp : 0;
         this.message = obj ? obj.message : '';
         this.senderId = obj ? obj.senderId : '';
@@ -15,11 +15,21 @@ export class DirectMessage {
 
     public toJSON() {
         return {
-            userId: this.receiverId,
+            receiverId: this.receiverId,
             timestamp: this.timestamp,
-            messageText: this.message,
+            message: this.message,
             senderId: this.senderId,
             emojis: this.emojis,
         };
+    }
+
+    static fromJSON(obj: any): DirectMessage {
+        return new DirectMessage({
+            receiverId: obj.receiverId,
+            timestamp: obj.timestamp,
+            message: obj.message,
+            senderId: obj.senderId,
+            emojis: obj.emojis,
+          });
     }
 }

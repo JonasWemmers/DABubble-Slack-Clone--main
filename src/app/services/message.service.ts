@@ -26,7 +26,7 @@ export class MessageService implements OnDestroy {
   userSubscription: Subscription;
   user: Accounts[] = [];
 
-  constructor(private channelService: ChannelService, private firebaseService: FirebaseService, private userService: UserService, private authService: AuthService) { 
+  constructor(private channelService: ChannelService, private firebaseService: FirebaseService, private userService: UserService, private authService: AuthService) {
     this.userSubscription = this.userService.currentUserObservable$.subscribe((currentUser) => {
       this.user = currentUser;
     });
@@ -41,7 +41,7 @@ export class MessageService implements OnDestroy {
     const activeUser = this.user[0];
     const chatPartnerMessages = activeUser.directMessages[chatPartnerId];
     if (chatPartnerMessages !== undefined) {
-        return chatPartnerMessages
+      return chatPartnerMessages
     } else {
       return [];
     }
@@ -49,7 +49,6 @@ export class MessageService implements OnDestroy {
 
   setDirectChatPartner(userId: any) {
     console.log('Current Chatpartner id to set is: ', userId);
-    
     const id = String(userId);
     this.currentChatPartner.next(id);
   }
@@ -92,7 +91,6 @@ export class MessageService implements OnDestroy {
       const date = new Date().getTime();
       console.log('Active user that sent this message:', this.user);
       console.log(this.user[0].uid);
-      
       const message = new Message({
         message: newMessage,
         timestamp: date,
@@ -109,14 +107,15 @@ export class MessageService implements OnDestroy {
     }
   }
 
-  addDirectMessage(userId: string, message: DirectMessage) {
-    console.log('Current Chat Partner:', this.currentChatPartner);
-    if (userId in this.user[0].directMessages) {    //Should be ChatPartner-ID not from the user, otherwise the user would save all chats under its own userId
-      (this.user[0].directMessages[userId] as DirectMessage[]).push(message);
-      console.log(this.user);
+  async addDirectMessage(receiverId: string, message: DirectMessage) {
+    if (receiverId in this.user[0].directMessages) {
+      this.user[0].directMessages[receiverId].push(message);
     } else {
-      this.user[0].directMessages[userId] = [message];
-      console.log(this.user);
+      this.user[0].directMessages[receiverId] = [message];
     }
+    const userId = this.user[0].uid;
+    const newUser = new Accounts(this.user[0]).toJSON();
+    console.log('New User: ', newUser);
+    await this.firebaseService.updateElementFDB('accounts', userId, newUser);
   }
 }
