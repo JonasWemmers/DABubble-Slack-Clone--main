@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { ChannelService } from './channel.service';
 import { FirebaseService } from './firebase.service';
 import { Message } from 'src/models/message.class';
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { UserService } from './user.service';
 import { Accounts } from 'src/models/accounts.class';
 import { AuthService } from './auth.service';
@@ -107,15 +107,27 @@ export class MessageService implements OnDestroy {
     }
   }
 
-  async addDirectMessage(receiverId: string, message: DirectMessage) {
-    if (receiverId in this.user[0].directMessages) {
-      this.user[0].directMessages[receiverId].push(message);
-    } else {
-      this.user[0].directMessages[receiverId] = [message];
+  // async addDirectMessage(receiverId: string, message: DirectMessage) {
+  //   if (receiverId in this.user[0].directMessages) {
+  //     this.user[0].directMessages[receiverId].push(message);
+  //   } else {
+  //     this.user[0].directMessages[receiverId] = [message];
+  //   }
+  //   const userId = this.user[0].uid;
+  //   const newUser = new Accounts(this.user[0]).toJSON();
+  //   console.log('New User: ', newUser);
+  //   await this.firebaseService.updateElementFDB('accounts', userId, newUser);
+  // }
+
+  async addDirectMessage(message: DirectMessage) {
+    try{ 
+      const docRef = await this.firebaseService.addElementFDBReturnDocRef('directChat', message.toJSON())
+      message.messageId = docRef;
+      this.firebaseService.updateElementFDB('directChat', docRef, message.toJSON());
+    } catch (err) {
+      console.error('Error writen direct Message: ', err)
     }
-    const userId = this.user[0].uid;
-    const newUser = new Accounts(this.user[0]).toJSON();
-    console.log('New User: ', newUser);
-    await this.firebaseService.updateElementFDB('accounts', userId, newUser);
   }
 }
+
+

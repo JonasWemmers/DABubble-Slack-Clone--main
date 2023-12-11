@@ -20,6 +20,19 @@ export class Accounts {
     }
 
     public toJSON() {
+        const directMessagesJSON: { [userId: string]: any[] } = {};
+        for (const userId in this.directMessages) {
+          directMessagesJSON[userId] = this.directMessages[userId].map((message: DirectMessage) => {
+            console.log('DirectMessage before toJSON:', message);
+            if (message && typeof message.toJSON === 'function') {
+              return message.toJSON();
+            } else {
+              // Handle the case where message.toJSON is not a function
+              return message;
+            }
+          });
+        }
+
         return {
             name: this.name,
             email: this.email,
