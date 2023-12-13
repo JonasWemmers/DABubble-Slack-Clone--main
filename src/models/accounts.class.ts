@@ -7,7 +7,7 @@ export class Accounts {
     channel: string[];
     profilepicture: string;
     uid: string;
-    directMessages: { [userId: string]: DirectMessage[] };
+    chats: [];
 
     constructor(obj?:any) {
         this.name = obj ? obj.name : '';
@@ -16,23 +16,10 @@ export class Accounts {
         this.channel = obj ? obj.channel || [] : [];
         this.profilepicture = obj ? obj.profilepicture : '';
         this.uid = obj ? obj.uid : '';
-        this.directMessages = obj ? obj.directMessages || {} : {};
+        this.chats = obj ? obj.chats || []: [];
     }
 
     public toJSON() {
-        const directMessagesJSON: { [userId: string]: any[] } = {};
-        for (const userId in this.directMessages) {
-          directMessagesJSON[userId] = this.directMessages[userId].map((message: DirectMessage) => {
-            console.log('DirectMessage before toJSON:', message);
-            if (message && typeof message.toJSON === 'function') {
-              return message.toJSON();
-            } else {
-              // Handle the case where message.toJSON is not a function
-              return message;
-            }
-          });
-        }
-
         return {
             name: this.name,
             email: this.email,
@@ -40,7 +27,7 @@ export class Accounts {
             channel: this.channel,
             profilepicture: this.profilepicture,
             uid: this.uid,
-            directMessages: this.directMessages,
+            chats: this.chats,
         };
     }
 }

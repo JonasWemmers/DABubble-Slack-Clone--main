@@ -47,7 +47,7 @@ export class DirectChatComponent {
           emojis: [],
           messageId: '',
         });
-        this.messageService.addDirectMessage(DirectMessage.fromJSON(message));
+       // this.messageService.addDirectMessage(DirectMessage.fromJSON(message));
         this.newDirectMessage = '';
       } else {
         console.log('chatPartner id is undefined');

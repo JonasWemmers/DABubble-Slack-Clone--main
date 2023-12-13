@@ -13,7 +13,9 @@ import {
   arrayUnion,
   query,
   where,
+  orderBy,
 } from 'firebase/firestore';
+import { Observable } from 'rxjs';
 import { Accounts } from 'src/models/accounts.class';
 
 @Injectable({
@@ -102,4 +104,41 @@ export class FirebaseService {
     const docRef = this.getSingelDocRef(colID, docID);
     return getDoc(docRef);
   }
+
+
+  // async getDirectMessageFromUser(userId: string) {
+  //   console.log('Function started with UserId:', userId);
+  //   try {
+  //     console.log('Started query');
+  //     const q = query(this.getRef('directChat'), where('senderId', '==', userId) || where('receiverId', '==', userId), orderBy('timestamp', 'asc'));
+  //     console.log('finished query --> started getDocs', q);
+  //     const querySnapshot = await getDocs(q);
+  //     console.log('finished query snapshot', querySnapshot);
+  //     if (querySnapshot.empty) {
+  //       console.log('No matching documents.');
+  //     } else {
+  //       const messagesByChatPartner = new Map();
+  //       querySnapshot.forEach((doc) => {
+  //         const chatPartnerId = doc.get('senderId') === userId ? doc.get('receiverId') : doc.get('senderId');
+  //         if (!messagesByChatPartner.has(chatPartnerId)) {
+  //           messagesByChatPartner.set(chatPartnerId, []);
+  //         }
+  //         messagesByChatPartner.get(chatPartnerId).push({
+  //           messageId: doc.id,
+  //           data: doc.data(),
+  //         });
+  //       });
+  //       messagesByChatPartner.forEach((messages, chatPartnerId) => {
+  //         console.log(`Messages with ${chatPartnerId}:`);
+  //         messages.forEach((message: { messageId: string, data: any }) => {
+  //           console.log(message.messageId, '==>', message.data);
+  //         });
+  //       });
+  //       console.log(messagesByChatPartner);
+  //     } 
+  //   } catch (err) {
+  //     console.log('Error in getDirectMessageFromUser:', err);
+  //   } 
+  // }
+
 }

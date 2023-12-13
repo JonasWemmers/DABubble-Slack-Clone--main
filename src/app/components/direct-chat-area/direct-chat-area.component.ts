@@ -29,7 +29,7 @@ export class DirectChatAreaComponent implements OnDestroy {
       this.chatPartnerId = currentChatPartner;
       console.log(this.chatPartnerId);
       if (this.chatPartnerId) {
-        this.chatPartnerMessages = this.messageService.getChatPartnerMessages(this.chatPartnerId);
+       // this.chatPartnerMessages = this.messageService.getChatPartnerMessages(this.chatPartnerId);
       }
     });
 

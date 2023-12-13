@@ -37,15 +37,15 @@ export class MessageService implements OnDestroy {
   }
 
 
-  getChatPartnerMessages(chatPartnerId: any) {
-    const activeUser = this.user[0];
-    const chatPartnerMessages = activeUser.directMessages[chatPartnerId];
-    if (chatPartnerMessages !== undefined) {
-      return chatPartnerMessages
-    } else {
-      return [];
-    }
-  }
+  // getChatPartnerMessages(chatPartnerId: any) {
+  //   const activeUser = this.user[0];
+  //   const chatPartnerMessages = activeUser.directMessages[chatPartnerId];
+  //   if (chatPartnerMessages !== undefined) {
+  //     return chatPartnerMessages
+  //   } else {
+  //     return [];
+  //   }
+  // }
 
   setDirectChatPartner(userId: any) {
     console.log('Current Chatpartner id to set is: ', userId);
@@ -119,15 +119,16 @@ export class MessageService implements OnDestroy {
   //   await this.firebaseService.updateElementFDB('accounts', userId, newUser);
   // }
 
-  async addDirectMessage(message: DirectMessage) {
-    try{ 
-      const docRef = await this.firebaseService.addElementFDBReturnDocRef('directChat', message.toJSON())
-      message.messageId = docRef;
-      this.firebaseService.updateElementFDB('directChat', docRef, message.toJSON());
-    } catch (err) {
-      console.error('Error writen direct Message: ', err)
-    }
-  }
-}
+//   async addDirectMessage(message: DirectMessage) {
+//     try{ 
+//       const docRef = await this.firebaseService.addElementFDBReturnDocRef('directChat', message.toJSON())
+//       message.messageId = docRef;
+//       await this.firebaseService.updateElementFDB('directChat', docRef, message.toJSON());
+//       await this.firebaseService.getDirectMessageFromUser(this.user[0].uid)
+//     } catch (err) {
+//       console.error('Error writen direct Message: ', err)
+//     }
+//   }
+ }
 
 
